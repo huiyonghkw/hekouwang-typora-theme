@@ -155,6 +155,13 @@ them. If you are unsure, don't use the flag — the Inter fallback is the intend
 - Designed and tested on **macOS**. It should work on Windows/Linux, but is untested there, and
   it does not include styles for the Windows "unibody" layout.
 
+## Claude Code skill
+
+There is a companion Claude Code skill that maintains this theme and packages the
+method behind it (token-driven generation, color sampling from a reference
+screenshot, font-on-screen verification with a fallback baseline):
+[huiyonghkw/hekouwang-typora-theme-skill](https://github.com/huiyonghkw/hekouwang-typora-theme-skill)
+
 ## License
 
 MIT for the CSS and scripts — see [LICENSE](LICENSE).
