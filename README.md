@@ -8,6 +8,12 @@ generates the stylesheet from it.
 
 ![screenshot](docs/screenshot.png)
 
+*Real Typora window — sidebar, file tree and editor pane are all themed.*
+
+![screenshot](docs/screenshot-zh.png)
+
+*Mixed CJK/Latin body text. Latin runs in Anthropic Sans (or Inter), Chinese in the system face.*
+
 *[中文说明](README.zh.md)*
 
 ---

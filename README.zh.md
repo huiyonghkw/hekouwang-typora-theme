@@ -5,7 +5,13 @@
 CSS 不是手写的，而是由 [`scripts/tokens.json`](scripts/tokens.json) 生成 —— 所有颜色、字号、间距都在那一个文件里，
 改视觉只改它，跑 [`scripts/build.py`](scripts/build.py) 重新生成。
 
+![screenshot](docs/screenshot-zh.png)
+
+*真实 Typora 窗口 —— 侧边栏、文件树、编辑区都在主题覆盖范围内。*
+
 ![screenshot](docs/screenshot.png)
+
+*中英混排：西文走 Anthropic Sans（或 Inter），中文走系统字体。*
 
 *[English](README.md)*
 
