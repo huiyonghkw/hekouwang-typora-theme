@@ -1,0 +1,8 @@
+# Anthropic 专有字体 —— 绝不入库、绝不分发
+theme/hekouwang/fonts-local/
+*.ttf
+!theme/hekouwang/fonts/*.ttf
+
+.DS_Store
+__pycache__/
+*.pyc
