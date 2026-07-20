@@ -65,21 +65,23 @@ if [ ! -f "$SRC_DIR/theme/$SLUG.css" ]; then
 fi
 
 # ---- backup (from here on: warn, never abort) ----
-if [ -f "$THEME_DIR/$SLUG.css" ]; then
+for variant in "$SLUG" "$SLUG-dark"; do
+  [ -f "$THEME_DIR/$variant.css" ] || continue
   mkdir -p "$BACKUP_DIR" 2>/dev/null
-  if cp "$THEME_DIR/$SLUG.css" "$BACKUP_DIR/$SLUG-$STAMP.css" 2>/dev/null; then
-    ok "backed up → .$SLUG-backups/$SLUG-$STAMP.css"
-  else
-    warn "backup failed, continuing anyway"
-  fi
-fi
+  cp "$THEME_DIR/$variant.css" "$BACKUP_DIR/$variant-$STAMP.css" 2>/dev/null \
+    && ok "backed up → .$SLUG-backups/$variant-$STAMP.css" \
+    || warn "backup of $variant failed, continuing anyway"
+done
 
-# ---- theme css ----
-if cp "$SRC_DIR/theme/$SLUG.css" "$THEME_DIR/$SLUG.css" 2>/dev/null; then
-  ok "installed $SLUG.css"
-else
-  warn "failed to copy $SLUG.css — check folder permissions"
-fi
+# ---- theme css (light + dark variants) ----
+for variant in "$SLUG.css" "$SLUG-dark.css"; do
+  [ -f "$SRC_DIR/theme/$variant" ] || continue
+  if cp "$SRC_DIR/theme/$variant" "$THEME_DIR/$variant" 2>/dev/null; then
+    ok "installed $variant"
+  else
+    warn "failed to copy $variant — check folder permissions"
+  fi
+done
 
 # ---- bundled fonts (Inter, OFL — everyone gets these) ----
 mkdir -p "$THEME_DIR/$SLUG/fonts" 2>/dev/null || warn "could not create resource folder"

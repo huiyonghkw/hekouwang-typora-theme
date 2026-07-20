@@ -13,6 +13,11 @@ CSS 不是手写的，而是由 [`scripts/tokens.json`](scripts/tokens.json) 生
 
 *中英混排：西文走 Anthropic Sans（或 Inter），中文走系统字体。*
 
+![dark](docs/screenshot-dark.png)
+
+*深色版。全部色值采样自桌面端深色模式 —— 包括最反直觉的一条：深色下侧边栏比正文区**更亮**，
+跟浅色模式的关系正好相反。*
+
 *[English](README.md)*
 
 ---
@@ -72,9 +77,12 @@ cd hekouwang-typora-theme
 别改 CSS，它是生成物。改 `scripts/tokens.json` 后重新构建：
 
 ```bash
-python3 scripts/build.py      # → theme/hekouwang.css
+python3 scripts/build.py      # → theme/hekouwang.css + theme/hekouwang-dark.css
 ./scripts/install.sh
 ```
+
+两个变体出自同一份 token：`dark` 段覆盖 `color` 与 `alpha` 两组，派生值（边框/阴影/色晕）
+由 `border_base` / `shadow_base` 一对基色算出而非写死，所以一个生成器同时服务两套。
 
 构建脚本会拒绝生成违反两条 Typora 规范的 CSS，改错了会当场报错，而不是安静地把编辑器弄坏：
 
@@ -123,7 +131,9 @@ Gallery 里已有一套 [Claude Theme](https://theme.typora.io/theme/Claude-Them
 ## 状态
 
 - 浅色版：完成
-- 深色版：未做 —— 会按桌面端深色模式采样，而不是靠猜
+- 深色版：完成 —— **采样**自桌面端深色模式，不是把浅色版取反。这个区别很关键：
+  深色下侧边栏 `#262626` 比正文区 `#1f1f1e` *更亮*，与浅色版的明暗关系正好相反，
+  取反的话一定会做错。
 - 在 **macOS** 上设计与测试。理论上支持 Windows/Linux 但未经测试，也未包含 Windows "unibody" 布局的样式。
 
 ## 授权

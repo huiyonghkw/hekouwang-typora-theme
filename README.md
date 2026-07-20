@@ -14,6 +14,11 @@ generates the stylesheet from it.
 
 *Mixed CJK/Latin body text. Latin runs in Anthropic Sans (or Inter), Chinese in the system face.*
 
+![dark](docs/screenshot-dark.png)
+
+*Dark variant. Every value sampled from the app's dark mode — including the counter-intuitive
+part: the sidebar is **lighter** than the editor pane in dark mode, the reverse of light mode.*
+
 *[中文说明](README.zh.md)*
 
 ---
@@ -80,9 +85,13 @@ modified CSS file. Pick **Hekouwang** from the Themes menu.
 Do not edit the CSS; it is generated. Edit `scripts/tokens.json` and rebuild:
 
 ```bash
-python3 scripts/build.py      # → theme/hekouwang.css
+python3 scripts/build.py      # → theme/hekouwang.css + theme/hekouwang-dark.css
 ./scripts/install.sh
 ```
+
+Both variants come from the same token file: the `dark` block overrides the `color` and
+`alpha` groups, and derived values (borders, shadows, washes) are computed from a
+`border_base` / `shadow_base` pair rather than hard-coded, so one generator serves both.
 
 The build refuses to emit CSS that violates two Typora rules, so a bad edit fails loudly
 instead of silently breaking the editor:
@@ -139,7 +148,10 @@ them. If you are unsure, don't use the flag — the Inter fallback is the intend
 ## Status
 
 - Light theme: complete
-- Dark theme: not yet — it will be sampled from the desktop app's dark mode rather than guessed
+- Dark theme: complete — **sampled** from the app's dark mode, not derived by inverting the
+  light theme. That distinction matters: in dark mode the sidebar (`#262626`) is *lighter*
+  than the editor pane (`#1f1f1e`), the opposite of the light theme's relationship. Inverting
+  would have gotten it backwards.
 - Designed and tested on **macOS**. It should work on Windows/Linux, but is untested there, and
   it does not include styles for the Windows "unibody" layout.
 
