@@ -99,7 +99,8 @@ if [ "$USE_LOCAL_ANTHROPIC" -eq 1 ]; then
   mkdir -p "$THEME_DIR/$SLUG/fonts-local" 2>/dev/null
   m=0
   if [ -d "$FONT_SRC" ]; then
-    for f in "$FONT_SRC"/AnthropicSans-*.ttf "$FONT_SRC"/AnthropicSerif-Romans-*.ttf; do
+    for f in "$FONT_SRC"/AnthropicSans-*.ttf \
+             "$FONT_SRC"/AnthropicSerif-*.ttf; do
       [ -f "$f" ] || continue
       cp "$f" "$THEME_DIR/$SLUG/fonts-local/" 2>/dev/null && m=$((m+1))
     done

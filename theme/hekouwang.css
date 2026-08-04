@@ -22,25 +22,30 @@
    format 一律用标准值，让不认识的浏览器跳到下一个 src 而不是整条作废。 */
 @font-face {
   font-family: "Hekouwang Sans";
-  src: local("Anthropic Sans Text"),
+  src: local("Anthropic Sans"),
+       local("Anthropic Sans Text"),
        url("./hekouwang/fonts-local/AnthropicSans-Romans-Variable-25x258.woff2") format("woff2"),
        url("./hekouwang/fonts-local/AnthropicSans-Romans-Variable-25x258.ttf") format("truetype");
   font-weight: 300 800;
   font-style: normal;
   font-display: swap;
+  font-feature-settings: "dlig" 0;
 }
 @font-face {
   font-family: "Hekouwang Sans";
-  src: local("Anthropic Sans Text Italic"),
+  src: local("Anthropic Sans"),
+       local("Anthropic Sans Text Italic"),
        url("./hekouwang/fonts-local/AnthropicSans-Italics-Variable-25x258.woff2") format("woff2"),
        url("./hekouwang/fonts-local/AnthropicSans-Italics-Variable-25x258.ttf") format("truetype");
   font-weight: 300 800;
   font-style: italic;
   font-display: swap;
+  font-feature-settings: "dlig" 0;
 }
 @font-face {
   font-family: "Hekouwang Serif";
-  src: local("Anthropic Serif Text"),
+  src: local("Anthropic Serif"),
+       local("Anthropic Serif Text"),
        url("./hekouwang/fonts-local/AnthropicSerif-Romans-Variable-25x258.woff2") format("woff2"),
        url("./hekouwang/fonts-local/AnthropicSerif-Romans-Variable-25x258.ttf") format("truetype");
   font-weight: 300 800;
@@ -50,6 +55,7 @@
 @font-face {
   font-family: "Hekouwang Mono";
   src: local("Anthropic Mono"),
+       local("Anthropic Mono Variable"),
        url("./hekouwang/fonts-local/AnthropicMonoVariable.woff2") format("woff2"),
        url("./hekouwang/fonts-local/AnthropicMonoVariable.ttf") format("truetype");
   font-weight: 300 800;
@@ -87,6 +93,7 @@
    Tokens
    -------------------------------------------------------------------------- */
 :root {
+  color-scheme: light;   /* 原生控件/滚动条跟浅色或深色变体一致 */
   /* —— Typora 官方变量（优先覆盖这些，而不是硬写规则）—— */
   --bg-color:                 #fdfdfc;
   --text-color:               #141413;
@@ -107,7 +114,7 @@
   --select-text-bg-color:     rgba(217,119,87,0.16);
   --search-select-bg-color:   rgba(217,119,87,0.26);
   --blur-text-color:          #a3a29b;
-  --monospace:                "Hekouwang Mono", ui-monospace, "SF Mono", "Geist Mono", Menlo, Consolas, "PingFang SC", monospace;
+  --monospace:                "Hekouwang Mono", "Anthropic Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
   --rawblock-edit-panel-bd:   rgba(31,30,29,0.14);
 
   /* —— Bone 私有 —— */
@@ -126,8 +133,8 @@
   --hk-r:         10px;
   --hk-r-lg:      14px;
   --hk-pill:      999px;
-  --hk-sans:      "Hekouwang Sans", "Anthropic Sans Text", "Hekouwang Sans Fb", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  --hk-serif:     "Hekouwang Serif", "Anthropic Serif Text", Charter, Georgia, "Songti SC", serif;
+  --hk-sans:      "Hekouwang Sans", "Anthropic Sans", "Hekouwang Sans Fb", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --hk-serif:     "Hekouwang Serif", "Anthropic Serif", Georgia, "Times New Roman", "Songti SC", serif;
 }
 
 /* --------------------------------------------------------------------------
@@ -143,8 +150,9 @@ html, body {
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-optical-sizing: auto;           /* 吃上 Anthropic Sans 的 opsz 16→48 轴 */
+  font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "dlig" 0;
 }
 
 body {
@@ -153,63 +161,109 @@ body {
 }
 
 #write {
-  max-width: 46rem;
+  max-width: 65ch;
   margin: 0 auto;
-  padding: 1.8rem 1rem 4rem;
-  font-size: 1rem;
-  line-height: 1.62;
+  padding: 2rem 1.5rem 4.5rem;
+  font-size: 0.875rem;
+  line-height: 1.42857;
   color: var(--text-color);
   caret-color: var(--hk-accent);
+  overflow-wrap: break-word;
+  text-autospace: normal;
+  text-spacing-trim: space-first;
+  hanging-punctuation: first last allow-end;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  font-optical-sizing: auto;
+  font-feature-settings: "dlig" 0;
+  /* Anthropic Sans opsz：正文用 Text 光学尺寸（轴默认 16） */
+  font-variation-settings: "opsz" 16;
+}
+
+/* C：首行缩进只打在段落上，绝不能写在 #write 上 —— 否则会继承到
+   列表 / 标题 / 图片，序号会顶到最左、图片左侧空出一截灰底。
+   对齐 Typora base 的 #write.first-line-indent p 机制。
+   默认 tech 为 "0"；散文可读改为 "2em"。 */
+#write p {
+  text-indent: 0;
+}
+#write li,
+#write li p,
+#write blockquote p,
+#write table p,
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6,
+#write .md-alert,
+#write .md-toc,
+#write pre,
+#write p * {
+  text-indent: 0;
+}
+/* 有首行缩进时，顶层列表整体右移，与正文首行对齐；
+   嵌套序号就会落在「核心配置要素」这一级后面，而不是文档最左 */
+#write > ul,
+#write > ol {
+  margin-left: 0;
 }
 
 #write > p {
   margin-top: 0;
-  margin-bottom: 0.78rem;
+  margin-bottom: 0.625rem;
 }
 
 #write > p:last-child { margin-bottom: 0; }
 
 /* --------------------------------------------------------------------------
    标题
-   大字号收紧字距（负 letter-spacing）是高级感的主要来源，
-   字号越大收得越多，小字号回到 0。
+   字距克制：满幅汉字标题不宜强负 tracking（会挤）；西文标题仍略收一点。
+   层级主要靠字号、字重、上下距，不靠装饰色块。
    -------------------------------------------------------------------------- */
 #write h1, #write h2, #write h3,
 #write h4, #write h5, #write h6 {
   font-family: var(--hk-sans);
   color: var(--text-color);
   break-after: avoid;
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
+#write p, #write li { text-wrap: pretty; }
 
-#write h1 { font-size: 1.8125rem; line-height: 1.26; font-weight: 600; letter-spacing: -0.022em; margin: 1.5rem 0 0.55rem; }
-#write h2 { font-size: 1.375rem; line-height: 1.32; font-weight: 600; letter-spacing: -0.018em; margin: 1.35rem 0 0.42rem; }
-#write h3 { font-size: 1.1563rem; line-height: 1.4; font-weight: 600; letter-spacing: -0.012em; margin: 1.1rem 0 0.34rem; }
-#write h4 { font-size: 1.0625rem; line-height: 1.45; font-weight: 600; letter-spacing: -0.006em; margin: 0.95rem 0 0.3rem; }
-#write h5 { font-size: 1rem; line-height: 1.45; font-weight: 600; margin: 0.88rem 0 0.28rem; }
-#write h6 { font-size: 0.9375rem; line-height: 1.45; font-weight: 600; margin: 0.85rem 0 0.25rem; color: var(--hk-soft); }
+#write h1 { font-size: 1.375rem; line-height: 1.2727; font-weight: 600; letter-spacing: -0.01em; margin: 1.75rem 0 1rem; font-variation-settings: "opsz" 32; }
+#write h2 { font-size: 1.0625rem; line-height: 1.2941; font-weight: 600; letter-spacing: -0.01em; margin: 1.5rem 0 0.5rem; font-variation-settings: "opsz" 24; }
+#write h3 { font-size: 0.9375rem; line-height: 1.4; font-weight: 600; letter-spacing: 0; margin: 1.25rem 0 0.375rem; font-variation-settings: "opsz" 20; }
+#write h4 { font-size: 0.875rem; line-height: 1.45; font-weight: 600; letter-spacing: 0; margin: 1rem 0 0.3rem; }
+#write h5 { font-size: 0.875rem; line-height: 1.45; font-weight: 600; margin: 0.9rem 0 0.28rem; }
+#write h6 { font-size: 0.8125rem; line-height: 1.45; font-weight: 600; margin: 0.85rem 0 0.25rem; color: var(--hk-soft); }
 
 #write h1:first-child, #write h2:first-child,
 #write h3:first-child, #write h4:first-child { margin-top: 0; }
 
-/* h1 下方一条极细分隔，给全文定一个基准线 */
-#write h1 {
-  padding-bottom: 0.32rem;
-  border-bottom: 1px solid var(--hk-hairline);
-}
+/* 标题不加装饰线 —— Claude 桌面端靠字号/字重分层，没有签名下划线 */
 
 /* --------------------------------------------------------------------------
    行内
    -------------------------------------------------------------------------- */
-#write strong { font-weight: 650; color: var(--text-color); }
-#write em     { font-style: italic; }
+#write strong { font-weight: 600; color: var(--text-color); }
+/* 强调：不用着重号。长句（尤其是「*(图：…)＊」图注）整段打点会像疹子；
+   斜体对拉丁有效，CJK 无真斜体时保持正常字形、略用字色区分即可。 */
+#write em {
+  font-style: italic;
+  color: var(--hk-soft);
+}
+#write figcaption em,
+#write p > em:only-child {
+  /* 图注 / 独占一段的说明：不斜、不抢，只做小字灰提示 */
+  font-style: normal;
+  color: var(--hk-muted);
+  font-size: 0.8125rem;
+}
 #write del    { color: var(--hk-muted); }
 
 #write a {
   color: var(--hk-link);
   text-decoration: underline;
   text-decoration-color: rgba(217,119,87,0.42);
-  text-underline-offset: 0.18em;
-  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: from-font;
   transition: text-decoration-color .15s ease, color .15s ease;
 }
 #write a:hover {
@@ -244,24 +298,63 @@ body {
 
 /* --------------------------------------------------------------------------
    引用
-   刻意不用品牌色竖条 —— 桌面端的克制感来自低对比的墨色细线 + 微沉底。
+   只用墨色细竖线，不加沉底——沉底会让 `> ![](...)` 截图变成灰画框，
+   也会让长文引用变成色块墙。层级靠左边线 + 字色即可。
    -------------------------------------------------------------------------- */
 #write blockquote {
-  margin: 0.9rem 0;
-  padding: 0.1rem 0 0.1rem 1rem;
+  margin: 1rem 0;
+  padding: 0.15rem 0 0.15rem 1rem;
   border-left: 2px solid var(--hk-divider);
+  background: transparent;
   color: var(--hk-soft);
 }
-#write blockquote blockquote { margin: 0.5rem 0; }
+#write blockquote blockquote {
+  margin: 0.5rem 0;
+  border-left-color: var(--hk-line);
+}
+/* 纯图片引用：去掉左边线与内边距，截图贴正文栏宽 */
+#write blockquote:has(.md-image, img):not(:has(> p:not(:has(.md-image, img)))) {
+  border-left: none;
+  padding: 0;
+  color: inherit;
+}
+#write blockquote:has(.md-image, img):not(:has(> p:not(:has(.md-image, img)))) > p {
+  margin: 0;
+  text-indent: 0;
+}
 
 /* --------------------------------------------------------------------------
-   列表
+   列表 —— 对齐 Claude：disc/decimal + outside + padding-left≈20px，
+   项间距≈6px（--p5）。圆点用正文软色，不抢 【标签】/加粗。
    -------------------------------------------------------------------------- */
-#write ul, #write ol { margin: 0 0 0.78rem; padding-left: 1.45rem; }
-#write li { margin: 0.16rem 0; }
-#write li > p { margin: 0.16rem 0; }
-#write ul li::marker { color: var(--hk-faint); }
-#write ol li::marker { color: var(--hk-muted); font-variant-numeric: tabular-nums; }
+#write ul, #write ol {
+  margin: 0 0 0.625rem;
+  padding-left: 1.25rem;
+}
+#write li { margin: 0.375rem 0; }
+#write li > p { margin: 0.375rem 0; }
+
+#write ul:not(.task-list) {
+  list-style-type: disc;
+  list-style-position: outside;
+}
+#write ul:not(.task-list) > li::marker {
+  color: var(--hk-soft);
+}
+#write ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+}
+#write ol li::marker {
+  color: var(--hk-muted);
+  font-variant-numeric: tabular-nums;
+}
+#write li > ul,
+#write li > ol {
+  margin-top: 0.15rem;
+  margin-bottom: 0.15rem;
+  padding-left: 1.25rem;
+}
 
 #write ul.task-list { padding-left: 1.35rem; }
 #write ul.task-list li.task-list-item { list-style: none; }
@@ -277,6 +370,7 @@ body {
   background: var(--hk-raised);
   transition: background .15s ease, border-color .15s ease;
 }
+#write .md-task-list-item > input:hover { border-color: var(--hk-accent); }
 #write .md-task-list-item > input:checked {
   background: var(--hk-accent);
   border-color: var(--hk-accent);
@@ -291,22 +385,28 @@ body {
   border-width: 0 1.8px 1.8px 0;
   transform: rotate(45deg);
 }
-#write .task-list-item.md-task-list-item > p { color: inherit; }
+/* 任务列表：不加卡片底——清单文档一屏十几条灰块会毁阅读流。
+   完成态只淡字色，不删线（删线在密集 checklist 里噪声太大）。 */
+#write li.md-task-list-item > p { margin: 0.375rem 0; }
+#write li.md-task-list-item > input:checked ~ p,
+#write li.md-task-list-item > input:checked ~ span {
+  color: var(--hk-muted);
+}
 
 /* --------------------------------------------------------------------------
    代码块
    -------------------------------------------------------------------------- */
 #write pre.md-fences {
   font-family: var(--monospace);
-  font-size: 0.875rem;
-  line-height: 1.62;
-  background: var(--hk-raised);
-  border: 1px solid var(--hk-line);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  background: var(--hk-sunken);
+  border: 1px solid var(--hk-hairline);
   border-radius: var(--hk-r);
   padding: 0.75rem 0.95rem;
-  margin: 0.9rem 0;
+  margin: 1rem 0;
   color: var(--text-color);
-  box-shadow: 0 1px 2px rgba(31,30,29,0.05);
+  box-shadow: none;
 }
 #write pre.md-fences.md-focus { border-color: rgba(217,119,87,0.45); }
 
@@ -355,10 +455,11 @@ body {
 
 /* --------------------------------------------------------------------------
    表格
+   表头不加沉底——靠字重 + 底部分隔线建立层级，大表才不会变成灰条带。
    -------------------------------------------------------------------------- */
 #write table {
-  margin: 0.9rem 0;
-  font-size: 0.875rem;
+  margin: 1rem 0;
+  font-size: 0.8125rem;
   border-collapse: collapse;
 }
 #write table th {
@@ -367,12 +468,14 @@ body {
   color: var(--hk-soft);
   background: transparent;
   border-bottom: 1.5px solid var(--hk-divider);
-  padding: 0.42rem 0.7rem;
+  padding: 0.4rem 0.7rem;
+  font-variant-numeric: tabular-nums;
 }
 #write table td {
   border-bottom: 1px solid var(--hk-hairline);
-  padding: 0.42rem 0.7rem;
+  padding: 0.4rem 0.7rem;
   vertical-align: top;
+  font-variant-numeric: tabular-nums;
 }
 #write table tbody tr:last-child td { border-bottom: none; }
 #write table tbody tr:hover { background: rgba(31,30,29,0.045); }
@@ -388,9 +491,64 @@ body {
   margin: 1.5rem 0;
 }
 
-#write img { border-radius: var(--hk-r); }
+/* 图片：只圆角，绝对不加任何背景/边框/阴影
+   Typora 结构：<p><span class="md-image"><img></span></p> 或 <figure>
+   每一层都必须显式透明；并补偿段落首行缩进（否则左侧空出一截，像灰底）。 */
+#write img,
+#write .md-image img,
+#write a img {
+  border-radius: var(--hk-r);
+  max-width: 100%;
+  height: auto;
+  display: block;
+  background: transparent;
+  background-color: transparent;
+  box-shadow: none;
+}
+#write figure,
+#write .md-image,
+#write p > .md-image,
+#write li .md-image,
+#write p:has(> .md-image),
+#write p:has(> img) {
+  background: transparent;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+/* 对齐 Typora base：#write.first-line-indent p>.md-image… img { left:-2em }
+   para_indent 为 "0" 时 calc 仍为 0，无副作用 */
+#write p > .md-image:only-child:not(.md-img-error) img,
+#write p > img:only-child {
+  position: relative;
+  left: calc(0px - 0);
+}
 
-#write figure { margin: 0.9rem 0; }
+/* 图注：居中 + 灰字 + 小字号，跟正文拉开层级 */
+#write figcaption {
+  text-align: center;
+  color: var(--hk-muted);
+  font-size: 0.8125rem;
+  margin-top: 0.4rem;
+}
+
+/* 数学公式：强制正文色；块级只加细边框，不铺沉底 */
+#write .md-math, #write .md-mathblock,
+#write .md-inline-math, mjx-container, .katex { color: var(--text-color); }
+#write .md-mathblock {
+  background: transparent;
+  border: 1px solid var(--hk-hairline);
+  border-radius: var(--hk-r);
+  padding: 0.6rem 0.9rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+/* 图表 / mermaid 容器 —— 不加背景（之前加了背景泄漏到图片上）
+   图表本身有自带样式，不需要主题包一层 */
+.md-diagram-panel { padding: 0.3rem 0; }
+.md-diagram-panel-preview { background: transparent; }
 
 /* YAML front matter */
 #write pre.md-meta-block {
@@ -400,12 +558,12 @@ body {
   padding: 0.7rem 0.95rem;
   color: var(--hk-muted);
   font-family: var(--monospace);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   line-height: 1.6;
 }
 
 /* 脚注 */
-#write .md-def-footnote { color: var(--hk-muted); font-size: 0.875rem; }
+#write .md-def-footnote { color: var(--hk-muted); font-size: 0.8125rem; }
 #write sup.md-footnote {
   background: rgba(31,30,29,0.045);
   color: var(--hk-accent);
@@ -413,15 +571,31 @@ body {
   padding: 1px 5px;
   font-size: 0.72em;
 }
-#write .footnotes { color: var(--hk-muted); font-size: 0.875rem; }
+#write .footnotes { color: var(--hk-muted); font-size: 0.8125rem; }
 
 /* 目录 */
-#write .md-toc { font-size: 0.875rem; }
+#write .md-toc { font-size: 0.8125rem; }
 #write .md-toc-item { color: var(--hk-link); }
 
-/* GitHub 风格 callout */
-#write .md-alert { border-left-width: 3px; border-radius: 0 var(--hk-r-sm) var(--hk-r-sm) 0; padding: 0.6rem 1rem; background: rgba(31,30,29,0.045); }
-#write .md-alert-text { font-weight: 650; }
+/* GitHub 风格 callout：左边线定语义，底色压到几乎看不见 */
+#write .md-alert {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 3px solid var(--hk-divider);
+  border-radius: 0;
+  background: rgba(9,105,218,0.04);
+}
+#write .md-alert-note      { border-left-color: #0969da;     background: rgba(9,105,218,0.04); }
+#write .md-alert-important { border-left-color: #8250df; background: rgba(130,80,223,0.04); }
+#write .md-alert-warning   { border-left-color: #9a6700;   background: rgba(154,103,0,0.05); }
+#write .md-alert-tip       { border-left-color: #1f883d;       background: rgba(31,136,61,0.04); }
+#write .md-alert-caution   { border-left-color: #cf222e;   background: rgba(207,34,46,0.04); }
+#write .md-alert-text      { font-weight: 650; font-size: 0.9rem; }
+#write .md-alert-text-note      { color: #0969da; }
+#write .md-alert-text-important { color: #8250df; }
+#write .md-alert-text-warning   { color: #9a6700; }
+#write .md-alert-text-tip       { color: #1f883d; }
+#write .md-alert-text-caution   { color: #cf222e; }
 
 /* Markdown 语法符号（未展开时的灰度） */
 #write .md-meta { color: var(--md-char-color); font-family: var(--monospace); font-size: 0.9em; }
@@ -436,6 +610,15 @@ body {
 }
 
 /* --------------------------------------------------------------------------
+   无障碍：尊重系统"减少动效"偏好
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  #write a, #write .md-task-list-item > input,
+  .btn, .file-node-content:hover,
+  .file-list-item:hover { transition: none; }
+}
+
+/* --------------------------------------------------------------------------
    界面：侧边栏 / 文件树 / 大纲 / 搜索
    现成主题基本没管这块，这里逐项对齐桌面端。
    -------------------------------------------------------------------------- */
@@ -447,7 +630,7 @@ body {
 #typora-sidebar .file-list-item,
 #typora-sidebar .file-node-content {
   color: var(--hk-soft);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   border-radius: var(--hk-r-sm);
 }
 .file-node-content:hover,
@@ -474,7 +657,7 @@ body {
 .md-search-hit    { background: rgba(217,119,87,0.16); border-radius: 3px; }
 .md-search-select { background: rgba(217,119,87,0.26); }
 
-#outline-content .outline-item { color: var(--hk-soft); font-size: 0.875rem; border-radius: var(--hk-r-sm); }
+#outline-content .outline-item { color: var(--hk-soft); font-size: 0.8125rem; border-radius: var(--hk-r-sm); }
 #outline-content .outline-item:hover { background: var(--item-hover-bg-color); }
 #outline-content .outline-active > .outline-item { color: var(--hk-accent); font-weight: 650; }
 
@@ -516,9 +699,54 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 
 /* --------------------------------------------------------------------------
+   顶栏 / 标题栏 / 菜单（整窗一致性最后一块）
+   Typora 的 #top-titlebar 已用 var(--bg-color) / var(--text-color)，
+   这里只覆盖 hover / 按钮等硬编码色值，让标题栏融入主题。
+   -------------------------------------------------------------------------- */
+#top-titlebar {
+  background-color: var(--side-bar-bg-color);
+  border-bottom: 1px solid var(--hk-hairline);
+}
+#top-titlebar .title-text {
+  color: var(--hk-muted);
+  font-size: 0.8125rem;
+}
+#top-titlebar .title-text:hover { color: var(--text-color); }
+#top-titlebar header:hover .title-text { color: var(--text-color); }
+/* 窗口控制按钮区域：hover 不用系统默认的刺眼红/黄/绿 */
+#top-titlebar #w-close:hover { background-color: #e81123; }
+#top-titlebar #w-minimize:hover,
+#top-titlebar #w-maximize:hover { background-color: rgba(0,0,0,.12); }
+/* 大菜单面板 */
+.megamenu-content {
+  background: var(--hk-raised);
+  color: var(--text-color);
+  box-shadow: 0 16px 44px rgba(31,30,29,0.14);
+}
+.megamenu-menu-section { background: transparent; }
+.megamenu-menu-list li a.active,
+.megamenu-menu-list:not(.saved) li a:hover {
+  background: var(--item-hover-bg-color);
+  color: var(--item-hover-text-color);
+}
+/* 大菜单内的搜索框：默认白底输入框在深色大菜单里会露馅 */
+.megamenu-content input {
+  background: var(--hk-sunken);
+  border: 1px solid var(--hk-line);
+  border-radius: var(--hk-r-sm);
+  color: var(--text-color);
+}
+
+/* --------------------------------------------------------------------------
    导出 / 打印
    -------------------------------------------------------------------------- */
 @media print {
-  .typora-export * { -webkit-print-color-adjust: exact; }
+  .typora-export * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   #write { max-width: 100%; }
+  #typora-sidebar { display: none; }                 /* 导出 PDF 不带侧边栏 */
+  /* 防止表格 / 代码块 / 图片 / 引用 / 公式在分页处被拦腰切断 */
+  #write table, #write pre.md-fences, #write blockquote,
+  #write figure, #write img, #write .md-alert,
+  #write .md-mathblock { break-inside: avoid; }
+  #write p, #write li { orphans: 2; widows: 2; }      /* 段落首尾至少留 2 行 */
 }
