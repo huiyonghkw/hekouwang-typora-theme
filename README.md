@@ -155,12 +155,14 @@ them. If you are unsure, don't use the flag — the Inter fallback is the intend
 - Designed and tested on **macOS**. It should work on Windows/Linux, but is untested there, and
   it does not include styles for the Windows "unibody" layout.
 
-## Claude Code skill
+## Theme engineering skill
 
-There is a companion Claude Code skill that maintains this theme and packages the
-method behind it (token-driven generation, color sampling from a reference
-screenshot, font-on-screen verification with a fallback baseline):
-[huiyonghkw/hekouwang-typora-theme-skill](https://github.com/huiyonghkw/hekouwang-typora-theme-skill)
+The Claude Code / Cursor skill that maintains this theme lives **in this repo**
+(token-driven generation, color sampling from a reference screenshot, font-on-screen
+verification with a fallback baseline):
+
+- [`.claude/skills/hekouwang-typora-theme/SKILL.md`](.claude/skills/hekouwang-typora-theme/SKILL.md)
+- Cursor loads the same files via [`.cursor/skills/hekouwang-typora-theme/`](.cursor/skills/hekouwang-typora-theme/)
 
 ## License
 

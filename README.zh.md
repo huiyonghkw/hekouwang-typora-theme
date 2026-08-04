@@ -136,11 +136,13 @@ Gallery 里已有一套 [Claude Theme](https://theme.typora.io/theme/Claude-Them
   取反的话一定会做错。
 - 在 **macOS** 上设计与测试。理论上支持 Windows/Linux 但未经测试，也未包含 Windows "unibody" 布局的样式。
 
-## 配套 Claude Code Skill
+## 主题工程 Skill
 
-有一把配套 skill，负责维护这套主题并把背后的方法固化成工具（token 驱动生成、
+维护本主题的 Claude Code / Cursor skill **就在本仓库内**（token 驱动生成、
 从参照截图采样配色、带 fallback 基准的字体上屏验证）：
-[huiyonghkw/hekouwang-typora-theme-skill](https://github.com/huiyonghkw/hekouwang-typora-theme-skill)
+
+- [`.claude/skills/hekouwang-typora-theme/SKILL.md`](.claude/skills/hekouwang-typora-theme/SKILL.md)
+- Cursor 通过 [`.cursor/skills/hekouwang-typora-theme/`](.cursor/skills/hekouwang-typora-theme/) 加载同一份
 
 ## 授权
 
