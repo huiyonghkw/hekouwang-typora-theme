@@ -1044,145 +1044,25 @@ def paper_surfaces(t, dark):
     }
 
 
-def apply_paid_craft_layout(t):
-    """付费档：钉死同一套 1rem / 1.65 / 52em，只加呼吸与圆角。"""
-    t.setdefault("layout", {})
-    t["layout"]["write_pad_top"] = "2.55rem"
-    t["layout"]["write_pad_x"] = "2.4rem"
-    t["layout"]["write_pad_bottom"] = "5.5rem"
-    t.setdefault("type", {})
-    t["type"]["para_gap"] = "0.88rem"
-    t["type"]["block_gap"] = "1.25rem"
-    t.setdefault("shape", {})
-    t["shape"]["radius"] = "12px"
-    t["shape"]["radius_lg"] = "18px"
-    t["_craft"] = {"premium": True}
-    return t
+def _load_paid_craft():
+    """付费工艺模块不进公开仓；缺席时 premium 构建优雅降级（无工艺段）。"""
+    import sys
+    if HERE not in sys.path:
+        sys.path.insert(0, HERE)
+    try:
+        from craft_paid import apply_paid_craft_layout, craft_extra_css  # type: ignore
+        return apply_paid_craft_layout, craft_extra_css
+    except ImportError:
+        def apply_paid_craft_layout(t):
+            return t
+
+        def craft_extra_css(*_a, **_k):
+            return "/* paid craft module absent — public tree */\n"
+
+        return apply_paid_craft_layout, craft_extra_css
 
 
-def craft_extra_css(accent, accent2, accent3, shadow_soft, dark, flavor=""):
-    """付费阅读工艺。⛔ 不用卡片左边彩色竖条。不用 color-mix（Typora Chromium 偏旧）。
-
-    skill 分色靠副强调色与气质：
-      V5 HUD  → 强制双色：紫 × 青（accent3 淡紫不参与渐变，避免跟 V6 糊成一块）
-      V6 焰彩 → 三停靠：紫 → 橙 → 粉（对齐 flare）
-      其它付费 → 有 accent2 则双色，否则单色
-    """
-    a2 = accent2 or accent
-    a3 = accent3 or a2
-    fl = (flavor or "").lower()
-    if fl == "v6":
-        mode = "flare"
-    elif fl == "v5":
-        mode = "hud"
-    elif a2.lower() != accent.lower() and a3.lower() != a2.lower():
-        # 未标 id 时：副色+第三色都与主色不同才当焰彩
-        mode = "flare"
-    elif a2.lower() != accent.lower():
-        mode = "hud"
-    else:
-        mode = "single"
-
-    if mode == "flare":
-        h2_grad = f"linear-gradient(90deg, {accent} 0%, {a2} 55%, {a3} 100%)"
-        h2_size = "min(16rem, 58%) 3px"
-        hr_bg = (
-            f"linear-gradient(90deg, transparent 0%, {accent} 22%, "
-            f"{a2} 50%, {a3} 78%, transparent 100%)"
-        )
-        bq_bg = hexa(a2, "0.08" if not dark else "0.14")
-        bq_edge = hexa(a2, "0.55" if not dark else "0.65")
-        fence_border = hexa(a2, "0.22" if not dark else "0.32")
-        fence_top = hexa(a3, "0.12" if not dark else "0.18")
-        th_bg = hexa(accent, "0.07" if not dark else "0.12")
-        fence_extra = (
-            f", inset -2.5rem 0 3rem {hexa(a2, '0.06' if not dark else '0.10')}"
-        )
-        # 仅 V6：H1 焰彩渐变字（对齐 skill .hl），正文 strong 不动
-        title_flare = f"""
-#write h1 {{
-  background-image: linear-gradient(100deg, {accent}, {a2} 55%, {a3});
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}}
-"""
-    elif mode == "hud":
-        h2_grad = f"linear-gradient(90deg, {accent} 0%, {a2} 100%)"
-        h2_size = "min(14rem, 50%) 2.5px"
-        hr_bg = (
-            f"linear-gradient(90deg, transparent 0%, {accent} 35%, "
-            f"{a2} 65%, transparent 100%)"
-        )
-        bq_bg = hexa(a2, "0.07" if not dark else "0.12")
-        bq_edge = hexa(a2, "0.50" if not dark else "0.60")
-        fence_border = hexa(accent, "0.16" if not dark else "0.26")
-        fence_top = hexa(a2, "0.14" if not dark else "0.20")
-        th_bg = hexa(accent, "0.07" if not dark else "0.12")
-        fence_extra = f", inset -2rem 0 2.5rem {hexa(a2, '0.05' if not dark else '0.09')}"
-        title_flare = ""
-    else:
-        h2_grad = f"linear-gradient(90deg, {accent} 0%, transparent 100%)"
-        h2_size = "min(11rem, 40%) 2px"
-        hr_bg = (
-            f"linear-gradient(90deg, transparent 0%, "
-            f"{hexa(accent, '0.35' if not dark else '0.45')} 50%, transparent 100%)"
-        )
-        bq_bg = hexa(accent, "0.07" if not dark else "0.12")
-        bq_edge = hexa(accent, "0.45" if not dark else "0.55")
-        fence_border = hexa(accent, "0.18" if not dark else "0.28")
-        fence_top = hexa(accent, "0.08" if not dark else "0.14")
-        th_bg = hexa(accent, "0.08" if not dark else "0.14")
-        fence_extra = ""
-        title_flare = ""
-
-    return f"""
-/* --------------------------------------------------------------------------
-   Paid craft · premium reading（仅 V1 / V3–V6）· mode={mode} · flavor={fl or '-'}
-   免费 V2 不含本段。指标仍是 1rem · 1.65 · 52em。
-   V5=紫×青 HUD；V6=紫×橙×粉焰彩。
-   -------------------------------------------------------------------------- */
-#write h1 {{
-  letter-spacing: -0.018em;
-}}
-{title_flare}#write h2 {{
-  padding-bottom: 0.55rem;
-  background-image: {h2_grad};
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  background-size: {h2_size};
-}}
-#write blockquote {{
-  background: {bq_bg};
-  border-left: 2.5px solid {bq_edge};
-  border-radius: 0 var(--hk-r) var(--hk-r) 0;
-  padding: 0.55rem 1.05rem 0.55rem 1.05rem;
-}}
-#write h1 + blockquote {{
-  background: transparent;
-  border-left: none;
-  border-radius: 0;
-  padding: 0;
-}}
-#write pre.md-fences {{
-  border: 1px solid {fence_border};
-  box-shadow: 0 1px 0 {fence_top}, 0 8px 24px {shadow_soft}{fence_extra};
-  padding: 1rem 1.15rem;
-}}
-#write table th {{
-  background: {th_bg};
-}}
-#write hr {{
-  height: 1px;
-  border: 0;
-  margin: 2rem 0;
-  background: {hr_bg};
-}}
-#write a {{
-  text-underline-offset: 0.2em;
-  text-decoration-thickness: from-font;
-}}
-""".lstrip("\n")
+apply_paid_craft_layout, craft_extra_css = _load_paid_craft()
 
 
 def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):

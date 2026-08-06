@@ -39,7 +39,11 @@ echo "────────────────────────�
   bad "缺少 scripts/palettes.paid.json（付费色板不进公开仓）"
   exit 1
 }
-ok "palettes.paid.json 在位"
+[ -f "$SCRIPT_DIR/craft_paid.py" ] || {
+  bad "缺少 scripts/craft_paid.py（付费工艺不进公开仓）"
+  exit 1
+}
+ok "palettes.paid.json + craft_paid.py 在位"
 
 echo "  building paid CSS…"
 python3 "$SCRIPT_DIR/build.py" --tier paid
@@ -56,6 +60,7 @@ done
 ok "拷贝 10 份付费 CSS"
 
 cp "$SCRIPT_DIR/palettes.paid.json" "$DEST/scripts/palettes.paid.json"
+cp "$SCRIPT_DIR/craft_paid.py" "$DEST/scripts/craft_paid.py"
 cp "$SCRIPT_DIR/unlock.sh" "$DEST/unlock.sh"
 cp "$SCRIPT_DIR/links.sh" "$DEST/scripts/links.sh"
 cp "$ROOT/LICENSE-PRO.txt" "$DEST/LICENSE-PRO.txt"
@@ -105,6 +110,7 @@ need += [
     f"{top}/LICENSE-PRO.txt",
     f"{top}/VERSION",
     f"{top}/scripts/palettes.paid.json",
+    f"{top}/scripts/craft_paid.py",
 ]
 z = zipfile.ZipFile(out)
 names = set(z.namelist())

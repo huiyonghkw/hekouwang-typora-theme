@@ -9,7 +9,7 @@ Skins map to **hekouwang-content-skill V1–V6**. Shared reading metrics: body `
 | Tier | Themes menu | What you get |
 |---|---|---|
 | **Free · MIT** | **Hekouwang** / **Hekouwang Dark** | Skill **V2 editorial** (warm paper). Gallery entry. Public repo ships this tier only. |
-| **Paid · ¥9.9** | **Hekouwang V1…V6** (+ Dark each) | Full skill matrix: tech / editorial / finance / glass / violet / flame · 12 CSS |
+| **Paid · ¥9.9** | **Hekouwang V1…V6** (+ Dark each) | Skill matrix skins (tech / finance / glass / violet / flame + shared V2). **Palettes & craft stay off the public tree** — zip delivery only. |
 
 **Buy:** landing-page [#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) (WeChat Pay / Alipay · WeChat `hekouwang`, note `Typora主题`) → zip via WeChat → `./unlock.sh`.
 
@@ -206,6 +206,7 @@ This repo ships the maintenance skill **in-tree** under [`skills/`](skills/) (no
 
 ## License
 
-MIT for CSS and scripts — [LICENSE](LICENSE). Inter is SIL OFL 1.1.
+- **Free V2** (`hekouwang.css` / Dark) and scripts: MIT — [LICENSE](LICENSE). Inter is SIL OFL 1.1.
+- **Paid pack**: personal use — [LICENSE-PRO.txt](LICENSE-PRO.txt); do not redistribute.
 
 Independent work inspired by a calm desktop reading surface. Not affiliated with Anthropic PBC. “Claude” and “Anthropic” are trademarks of Anthropic PBC.

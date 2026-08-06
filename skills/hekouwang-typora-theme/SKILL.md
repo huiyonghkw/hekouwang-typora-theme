@@ -30,10 +30,11 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 
 ## 30 秒速览
 
-- **主题产物（两套）**：`theme/hekouwang.css` + `hekouwang-dark.css`（中文长文 · 纸感）
-- **别手改 CSS**，它是生成物。改 `scripts/tokens.json` → 跑 `scripts/build.py`。
+- **主题产物（公开仓 · 免费）**：`theme/hekouwang.css` + `hekouwang-dark.css`（= skill V2 编辑）
+- **付费六套**（V1/V3–V6）不在公开树：色板 `palettes.paid.json` + 工艺 `craft_paid.py` 只随 ¥9.9 zip / 本机开发机。
+- **别手改 CSS**，它是生成物。改 `scripts/tokens.json` → 跑 `scripts/build.py`（公开 clone 默认只出免费档）。
 - **`dark` 段只覆盖 `color` / `alpha`**。构建断言行高 / 行宽 / 纸感在位。
-- **开源仓库**：https://github.com/huiyonghkw/hekouwang-typora-theme （MIT）
+- **开源仓库**：https://github.com/huiyonghkw/hekouwang-typora-theme （免费 V2 · MIT；付费见落地页 `#buy`）
 
 ## 最常用的三条命令
 
@@ -102,7 +103,9 @@ python3 scripts/verify_render.py --css theme/hekouwang.css \
 skills/hekouwang-typora-theme/   本 skill 真源（SKILL.md + references/）
 .claude/skills/… · .cursor/skills/…   → 软链到上面，供工具发现
 scripts/tokens.json      单一真相源（改这里）
-scripts/build.py         生成两个 CSS + 构建自检
+scripts/build.py         公开仓默认生成免费 V2 两份 CSS；有付费色板时才出 V1/V3–V6
+scripts/unlock.sh        买家装付费 zip
+scripts/pack.sh          你打付费包（需本机 palettes.paid.json + craft_paid.py）
 scripts/install.sh       装进 Typora（--use-local-anthropic 可选，默认关）
 scripts/sample_colors.py 从截图采样真实色值
 scripts/verify_render.py 渲染/字体验证探针

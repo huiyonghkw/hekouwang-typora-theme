@@ -11,7 +11,7 @@
 | 档 | 主题菜单 | 说明 |
 |---|---|---|
 | **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（米白 / 米黑）。Gallery 入口也是这一档。公开仓只发这一档。 |
-| **付费包 · ¥9.9** | **Hekouwang V1…V6**（各含 Dark） | skill 全矩阵：科技 / 编辑 / 财经 / 玻璃 / 紫 / 焰彩 · 浅+深共 12 份 CSS（V2 与免费档同一套文件） |
+| **付费包 · ¥9.9** | **Hekouwang V1…V6**（各含 Dark） | skill 矩阵里的科技 / 财经 / 玻璃 / 紫 / 焰彩（+ 与免费同文件的 V2）· 浅+深；**色板与工艺不进公开仓**，只随 zip 私发 |
 
 **怎么买：** 落地页购买区（微信/支付宝 · 微信 `hekouwang`，备注「Typora主题」）→ 我私发 zip → `./unlock.sh` 一键装进 Typora。
 
@@ -120,7 +120,7 @@ skill 焰彩三停靠：主紫 + **焰橙** `#ff8a3d` + **焰粉** `#ff4f8b`。H
 - **层级靠字号、字重、间距，不靠彩色竖条。**
 - **边框用墨色叠透明度**，不用平铺灰。
 - **纸感画在 `#write` 上**（浅 / 深都有）：径向、大圆角、外阴影；侧栏 / gutter / 顶栏是更深一档的壳层。
-- **六套皮肤 = skill 十二格**（每套黑/白两极），气质与公众号/小红书产出一致。
+- **付费六套皮肤 = skill 十二格里除免费 V2 外的部分**（每套黑/白两极）；公开仓 / Gallery 只发 V2。气质与公众号/小红书产出一致。
 
 ### 阅读指标
 
@@ -243,6 +243,7 @@ Gallery 里已有 [Claude Theme](https://theme.typora.io/theme/Claude-Theme/)，
 
 ## 授权
 
-CSS 与脚本 MIT，见 [LICENSE](LICENSE)。Inter 为 SIL OFL 1.1。
+- **免费 V2**（`hekouwang.css` / Dark）与脚本：MIT，见 [LICENSE](LICENSE)。Inter 为 SIL OFL 1.1。
+- **付费主题包**：个人使用，见包内 [LICENSE-PRO.txt](LICENSE-PRO.txt)；请勿二次分发。
 
 受平静桌面阅读体验启发的独立作品，与 Anthropic PBC 无从属关系。"Claude" 与 "Anthropic" 是 Anthropic PBC 的商标。

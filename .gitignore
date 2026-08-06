@@ -9,6 +9,7 @@ __pycache__/
 
 # 付费档：不进公开仓（本机开发 / pack.sh 出货）
 scripts/palettes.paid.json
+scripts/craft_paid.py
 theme/hekouwang-v1.css
 theme/hekouwang-v1-dark.css
 theme/hekouwang-v3.css
