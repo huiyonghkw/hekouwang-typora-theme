@@ -518,6 +518,7 @@ content {
 #write pre.md-fences .CodeMirror pre {
   padding: 0 0.5rem; /* 左右留空，避免 [ ] 贴边被裁 */
 }
+${craft_extra}
 #write pre.md-fences.md-focus { border-color: ${accent_border}; }
 
 /* 语言选择器：必须露在代码块下方，可点可输入 */
@@ -996,10 +997,34 @@ def paper_surfaces(t, dark):
         }
 
     use_grain = str(grain).strip() not in ("0", "0.0", "false", "")
-    radial = (
-        f"radial-gradient(140% 95% at 50% -8%, {highlight} 0%, "
-        f"{mid} 48%, {shade} 100%)"
-    )
+    craft = bool((t.get("_craft") or {}).get("premium"))
+    if craft:
+        radial = (
+            f"radial-gradient(150% 110% at 50% -12%, {highlight} 0%, "
+            f"{mid} 42%, {shade} 100%)"
+        )
+        if dark:
+            outer_soft, outer_mid, outer_far = "0.40", "0.62", "0.45"
+            inset_top, inset_wash = "0.08", inset_a
+        else:
+            outer_soft, outer_mid, outer_far = "0.055", "0.11", "0.07"
+            inset_top, inset_wash = "0.055", inset_a
+        far = f", 0 28px 64px {hexa(shadow, outer_far)}"
+        inset = (
+            f"inset 0 1px 0 {hexa(ink, inset_top)}, "
+            f"inset 0 0 5.5rem {hexa(ink, inset_wash)}"
+        )
+    else:
+        radial = (
+            f"radial-gradient(140% 95% at 50% -8%, {highlight} 0%, "
+            f"{mid} 48%, {shade} 100%)"
+        )
+        far = ""
+        inset = (
+            f"inset 0 1px 0 {hexa(ink, '0.06' if dark else '0.04')}, "
+            f"inset 0 0 4.5rem {hexa(ink, inset_a)}"
+        )
+
     if use_grain and float(grain) > 0:
         noise = _PAPER_NOISE_TMPL.format(op=grain)
         bg = f"{noise}, {radial}"
@@ -1010,29 +1035,103 @@ def paper_surfaces(t, dark):
         "paper_write_extra": (
             f"background: {bg}; "
             f"border-radius: var(--hk-r-lg); "
-            f"box-shadow: inset 0 1px 0 {hexa(ink, '0.06' if dark else '0.04')}, "
-            f"inset 0 0 4.5rem {hexa(ink, inset_a)}, "
+            f"box-shadow: {inset}, "
             f"0 1px 2px {hexa(shadow, outer_soft)}, "
-            f"0 10px 28px {hexa(shadow, outer_mid)};"
+            f"0 {'12px 32px' if craft else '10px 28px'} {hexa(shadow, outer_mid)}{far};"
         ),
     }
 
 
-def build(tokens, dark=False, banner_name=None):
+def apply_paid_craft_layout(t):
+    """付费档：钉死同一套 1rem / 1.65 / 52em，只加呼吸与圆角。"""
+    t.setdefault("layout", {})
+    t["layout"]["write_pad_top"] = "2.55rem"
+    t["layout"]["write_pad_x"] = "2.4rem"
+    t["layout"]["write_pad_bottom"] = "5.5rem"
+    t.setdefault("type", {})
+    t["type"]["para_gap"] = "0.88rem"
+    t["type"]["block_gap"] = "1.25rem"
+    t.setdefault("shape", {})
+    t["shape"]["radius"] = "12px"
+    t["shape"]["radius_lg"] = "18px"
+    t["_craft"] = {"premium": True}
+    return t
+
+
+def craft_extra_css(accent, shadow_soft, dark):
+    """付费阅读工艺。⛔ 不用卡片左边彩色竖条。不用 color-mix（Typora Chromium 偏旧）。"""
+    bq_bg = hexa(accent, "0.07" if not dark else "0.12")
+    bq_edge = hexa(accent, "0.45" if not dark else "0.55")
+    fence_border = hexa(accent, "0.18" if not dark else "0.28")
+    fence_top = hexa(accent, "0.08" if not dark else "0.14")
+    th_bg = hexa(accent, "0.08" if not dark else "0.14")
+    hr_mid = hexa(accent, "0.35" if not dark else "0.45")
+    return f"""
+/* --------------------------------------------------------------------------
+   Paid craft · premium reading（仅 V1 / V3–V6）
+   免费 V2 不含本段。指标仍是 1rem · 1.65 · 52em。
+   -------------------------------------------------------------------------- */
+#write h1 {{
+  letter-spacing: -0.018em;
+}}
+#write h2 {{
+  padding-bottom: 0.55rem;
+  background-image: linear-gradient(90deg, {accent} 0%, transparent 100%);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: min(11rem, 40%) 2px;
+}}
+#write blockquote {{
+  background: {bq_bg};
+  border-left: 2.5px solid {bq_edge};
+  border-radius: 0 var(--hk-r) var(--hk-r) 0;
+  padding: 0.55rem 1.05rem 0.55rem 1.05rem;
+}}
+#write h1 + blockquote {{
+  background: transparent;
+  border-left: none;
+  border-radius: 0;
+  padding: 0;
+}}
+#write pre.md-fences {{
+  border: 1px solid {fence_border};
+  box-shadow: 0 1px 0 {fence_top}, 0 8px 24px {shadow_soft};
+  padding: 1rem 1.15rem;
+}}
+#write table th {{
+  background: {th_bg};
+}}
+#write hr {{
+  height: 1px;
+  border: 0;
+  margin: 2rem 0;
+  background: linear-gradient(90deg, transparent 0%, {hr_mid} 50%, transparent 100%);
+}}
+#write a {{
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: from-font;
+}}
+""".lstrip("\n")
+
+
+def build(tokens, dark=False, banner_name=None, premium=False):
     """按变体生成 CSS。dark 变体用 tokens['dark'] 覆盖 color / alpha 两组。"""
     import copy
     t = copy.deepcopy(tokens)
+    if premium:
+        t = apply_paid_craft_layout(t)
     if dark:
         for group in ("color", "alpha"):
             t[group].update({k: v for k, v in t["dark"][group].items()
                              if not k.startswith("_")})
 
-    v = flatten({k: val for k, val in t.items() if k != "dark"})
+    v = flatten({k: val for k, val in t.items() if k not in ("dark", "_craft")})
     c = t["color"]
     a = t["alpha"]
     accent = c["accent"]
     border = c["border_base"]
     shadow = c["shadow_base"]
+    shadow_soft = hexa(shadow, "0.05" if not dark else "0.30")
 
     v.update({
         "color_scheme":   "dark" if dark else "light",
@@ -1041,7 +1140,7 @@ def build(tokens, dark=False, banner_name=None):
         "divider":        hexa(border, a["divider"]),
         "code_bg":        hexa(border, "0.045"),
         "table_th_bg":    hexa(border, "0.04" if not dark else "0.05"),
-        "shadow_soft":    hexa(shadow, "0.05" if not dark else "0.30"),
+        "shadow_soft":    shadow_soft,
         "shadow_mid":     hexa(shadow, "0.14" if not dark else "0.50"),
         "scrollbar":      hexa(border, "0.22"),
         "scrollbar_hover": hexa(border, "0.36"),
@@ -1049,16 +1148,13 @@ def build(tokens, dark=False, banner_name=None):
         "accent_soft":    hexa(accent, "0.26" if not dark else "0.34"),
         "accent_border":  hexa(accent, "0.45"),
         "link_underline": hexa(accent, "0.42"),
-        # 行内代码底：浅色是品牌橙浅铺，深色实测是中性白叠加（见 tokens 的 dark._note）
         "inline_code_bg": hexa(c["code_bg_base"], c["code_bg_alpha"]),
-        # 语法高亮：浅色低饱和暖调；深色需提亮，否则在 #1f1f1e 上糊成一团
         "syn_comment": "#8f8e86" if not dark else "#7f7e74",
         "syn_keyword": "#8b5cb8" if not dark else "#c9a0e8",
         "syn_string":  "#3f7d54" if not dark else "#8fc9a0",
         "syn_number":  "#b06c2c" if not dark else "#e0a76a",
         "syn_def":     "#2f6f9f" if not dark else "#8ab8dd",
         "syn_error":   "#b80a18" if not dark else "#ff8b8b",
-        # callout：底色再压一档，语义靠左边线 + 标签色
         "alert_note_fg":     "#0969da" if not dark else "#6cb6ff",
         "alert_important_fg":"#8250df" if not dark else "#c8a4ff",
         "alert_warning_fg":  "#9a6700" if not dark else "#e3b341",
@@ -1069,6 +1165,10 @@ def build(tokens, dark=False, banner_name=None):
         "alert_warning_bg":  hexa("#9a6700", "0.05" if not dark else "0.12"),
         "alert_tip_bg":      hexa("#1f883d", "0.04" if not dark else "0.10"),
         "alert_caution_bg":  hexa("#cf222e", "0.04" if not dark else "0.10"),
+        "craft_extra": (
+            craft_extra_css(accent, shadow_soft, dark)
+            if premium else "/* free tier: no paid craft overlay */\n"
+        ),
     })
     v.update(paper_surfaces(t, dark))
 
@@ -1187,7 +1287,7 @@ def main():
                     f" ({label}{', dark' if dark else ''} · {tier}"
                     f" · skill {theme.get('id', '').upper()})"
                 )
-                css = build(t, dark=dark, banner_name=banner)
+                css = build(t, dark=dark, banner_name=banner, premium=(tier == "paid"))
                 # 模板首行仍是 hekouwang — …，build() 只 replace 一次；再标套名
                 out = os.path.join(out_dir, name)
                 with open(out, "w", encoding="utf-8") as f:
@@ -1197,45 +1297,57 @@ def main():
                 problems = check(css)
                 tag = f"{theme['id']}/{preset_name}/{'dark' if dark else 'light'}"
                 print(f"✅ [{tag}] {name}  ({len(css):,} 字节)")
+                if tier == "paid" and "Paid craft" not in css:
+                    any_fail = True
+                    print("   ⚠️  付费档应含 Paid craft 工艺段")
+                if tier == "free" and "Paid craft" in css:
+                    any_fail = True
+                    print("   ⚠️  免费档不应含 Paid craft")
                 if problems:
                     any_fail = True
                     print("   ⚠️  自检未通过：")
                     for p in problems:
                         print("     -", p)
 
-    # 快速分辨力：默认免费档（无后缀）必须在
+    # 快速分辨力：本趟若含免费默认，必须在
     work_css_path = os.path.join(out_dir, f"{slug}.css")
     work_dark_path = os.path.join(out_dir, f"{slug}-dark.css")
-    if not os.path.isfile(work_css_path) or not os.path.isfile(work_dark_path):
+    built_free = f"{slug}.css" in written
+    if built_free and (not os.path.isfile(work_css_path) or not os.path.isfile(work_dark_path)):
         print("⚠️  分辨力失败：缺少免费默认 hekouwang.css / hekouwang-dark.css")
         any_fail = True
         raise SystemExit(1)
 
-    work_css = open(work_css_path, encoding="utf-8").read()
-    work_dark_css = open(work_dark_path, encoding="utf-8").read()
-    if "line-height: 1.65" not in work_css:
-        print("⚠️  分辨力失败：默认 CSS 未含 work 行高 1.65")
-        any_fail = True
-    if "max-width: min(52em," not in work_css:
-        print("⚠️  分辨力失败：默认 CSS 未含流体行宽 min(52em, …)")
-        any_fail = True
-    if "radial-gradient" not in work_css:
-        print("⚠️  分辨力失败：浅色应含纸感径向渐变")
-        any_fail = True
-    if "radial-gradient" not in work_dark_css or "10px 28px" not in work_dark_css:
-        print("⚠️  分辨力失败：深色应同步纸面卡片（径向 + 外阴影）")
-        any_fail = True
-    import re
-    content_block = re.search(r"content \{([^}]*)\}", work_css)
-    write_chunk = work_css.split("#write {")[1].split("}")[0] if "#write {" in work_css else ""
-    if content_block and "radial-gradient" in content_block.group(1):
-        print("⚠️  分辨力失败：纸感不应铺在 content 全宽（会变成两侧假空白）")
-        any_fail = True
-    if "radial-gradient" not in write_chunk:
-        print("⚠️  分辨力失败：纸感应画在 #write 上随栏宽伸缩")
-        any_fail = True
+    if built_free:
+        work_css = open(work_css_path, encoding="utf-8").read()
+        work_dark_css = open(work_dark_path, encoding="utf-8").read()
+        if "line-height: 1.65" not in work_css:
+            print("⚠️  分辨力失败：默认 CSS 未含 work 行高 1.65")
+            any_fail = True
+        if "max-width: min(52em," not in work_css:
+            print("⚠️  分辨力失败：默认 CSS 未含流体行宽 min(52em, …)")
+            any_fail = True
+        if "radial-gradient" not in work_css:
+            print("⚠️  分辨力失败：浅色应含纸感径向渐变")
+            any_fail = True
+        if "radial-gradient" not in work_dark_css or "10px 28px" not in work_dark_css:
+            # 免费档仍是 10px 28px；付费 craft 会变成 12px 32px
+            print("⚠️  分辨力失败：深色应同步纸面卡片（径向 + 外阴影）")
+            any_fail = True
+        import re
+        content_block = re.search(r"content \{([^}]*)\}", work_css)
+        write_chunk = work_css.split("#write {")[1].split("}")[0] if "#write {" in work_css else ""
+        if content_block and "radial-gradient" in content_block.group(1):
+            print("⚠️  分辨力失败：纸感不应铺在 content 全宽（会变成两侧假空白）")
+            any_fail = True
+        if "radial-gradient" not in write_chunk:
+            print("⚠️  分辨力失败：纸感应画在 #write 上随栏宽伸缩")
+            any_fail = True
+        if "Paid craft" in work_css:
+            print("⚠️  分辨力失败：免费默认不该含 Paid craft")
+            any_fail = True
 
-    # 按本趟 tier 验齐
+    # 按本趟 expect 验齐
     expect = []
     for theme in themes:
         suf = theme.get("slug_suffix", "")
