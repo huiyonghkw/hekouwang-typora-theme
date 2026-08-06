@@ -1,0 +1,446 @@
+{
+  "_meta": {
+    "note": "hekouwang-content-skill 六套视觉 → Typora 配色。共享阅读指标仍在 tokens.json（1rem/1.65/52em + 纸感）。build.py 逐套生成 hekouwang[-vN][-dark].css。V2 = 默认免费档（文件名无 -v2 后缀，保持 Gallery 兼容）。",
+    "source": "~/.claude/skills/hekouwang-content-skill/assets/themes/*.css"
+  },
+  "themes": [
+    {
+      "id": "v2",
+      "slug_suffix": "",
+      "menu": "Hekouwang",
+      "label": "V2 编辑 · 米白/米黑（免费默认）",
+      "tier": "free",
+      "color": {
+        "bg": "#fdfdfc",
+        "bg_raised": "#ffffff",
+        "sidebar_bg": "#ebe8df",
+        "hover": "#e2dfd6",
+        "sunken": "#f5f4ed",
+        "ink": "#141413",
+        "text": "#141413",
+        "text_soft": "#3d3d3a",
+        "text_muted": "#73726c",
+        "text_faint": "#a3a29b",
+        "accent": "#d97757",
+        "accent_deep": "#b45f51",
+        "code_text": "#8a5a3c",
+        "link": "#c05d3c",
+        "border_base": "#1f1e1d",
+        "shadow_base": "#1f1e1d",
+        "code_bg_base": "#d97757",
+        "code_bg_alpha": "0.11"
+      },
+      "paper": {
+        "enabled": true,
+        "highlight": "#fffef8",
+        "mid": "#fdfdfc",
+        "shade": "#ebe8df",
+        "gutter": "#ebe8df",
+        "grain_opacity": "0",
+        "inset_alpha": "0.05",
+        "dark": {
+          "enabled": true,
+          "highlight": "#2c2c2a",
+          "mid": "#1f1f1e",
+          "shade": "#151514",
+          "gutter": "#262626",
+          "grain_opacity": "0",
+          "inset_alpha": "0.14"
+        }
+      },
+      "dark": {
+        "color": {
+          "bg": "#1f1f1e",
+          "bg_raised": "#262626",
+          "sidebar_bg": "#262626",
+          "hover": "#2c2c2a",
+          "sunken": "#141413",
+          "ink": "#ffffff",
+          "text": "#eae8e0",
+          "text_soft": "#d8d6ca",
+          "text_muted": "#b8b6aa",
+          "text_faint": "#8a887c",
+          "accent": "#d97757",
+          "accent_deep": "#e0917a",
+          "code_text": "#ffb0af",
+          "link": "#e79a80",
+          "border_base": "#ffffff",
+          "shadow_base": "#000000",
+          "code_bg_base": "#ffffff",
+          "code_bg_alpha": "0.055"
+        },
+        "alpha": {
+          "hairline": "0.09",
+          "line": "0.13",
+          "divider": "0.20",
+          "strong": "0.40"
+        }
+      }
+    },
+    {
+      "id": "v1",
+      "slug_suffix": "-v1",
+      "menu": "Hekouwang V1",
+      "label": "V1 科技 · 冷调绿紫",
+      "tier": "paid",
+      "color": {
+        "bg": "#f4f6f9",
+        "bg_raised": "#ffffff",
+        "sidebar_bg": "#eef1f5",
+        "hover": "#e4e8ef",
+        "sunken": "#e8ecf2",
+        "ink": "#0f1320",
+        "text": "#0f1320",
+        "text_soft": "#2b3242",
+        "text_muted": "#535b6b",
+        "text_faint": "#8a92a3",
+        "accent": "#06a88c",
+        "accent_deep": "#05806c",
+        "code_text": "#0d6b5c",
+        "link": "#6a45e0",
+        "border_base": "#0f141e",
+        "shadow_base": "#141e32",
+        "code_bg_base": "#06a88c",
+        "code_bg_alpha": "0.10"
+      },
+      "paper": {
+        "enabled": true,
+        "highlight": "#ffffff",
+        "mid": "#f8fafc",
+        "shade": "#eef1f5",
+        "gutter": "#eef1f5",
+        "grain_opacity": "0",
+        "inset_alpha": "0.04",
+        "dark": {
+          "enabled": true,
+          "highlight": "#12121a",
+          "mid": "#0a0a10",
+          "shade": "#050508",
+          "gutter": "#0f0f18",
+          "grain_opacity": "0",
+          "inset_alpha": "0.12"
+        }
+      },
+      "dark": {
+        "color": {
+          "bg": "#0a0a10",
+          "bg_raised": "#10101b",
+          "sidebar_bg": "#0f0f18",
+          "hover": "#16161f",
+          "sunken": "#050508",
+          "ink": "#ffffff",
+          "text": "#e8e8ed",
+          "text_soft": "#cdcbe0",
+          "text_muted": "#9a9aa8",
+          "text_faint": "#5a5a6e",
+          "accent": "#00d4aa",
+          "accent_deep": "#19e3bb",
+          "code_text": "#7dffe0",
+          "link": "#9b7dff",
+          "border_base": "#ffffff",
+          "shadow_base": "#000000",
+          "code_bg_base": "#ffffff",
+          "code_bg_alpha": "0.06"
+        },
+        "alpha": {
+          "hairline": "0.08",
+          "line": "0.12",
+          "divider": "0.18",
+          "strong": "0.40"
+        }
+      }
+    },
+    {
+      "id": "v3",
+      "slug_suffix": "-v3",
+      "menu": "Hekouwang V3",
+      "label": "V3 财经 · Material 蓝",
+      "tier": "paid",
+      "color": {
+        "bg": "#ffffff",
+        "bg_raised": "#ffffff",
+        "sidebar_bg": "#f8f9fa",
+        "hover": "#f1f3f4",
+        "sunken": "#f8f9fa",
+        "ink": "#202124",
+        "text": "#202124",
+        "text_soft": "#3c4043",
+        "text_muted": "#5f6368",
+        "text_faint": "#80868b",
+        "accent": "#1a73e8",
+        "accent_deep": "#174ea6",
+        "code_text": "#1967d2",
+        "link": "#1a73e8",
+        "border_base": "#202124",
+        "shadow_base": "#3c4043",
+        "code_bg_base": "#1a73e8",
+        "code_bg_alpha": "0.08"
+      },
+      "paper": {
+        "enabled": true,
+        "highlight": "#ffffff",
+        "mid": "#ffffff",
+        "shade": "#f8f9fa",
+        "gutter": "#f8f9fa",
+        "grain_opacity": "0",
+        "inset_alpha": "0.03",
+        "dark": {
+          "enabled": true,
+          "highlight": "#22262b",
+          "mid": "#1a1d21",
+          "shade": "#0e1116",
+          "gutter": "#0e1116",
+          "grain_opacity": "0",
+          "inset_alpha": "0.10"
+        }
+      },
+      "dark": {
+        "color": {
+          "bg": "#1a1d21",
+          "bg_raised": "#22262b",
+          "sidebar_bg": "#0e1116",
+          "hover": "#2a2e33",
+          "sunken": "#0e1116",
+          "ink": "#ffffff",
+          "text": "#e8eaed",
+          "text_soft": "#bdc1c6",
+          "text_muted": "#9aa0a6",
+          "text_faint": "#80868b",
+          "accent": "#8ab4f8",
+          "accent_deep": "#aecbfa",
+          "code_text": "#aecbfa",
+          "link": "#8ab4f8",
+          "border_base": "#ffffff",
+          "shadow_base": "#000000",
+          "code_bg_base": "#ffffff",
+          "code_bg_alpha": "0.06"
+        },
+        "alpha": {
+          "hairline": "0.09",
+          "line": "0.14",
+          "divider": "0.20",
+          "strong": "0.42"
+        }
+      }
+    },
+    {
+      "id": "v4",
+      "slug_suffix": "-v4",
+      "menu": "Hekouwang V4",
+      "label": "V4 玻璃 · 雾白/近黑（实色近似毛玻璃）",
+      "tier": "paid",
+      "color": {
+        "bg": "#f2f5fb",
+        "bg_raised": "#ffffff",
+        "sidebar_bg": "#eaeef7",
+        "hover": "#dde3f0",
+        "sunken": "#e4eaf5",
+        "ink": "#181a20",
+        "text": "#181a20",
+        "text_soft": "#282c36",
+        "text_muted": "#3c404b",
+        "text_faint": "#6b7080",
+        "accent": "#0A84FF",
+        "accent_deep": "#0071e3",
+        "code_text": "#0060c0",
+        "link": "#0A84FF",
+        "border_base": "#141828",
+        "shadow_base": "#1f2687",
+        "code_bg_base": "#0A84FF",
+        "code_bg_alpha": "0.09"
+      },
+      "paper": {
+        "enabled": true,
+        "highlight": "#ffffff",
+        "mid": "#f7f9fc",
+        "shade": "#eaeef7",
+        "gutter": "#eaeef7",
+        "grain_opacity": "0",
+        "inset_alpha": "0.04",
+        "dark": {
+          "enabled": true,
+          "highlight": "#1a1a28",
+          "mid": "#12121c",
+          "shade": "#0a0a12",
+          "gutter": "#0a0a12",
+          "grain_opacity": "0",
+          "inset_alpha": "0.12"
+        }
+      },
+      "dark": {
+        "color": {
+          "bg": "#12121c",
+          "bg_raised": "#1a1a28",
+          "sidebar_bg": "#0a0a12",
+          "hover": "#222230",
+          "sunken": "#0a0a12",
+          "ink": "#ffffff",
+          "text": "#f2f2f7",
+          "text_soft": "#d1d1d6",
+          "text_muted": "#9898a6",
+          "text_faint": "#636366",
+          "accent": "#0A84FF",
+          "accent_deep": "#64b5ff",
+          "code_text": "#64b5ff",
+          "link": "#64b5ff",
+          "border_base": "#ffffff",
+          "shadow_base": "#000000",
+          "code_bg_base": "#ffffff",
+          "code_bg_alpha": "0.07"
+        },
+        "alpha": {
+          "hairline": "0.10",
+          "line": "0.14",
+          "divider": "0.22",
+          "strong": "0.42"
+        }
+      }
+    },
+    {
+      "id": "v5",
+      "slug_suffix": "-v5",
+      "menu": "Hekouwang V5",
+      "label": "V5 紫 · 发布会 HUD",
+      "tier": "paid",
+      "color": {
+        "bg": "#f7f4fd",
+        "bg_raised": "#ffffff",
+        "sidebar_bg": "#f1ecfa",
+        "hover": "#e8e0f6",
+        "sunken": "#eee8f8",
+        "ink": "#1c1726",
+        "text": "#1c1726",
+        "text_soft": "#34303f",
+        "text_muted": "#615a73",
+        "text_faint": "#9a93ad",
+        "accent": "#6d4df0",
+        "accent_deep": "#5636b0",
+        "code_text": "#4c2fc7",
+        "link": "#0ea5a0",
+        "border_base": "#2a1f4a",
+        "shadow_base": "#4632a0",
+        "code_bg_base": "#6d4df0",
+        "code_bg_alpha": "0.09"
+      },
+      "paper": {
+        "enabled": true,
+        "highlight": "#ffffff",
+        "mid": "#faf8ff",
+        "shade": "#f1ecfa",
+        "gutter": "#f1ecfa",
+        "grain_opacity": "0",
+        "inset_alpha": "0.04",
+        "dark": {
+          "enabled": true,
+          "highlight": "#1e1638",
+          "mid": "#150f2e",
+          "shade": "#0a0716",
+          "gutter": "#0a0716",
+          "grain_opacity": "0",
+          "inset_alpha": "0.12"
+        }
+      },
+      "dark": {
+        "color": {
+          "bg": "#150f2e",
+          "bg_raised": "#1e1638",
+          "sidebar_bg": "#0a0716",
+          "hover": "#241a4e",
+          "sunken": "#0a0716",
+          "ink": "#ffffff",
+          "text": "#f0eef6",
+          "text_soft": "#c8c3d4",
+          "text_muted": "#a09aad",
+          "text_faint": "#655c71",
+          "accent": "#9d7bff",
+          "accent_deep": "#c4b0ff",
+          "code_text": "#c4b0ff",
+          "link": "#6fe0e0",
+          "border_base": "#ffffff",
+          "shadow_base": "#000000",
+          "code_bg_base": "#ffffff",
+          "code_bg_alpha": "0.06"
+        },
+        "alpha": {
+          "hairline": "0.09",
+          "line": "0.13",
+          "divider": "0.20",
+          "strong": "0.40"
+        }
+      }
+    },
+    {
+      "id": "v6",
+      "slug_suffix": "-v6",
+      "menu": "Hekouwang V6",
+      "label": "V6 焰彩 · 紫×焰橙",
+      "tier": "paid",
+      "color": {
+        "bg": "#ffffff",
+        "bg_raised": "#ffffff",
+        "sidebar_bg": "#f7f5fc",
+        "hover": "#efeaf8",
+        "sunken": "#f3f0fa",
+        "ink": "#1c0b3e",
+        "text": "#1c0b3e",
+        "text_soft": "#3a3050",
+        "text_muted": "#635c78",
+        "text_faint": "#9891ab",
+        "accent": "#7c3aed",
+        "accent_deep": "#5b21b6",
+        "code_text": "#6d28d9",
+        "link": "#ff8a3d",
+        "border_base": "#2e1065",
+        "shadow_base": "#4628a0",
+        "code_bg_base": "#7c3aed",
+        "code_bg_alpha": "0.09"
+      },
+      "paper": {
+        "enabled": true,
+        "highlight": "#ffffff",
+        "mid": "#fbf9ff",
+        "shade": "#f7f5fc",
+        "gutter": "#f7f5fc",
+        "grain_opacity": "0",
+        "inset_alpha": "0.04",
+        "dark": {
+          "enabled": true,
+          "highlight": "#2c1650",
+          "mid": "#241143",
+          "shade": "#170a30",
+          "gutter": "#120826",
+          "grain_opacity": "0",
+          "inset_alpha": "0.12"
+        }
+      },
+      "dark": {
+        "color": {
+          "bg": "#241143",
+          "bg_raised": "#2c1650",
+          "sidebar_bg": "#170a30",
+          "hover": "#351a5c",
+          "sunken": "#120826",
+          "ink": "#ffffff",
+          "text": "#f5f0ff",
+          "text_soft": "#d9cdf0",
+          "text_muted": "#b3a5cf",
+          "text_faint": "#786a94",
+          "accent": "#a855f7",
+          "accent_deep": "#c084fc",
+          "code_text": "#e9d5ff",
+          "link": "#ff8a3d",
+          "border_base": "#ffffff",
+          "shadow_base": "#000000",
+          "code_bg_base": "#ffffff",
+          "code_bg_alpha": "0.06"
+        },
+        "alpha": {
+          "hairline": "0.10",
+          "line": "0.14",
+          "divider": "0.22",
+          "strong": "0.42"
+        }
+      }
+    }
+  ]
+}

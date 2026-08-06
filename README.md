@@ -1,17 +1,17 @@
 # hekouwang
 
-**Live site:** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/) — V1 tech-white shell + interactive paper reading stage (light / dark).
+**Live site:** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)
 
 A Typora theme for people who write long-form Markdown in Chinese for hours.
 
-Two themes in the menu:
+Skins map to **hekouwang-content-skill V1–V6**. Shared reading metrics: body `1rem`, leading `1.65`, measure `min(52em, 100% − gutter)`, paper card on `#write`.
 
-| Menu | What you get |
-|---|---|
-| **Hekouwang** | Light · CJK long-form · paper card |
-| **Hekouwang Dark** | Dark · same metrics · paper card |
+| Tier | Themes menu | What you get |
+|---|---|---|
+| **Free · MIT** | **Hekouwang** / **Hekouwang Dark** | Skill **V2 editorial** (warm paper). Gallery entry. |
+| **Paid · ¥9.9** | **Hekouwang V1…V6** (+ Dark each) | Full skill matrix: tech / editorial / finance / glass / violet / flame · 12 CSS |
 
-Body `1rem`, leading `1.65`, measure `min(52em, 100% − gutter)`. Colors, type, and spacing live in [`scripts/tokens.json`](scripts/tokens.json); [`scripts/build.py`](scripts/build.py) generates both CSS files.
+Colors live in [`scripts/palettes.json`](scripts/palettes.json); metrics in [`scripts/tokens.json`](scripts/tokens.json). Rebuild: `python3 scripts/build.py`.
 
 ![English acceptance sample](docs/screenshot.png)
 

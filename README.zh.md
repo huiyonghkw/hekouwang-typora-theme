@@ -1,17 +1,19 @@
 # hekouwang
 
-**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/) — V1科技白外壳 + 可切换浅/深的纸感阅读台。
+**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)
 
 给「一天要盯着 Markdown 好几个小时」的人用的 Typora 主题——按**中文长文**来排，不是按聊天气泡来排。
 
-主题菜单里只有两套：
+配色对齐内容工厂 **hekouwang-content-skill 六套视觉（V1–V6）**；阅读指标全套共用：`1rem` · `1.65` · `52em` · 纸感卡片。
 
-| 菜单名 | 说明 |
-|---|---|
-| **Hekouwang** | 浅色 · 中文长文 · 纸感卡片 |
-| **Hekouwang Dark** | 深色 · 同一套排版指标 · 纸感卡片 |
+## 免费 / 付费
 
-正文 `1rem`、行高 `1.65`、行宽 `min(52em, 100% − gutter)`。颜色 / 字号 / 间距都在 [`scripts/tokens.json`](scripts/tokens.json)，[`scripts/build.py`](scripts/build.py) 一次生成浅色与深色两份 CSS。
+| 档 | 主题菜单 | 说明 |
+|---|---|---|
+| **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（米白 / 米黑）。Gallery 入口也是这一档。 |
+| **付费包 · ¥9.9** | **Hekouwang V1…V6**（各含 Dark） | skill 全矩阵：科技 / 编辑 / 财经 / 玻璃 / 紫 / 焰彩 · 浅+深共 12 份 CSS（V2 与免费档同一套文件） |
+
+同一套 `tokens` 阅读骨架，只换 `scripts/palettes.json` 里的配色。改色 → `python3 scripts/build.py`。
 
 ![中文验收样张](docs/screenshot-zh.png)
 
@@ -32,11 +34,11 @@
 ## 设计取向
 
 - **默认服务中文长文。** 汉字密、方块字，需要 ≥1.6 的行高和大约 40–50 字的行宽。
-- **不用高饱和强调色。** 行内代码用低饱和暖褐 `#8a5a3c`，一段里七八个 `` `code` `` 仍读得像文字。
+- **不用高饱和强调色。** 行内代码用低饱和色，一段里七八个 `` `code` `` 仍读得像文字。
 - **层级靠字号、字重、间距，不靠彩色竖条。**
 - **边框用墨色叠透明度**，不用平铺灰。
-- **纸感画在 `#write` 上**（浅 / 深都有）：暖白径向、大圆角、外阴影；侧栏 / gutter / 顶栏是更深一档的壳层。
-- **字号越大，字距略收**；中文长标题比西文 display 更克制。
+- **纸感画在 `#write` 上**（浅 / 深都有）：径向、大圆角、外阴影；侧栏 / gutter / 顶栏是更深一档的壳层。
+- **六套皮肤 = skill 十二格**（每套黑/白两极），气质与公众号/小红书产出一致。
 
 ### 阅读指标
 
@@ -46,6 +48,17 @@
 | `body_lh` | `1.65` | 中文密度需要更大行高 |
 | `measure` | `52em` | 流体：`min(52em, calc(100% − gutter))` |
 | `para_gap` | `0.78rem` | 段距紧凑但不糊成墙 |
+
+### 六套菜单名
+
+| Skill 格 | Typora 菜单 |
+|---|---|
+| V1 科技 | Hekouwang V1 / V1 Dark |
+| V2 编辑（免费） | Hekouwang / Hekouwang Dark |
+| V3 财经 | Hekouwang V3 / V3 Dark |
+| V4 玻璃 | Hekouwang V4 / V4 Dark |
+| V5 紫 | Hekouwang V5 / V5 Dark |
+| V6 焰彩 | Hekouwang V6 / V6 Dark |
 
 ---
 

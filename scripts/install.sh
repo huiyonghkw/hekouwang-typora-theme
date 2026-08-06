@@ -65,9 +65,14 @@ if [ ! -f "$SRC_DIR/theme/$SLUG.css" ]; then
 fi
 
 # ---- backup (from here on: warn, never abort) ----
+# 免费默认 V2 + 付费六套（V1–V6）浅/深 = 12 个 CSS
 VARIANTS=(
-  "$SLUG"
-  "$SLUG-dark"
+  "$SLUG" "$SLUG-dark"
+  "$SLUG-v1" "$SLUG-v1-dark"
+  "$SLUG-v3" "$SLUG-v3-dark"
+  "$SLUG-v4" "$SLUG-v4-dark"
+  "$SLUG-v5" "$SLUG-v5-dark"
+  "$SLUG-v6" "$SLUG-v6-dark"
 )
 # 旧版曾安装 claude 变体，安装时清掉，避免主题菜单残留
 LEGACY_REMOVE=(
@@ -82,7 +87,7 @@ for variant in "${VARIANTS[@]}" "${LEGACY_REMOVE[@]}"; do
     || warn "backup of $variant failed, continuing anyway"
 done
 
-# ---- theme css (light + dark only) ----
+# ---- theme css（免费 V2 + 付费 V1/V3–V6 浅深） ----
 for variant in "${VARIANTS[@]}"; do
   src="$SRC_DIR/theme/$variant.css"
   [ -f "$src" ] || continue
@@ -132,9 +137,11 @@ fi
 
 echo "────────────────────────────────────────"
 echo "  Done. Quit Typora completely (Cmd+Q) and reopen."
-echo "  Themes menu:"
-echo "    • Hekouwang"
-echo "    • Hekouwang Dark"
+echo "  Themes menu (same reading metrics · different skins):"
+echo "    Free · V2 编辑"
+echo "      • Hekouwang / Hekouwang Dark"
+echo "    Pack · V1–V6（skill 六套视觉 · ¥9.9）"
+echo "      • Hekouwang V1 … V6  (+ Dark)"
 echo
 echo "  Note: switching themes does NOT reload a modified CSS file."
 echo "  You must fully quit and relaunch Typora."
