@@ -126,6 +126,8 @@
   --hk-muted:     #73726c;
   --hk-faint:     #a3a29b;
   --hk-accent:    #d97757;
+  --hk-accent2:   #d97757;
+  --hk-accent3:   #d97757;
   --hk-link:      #c05d3c;
   --hk-code:      #8a5a3c;
   --hk-hairline:  rgba(31,30,29,0.10);
@@ -282,7 +284,7 @@ content {
 #write a {
   color: var(--hk-link);
   text-decoration: underline;
-  text-decoration-color: rgba(217,119,87,0.42);
+  text-decoration-color: rgba(192,93,60,0.42);
   text-underline-offset: 0.22em;
   text-decoration-thickness: from-font;
   transition: text-decoration-color .15s ease, color .15s ease;

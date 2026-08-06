@@ -180,6 +180,8 @@ CSS = Template(r"""
   --hk-muted:     ${color_text_muted};
   --hk-faint:     ${color_text_faint};
   --hk-accent:    ${color_accent};
+  --hk-accent2:   ${color_accent2};
+  --hk-accent3:   ${color_accent3};
   --hk-link:      ${color_link};
   --hk-code:      ${color_code_text};
   --hk-hairline:  ${hairline};
@@ -1058,28 +1060,89 @@ def apply_paid_craft_layout(t):
     return t
 
 
-def craft_extra_css(accent, shadow_soft, dark):
-    """付费阅读工艺。⛔ 不用卡片左边彩色竖条。不用 color-mix（Typora Chromium 偏旧）。"""
-    bq_bg = hexa(accent, "0.07" if not dark else "0.12")
-    bq_edge = hexa(accent, "0.45" if not dark else "0.55")
-    fence_border = hexa(accent, "0.18" if not dark else "0.28")
-    fence_top = hexa(accent, "0.08" if not dark else "0.14")
-    th_bg = hexa(accent, "0.08" if not dark else "0.14")
-    hr_mid = hexa(accent, "0.35" if not dark else "0.45")
+def craft_extra_css(accent, accent2, accent3, shadow_soft, dark):
+    """付费阅读工艺。⛔ 不用卡片左边彩色竖条。不用 color-mix（Typora Chromium 偏旧）。
+
+    skill 分色靠副强调色：
+      V5 紫×青 → accent2 青绿进 H2 / 引用边 / 链接气质
+      V6 焰彩   → accent2 橙 + accent3 粉，三停靠渐变（对齐 flare）
+    """
+    a2 = accent2 or accent
+    a3 = accent3 or a2
+    dual = (a2.lower() != accent.lower())
+    triple = dual and (a3.lower() != a2.lower())
+
+    if triple:
+        # V6 焰彩：紫 → 橙 → 粉
+        h2_grad = f"linear-gradient(90deg, {accent} 0%, {a2} 55%, {a3} 100%)"
+        h2_size = "min(16rem, 58%) 3px"
+        hr_bg = (
+            f"linear-gradient(90deg, transparent 0%, {accent} 22%, "
+            f"{a2} 50%, {a3} 78%, transparent 100%)"
+        )
+        bq_bg = hexa(a2, "0.08" if not dark else "0.14")
+        bq_edge = hexa(a2, "0.55" if not dark else "0.65")
+        fence_border = hexa(a2, "0.22" if not dark else "0.32")
+        fence_top = hexa(a3, "0.12" if not dark else "0.18")
+        th_bg = hexa(accent, "0.07" if not dark else "0.12")
+        # 代码块右侧一点焰彩内光（不用左边竖条）
+        fence_extra = (
+            f", inset -2.5rem 0 3rem {hexa(a2, '0.06' if not dark else '0.10')}"
+        )
+        # 长文里别给全部 strong 套焰彩渐变（skill 只给 .hl / pull em）
+        strong_mark = f"""
+#write h1 {{
+  background-image: linear-gradient(100deg, {accent}, {a2} 55%, {a3});
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}}
+"""
+    elif dual:
+        # V5 HUD：紫 → 青
+        h2_grad = f"linear-gradient(90deg, {accent} 0%, {a2} 100%)"
+        h2_size = "min(14rem, 50%) 2.5px"
+        hr_bg = (
+            f"linear-gradient(90deg, transparent 0%, {accent} 35%, "
+            f"{a2} 65%, transparent 100%)"
+        )
+        bq_bg = hexa(a2, "0.07" if not dark else "0.12")
+        bq_edge = hexa(a2, "0.50" if not dark else "0.60")
+        fence_border = hexa(accent, "0.16" if not dark else "0.26")
+        fence_top = hexa(a2, "0.14" if not dark else "0.20")
+        th_bg = hexa(accent, "0.07" if not dark else "0.12")
+        fence_extra = f", inset -2rem 0 2.5rem {hexa(a2, '0.05' if not dark else '0.09')}"
+        strong_mark = ""
+    else:
+        h2_grad = f"linear-gradient(90deg, {accent} 0%, transparent 100%)"
+        h2_size = "min(11rem, 40%) 2px"
+        hr_bg = (
+            f"linear-gradient(90deg, transparent 0%, "
+            f"{hexa(accent, '0.35' if not dark else '0.45')} 50%, transparent 100%)"
+        )
+        bq_bg = hexa(accent, "0.07" if not dark else "0.12")
+        bq_edge = hexa(accent, "0.45" if not dark else "0.55")
+        fence_border = hexa(accent, "0.18" if not dark else "0.28")
+        fence_top = hexa(accent, "0.08" if not dark else "0.14")
+        th_bg = hexa(accent, "0.08" if not dark else "0.14")
+        fence_extra = ""
+        strong_mark = ""
+
     return f"""
 /* --------------------------------------------------------------------------
    Paid craft · premium reading（仅 V1 / V3–V6）
    免费 V2 不含本段。指标仍是 1rem · 1.65 · 52em。
+   accent2/accent3 来自 skill（V5 青 / V6 橙粉），用来拉开同紫系皮肤。
    -------------------------------------------------------------------------- */
 #write h1 {{
   letter-spacing: -0.018em;
 }}
 #write h2 {{
   padding-bottom: 0.55rem;
-  background-image: linear-gradient(90deg, {accent} 0%, transparent 100%);
+  background-image: {h2_grad};
   background-repeat: no-repeat;
   background-position: left bottom;
-  background-size: min(11rem, 40%) 2px;
+  background-size: {h2_size};
 }}
 #write blockquote {{
   background: {bq_bg};
@@ -1095,7 +1158,7 @@ def craft_extra_css(accent, shadow_soft, dark):
 }}
 #write pre.md-fences {{
   border: 1px solid {fence_border};
-  box-shadow: 0 1px 0 {fence_top}, 0 8px 24px {shadow_soft};
+  box-shadow: 0 1px 0 {fence_top}, 0 8px 24px {shadow_soft}{fence_extra};
   padding: 1rem 1.15rem;
 }}
 #write table th {{
@@ -1105,13 +1168,13 @@ def craft_extra_css(accent, shadow_soft, dark):
   height: 1px;
   border: 0;
   margin: 2rem 0;
-  background: linear-gradient(90deg, transparent 0%, {hr_mid} 50%, transparent 100%);
+  background: {hr_bg};
 }}
 #write a {{
   text-underline-offset: 0.2em;
   text-decoration-thickness: from-font;
 }}
-""".lstrip("\n")
+{strong_mark}""".lstrip("\n")
 
 
 def build(tokens, dark=False, banner_name=None, premium=False):
@@ -1125,10 +1188,16 @@ def build(tokens, dark=False, banner_name=None, premium=False):
             t[group].update({k: v for k, v in t["dark"][group].items()
                              if not k.startswith("_")})
 
-    v = flatten({k: val for k, val in t.items() if k not in ("dark", "_craft")})
+    # accent2/3：skill 副色；缺省回落到主色，保证模板变量齐全
     c = t["color"]
+    c.setdefault("accent2", c["accent"])
+    c.setdefault("accent3", c.get("accent2", c["accent"]))
+
+    v = flatten({k: val for k, val in t.items() if k not in ("dark", "_craft")})
     a = t["alpha"]
     accent = c["accent"]
+    accent2 = c["accent2"]
+    accent3 = c["accent3"]
     border = c["border_base"]
     shadow = c["shadow_base"]
     shadow_soft = hexa(shadow, "0.05" if not dark else "0.30")
@@ -1147,7 +1216,7 @@ def build(tokens, dark=False, banner_name=None, premium=False):
         "accent_wash":    hexa(accent, "0.16" if not dark else "0.24"),
         "accent_soft":    hexa(accent, "0.26" if not dark else "0.34"),
         "accent_border":  hexa(accent, "0.45"),
-        "link_underline": hexa(accent, "0.42"),
+        "link_underline": hexa(c.get("link", accent), "0.42"),
         "inline_code_bg": hexa(c["code_bg_base"], c["code_bg_alpha"]),
         "syn_comment": "#8f8e86" if not dark else "#7f7e74",
         "syn_keyword": "#8b5cb8" if not dark else "#c9a0e8",
@@ -1166,7 +1235,7 @@ def build(tokens, dark=False, banner_name=None, premium=False):
         "alert_tip_bg":      hexa("#1f883d", "0.04" if not dark else "0.10"),
         "alert_caution_bg":  hexa("#cf222e", "0.04" if not dark else "0.10"),
         "craft_extra": (
-            craft_extra_css(accent, shadow_soft, dark)
+            craft_extra_css(accent, accent2, accent3, shadow_soft, dark)
             if premium else "/* free tier: no paid craft overlay */\n"
         ),
     })
