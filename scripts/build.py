@@ -55,7 +55,7 @@ CSS = Template(r"""
 /* ==========================================================================
    hekouwang — a Typora theme
    默认：中文长文阅读档（work）· 骨白底 + 克制纸感 + Anthropic Sans/Inter 西文与系统中文混排。
-   可选：hekouwang-claude = 对齐 Claude 桌面端对话栏排版。
+   浅色 / 深色各一份：hekouwang.css · hekouwang-dark.css。
 
    本文件由 scripts/build.py 从 scripts/tokens.json 生成，请勿手改。
    改视觉 → 改 tokens.json → 重跑 build.py。
@@ -1115,24 +1115,20 @@ def main():
             else:
                 print("   自检通过：0 个 !important，0 处 px 字号")
 
-    # 快速分辨力自检：默认 work 与 claude 的行高必须不同，否则 preset 没接上
+    # 快速分辨力自检：长文指标 + 浅深纸感都在
     work_css = open(os.path.join(out_dir, f"{slug}.css"), encoding="utf-8").read()
-    claude_css = open(os.path.join(out_dir, f"{slug}-claude.css"), encoding="utf-8").read()
+    work_dark_css = open(os.path.join(out_dir, f"{slug}-dark.css"), encoding="utf-8").read()
     if "line-height: 1.65" not in work_css:
         print("⚠️  分辨力失败：默认 CSS 未含 work 行高 1.65")
         any_fail = True
-    if "line-height: 1.42857" not in claude_css:
-        print("⚠️  分辨力失败：claude CSS 未含对话行高 1.42857")
-        any_fail = True
-    if "max-width: min(52em," not in work_css or "max-width: min(65ch," not in claude_css:
-        print("⚠️  分辨力失败：work/claude 行宽未按预设分开（应为 min(measure, 100%-gutter)）")
+    if "max-width: min(52em," not in work_css:
+        print("⚠️  分辨力失败：默认 CSS 未含流体行宽 min(52em, …)")
         any_fail = True
     if "radial-gradient" not in work_css:
-        print("⚠️  分辨力失败：work 浅色应含纸感径向渐变")
+        print("⚠️  分辨力失败：浅色应含纸感径向渐变")
         any_fail = True
-    work_dark_css = open(os.path.join(out_dir, f"{slug}-dark.css"), encoding="utf-8").read()
     if "radial-gradient" not in work_dark_css or "10px 28px" not in work_dark_css:
-        print("⚠️  分辨力失败：work 深色应同步纸面卡片（径向 + 外阴影）")
+        print("⚠️  分辨力失败：深色应同步纸面卡片（径向 + 外阴影）")
         any_fail = True
     # 纸感应在 #write，content 只做 gutter
     import re
@@ -1144,15 +1140,6 @@ def main():
     if "radial-gradient" not in write_chunk:
         print("⚠️  分辨力失败：纸感应画在 #write 上随栏宽伸缩")
         any_fail = True
-    if "radial-gradient" in claude_css.split("content {")[1].split("}")[0]:
-        print("⚠️  分辨力失败：claude 档 content 不应开纸感")
-        any_fail = True
-    claude_dark_css = open(os.path.join(out_dir, f"{slug}-claude-dark.css"), encoding="utf-8").read()
-    if "/* paper off */" not in claude_dark_css.split("#write {")[1].split("}")[0]:
-        # claude dark 的 #write 不应带径向纸面
-        if "radial-gradient" in claude_dark_css.split("#write {")[1].split("}")[0]:
-            print("⚠️  分辨力失败：claude 深色不应开纸感卡片")
-            any_fail = True
     if any_fail:
         raise SystemExit(1)
 

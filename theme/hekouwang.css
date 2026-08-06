@@ -1,7 +1,7 @@
 /* ==========================================================================
    hekouwang — a Typora theme (CJK long-form (default))
    默认：中文长文阅读档（work）· 骨白底 + 克制纸感 + Anthropic Sans/Inter 西文与系统中文混排。
-   可选：hekouwang-claude = 对齐 Claude 桌面端对话栏排版。
+   浅色 / 深色各一份：hekouwang.css · hekouwang-dark.css。
 
    本文件由 scripts/build.py 从 scripts/tokens.json 生成，请勿手改。
    改视觉 → 改 tokens.json → 重跑 build.py。

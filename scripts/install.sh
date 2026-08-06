@@ -68,10 +68,13 @@ fi
 VARIANTS=(
   "$SLUG"
   "$SLUG-dark"
+)
+# 旧版曾安装 claude 变体，安装时清掉，避免主题菜单残留
+LEGACY_REMOVE=(
   "$SLUG-claude"
   "$SLUG-claude-dark"
 )
-for variant in "${VARIANTS[@]}"; do
+for variant in "${VARIANTS[@]}" "${LEGACY_REMOVE[@]}"; do
   [ -f "$THEME_DIR/$variant.css" ] || continue
   mkdir -p "$BACKUP_DIR" 2>/dev/null
   cp "$THEME_DIR/$variant.css" "$BACKUP_DIR/$variant-$STAMP.css" 2>/dev/null \
@@ -79,7 +82,7 @@ for variant in "${VARIANTS[@]}"; do
     || warn "backup of $variant failed, continuing anyway"
 done
 
-# ---- theme css (work default + claude optional, each light/dark) ----
+# ---- theme css (light + dark only) ----
 for variant in "${VARIANTS[@]}"; do
   src="$SRC_DIR/theme/$variant.css"
   [ -f "$src" ] || continue
@@ -87,6 +90,14 @@ for variant in "${VARIANTS[@]}"; do
     ok "installed $variant.css"
   else
     warn "failed to copy $variant.css — check folder permissions"
+  fi
+done
+
+for variant in "${LEGACY_REMOVE[@]}"; do
+  if [ -f "$THEME_DIR/$variant.css" ]; then
+    rm -f "$THEME_DIR/$variant.css" 2>/dev/null \
+      && ok "removed legacy $variant.css from Themes menu" \
+      || warn "could not remove legacy $variant.css"
   fi
 done
 
@@ -122,9 +133,8 @@ fi
 echo "────────────────────────────────────────"
 echo "  Done. Quit Typora completely (Cmd+Q) and reopen."
 echo "  Themes menu:"
-echo "    • Hekouwang        — CJK long-form default (paper, 1.65 leading)"
-echo "    • Hekouwang Claude — Claude desktop chat metrics (optional)"
-echo "    • … Dark variants of each"
+echo "    • Hekouwang"
+echo "    • Hekouwang Dark"
 echo
 echo "  Note: switching themes does NOT reload a modified CSS file."
 echo "  You must fully quit and relaunch Typora."

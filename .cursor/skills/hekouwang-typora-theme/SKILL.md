@@ -1,1 +1,0 @@
-../../../.claude/skills/hekouwang-typora-theme/SKILL.md
