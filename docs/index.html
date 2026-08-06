@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>hekouwang · Typora 主题 — 写中文长文时的阅读指标</title>
-<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 行宽 52em · 纸感卡片。浅色 / 深色同一套指标。">
+<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 行宽 52em · 纸感卡片。附主题工程 Skill：tokens 生成 CSS、采样配色、字体上屏探针。">
 <meta property="og:title" content="hekouwang · Typora 主题">
-<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 52em · 纸感卡片">
+<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 52em · 纸感卡片 · 主题工程 Skill">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://huiyonghkw.github.io/hekouwang-typora-theme/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1320'/%3E%3Cpath d='M8 22l4-8 3 4 5-9 4 6' fill='none' stroke='%2306a88c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -15,13 +15,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* V1科技白 · Skill 第16节 */
   --bg:#f4f6f9;--surface:#ffffff;--surface2:#eef1f5;
   --border:rgba(15,20,30,.08);--border2:rgba(15,20,30,.14);
   --text:#0f1320;--read:#2b3242;--text2:#535b6b;--text3:#8a92a3;
   --accent:#06a88c;--accent2:#6a45e0;--accent3:#bf7d1a;
   --accent-rgb:6,168,140;--accent2-rgb:106,69,224;--accent3-rgb:191,125,26;
-  --grid-rgb:15,20,30;
+  --grid-rgb:15,20,30;--danger:#d23f4d;
   --font:'Inter','Noto Sans SC','PingFang SC',system-ui,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,monospace;
   --brand:'Noto Sans SC','Inter',system-ui,sans-serif;
@@ -41,7 +40,6 @@ a{color:inherit}
 .prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
   background:var(--flare);transition:width .1s linear}
 
-/* ── Nav ── */
 .topnav{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;gap:16px;
   padding:12px 28px;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid var(--border)}
@@ -50,14 +48,13 @@ a{color:inherit}
 .topnav .mark{width:26px;height:26px;border-radius:8px;
   background:conic-gradient(from 200deg,var(--accent2),var(--accent3),var(--accent),var(--accent2));
   box-shadow:0 4px 12px rgba(var(--accent-rgb),.28)}
-.topnav .links{display:flex;align-items:center;gap:8px}
-.topnav .links a{font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--text2);
-  text-decoration:none;padding:8px 12px;border-radius:999px}
+.topnav .links{display:flex;align-items:center;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.topnav .links a{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--text2);
+  text-decoration:none;padding:7px 11px;border-radius:999px}
 .topnav .links a:hover{color:var(--text);background:var(--surface2)}
 .topnav .cta{background:var(--flare-cta)!important;color:#fff!important;font-weight:700;
   box-shadow:0 6px 18px rgba(var(--accent-rgb),.22)}
 
-/* ── Hero ── */
 .hero{position:relative;background:var(--hero-bg);padding:88px 28px 72px;text-align:center;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
   background-image:radial-gradient(circle,rgba(var(--grid-rgb),.05) 1px,transparent 1px);
@@ -72,22 +69,19 @@ a{color:inherit}
 .hero h1{font-size:clamp(36px,5.8vw,64px);font-weight:800;line-height:1.16;letter-spacing:-.02em;
   margin:28px auto 0;max-width:920px;text-wrap:balance}
 .hero h1 .hl{background:var(--flare);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{font-size:18.5px;line-height:1.75;color:var(--text2);max-width:560px;margin:22px auto 0}
+.hero .sub{font-size:18.5px;line-height:1.75;color:var(--text2);max-width:600px;margin:22px auto 0}
 .hero .sub b{color:var(--read);font-weight:600}
 .actions{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px;margin-top:32px}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;
   font-size:15.5px;font-weight:800;text-decoration:none;border:none;cursor:pointer}
 .btn-primary{background:var(--flare-cta);color:#fff;box-shadow:0 14px 32px rgba(var(--accent-rgb),.28)}
 .btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border2);box-shadow:var(--shadow)}
-.btn-ghost:hover{border-color:rgba(var(--accent-rgb),.35)}
 .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:28px}
 .hero-meta span{font-family:var(--mono);font-size:12px;color:var(--text3);
   background:rgba(255,255,255,.78);border:1px solid var(--border);border-radius:999px;padding:6px 14px}
 
-/* ── Stage (reading demo) ── */
 .stage-wrap{position:relative;z-index:5;width:min(980px,calc(100% - 40px));margin:-28px auto 0}
-.stage{background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden;
-  box-shadow:var(--shadow2)}
+.stage{background:var(--surface);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow2)}
 .stage-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
   padding:12px 18px;background:var(--surface2);border-bottom:1px solid var(--border)}
 .stage-bar .dots{display:flex;gap:7px}
@@ -100,7 +94,6 @@ a{color:inherit}
 .tog button{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;border:0;background:transparent;
   color:var(--text3);padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:600}
 .tog button.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
-
 .chrome{padding:18px 16px 28px;transition:background .35s ease}
 .chrome[data-mode="light"]{background:#ebe8df}
 .chrome[data-mode="dark"]{background:#262626}
@@ -119,9 +112,9 @@ a{color:inherit}
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 4.5rem rgba(255,255,255,.14),
              0 1px 2px rgba(0,0,0,.35),0 10px 28px rgba(0,0,0,.55)}
 .paper h2{font-size:1.35rem;line-height:1.3;font-weight:600;letter-spacing:-.012em;margin:0 0 .85rem}
-.paper .lede{margin:0 0 1.15rem;padding:0;border:0;color:inherit;opacity:.72;font-size:.95rem;line-height:1.6}
-.chrome[data-mode="light"] .lede{color:#3d3d3a;opacity:1}
-.chrome[data-mode="dark"] .lede{color:#d8d6ca;opacity:1}
+.paper .lede{margin:0 0 1.15rem;padding:0;border:0;font-size:.95rem;line-height:1.6}
+.chrome[data-mode="light"] .lede{color:#3d3d3a}
+.chrome[data-mode="dark"] .lede{color:#d8d6ca}
 .paper p{margin:0 0 .78rem}
 .paper p:last-child{margin-bottom:0}
 .paper strong{font-weight:600}
@@ -137,18 +130,17 @@ a{color:inherit}
 .metrics-chip span{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
   padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text2)}
 
-/* ── Main sections ── */
-main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:64px 28px 100px}
-section{margin-top:72px}
+main{position:relative;z-index:1;max-width:800px;margin:0 auto;padding:64px 28px 100px}
+section{margin-top:80px}
 .sec-label{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
   color:var(--accent);margin-bottom:14px}
 h2.sec{font-size:clamp(26px,4vw,34px);font-weight:800;line-height:1.28;letter-spacing:-.015em;text-wrap:balance}
 .prose{font-size:16.5px;line-height:1.85;color:var(--read);margin-top:18px}
 .prose b{color:var(--text);font-weight:600}
+.prose + .prose{margin-top:12px}
 
 .readout{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
-.gauge{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px 20px;
-  box-shadow:var(--shadow)}
+.gauge{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px 20px;box-shadow:var(--shadow)}
 .gauge .gl{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:8px}
 .gauge .gl::before{content:'';width:8px;height:8px;border-radius:2px;background:var(--accent)}
@@ -157,23 +149,102 @@ h2.sec{font-size:clamp(26px,4vw,34px);font-weight:800;line-height:1.28;letter-sp
 .gauge .gv{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--text);line-height:1.1}
 .gauge .gu{font-size:13px;color:var(--text2);margin-top:10px;line-height:1.55}
 
-.principles{display:flex;flex-direction:column;gap:12px;margin-top:26px}
-.pr{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
-.pr h3{font-size:16.5px;font-weight:800;margin-bottom:6px}
-.pr p{font-size:14.5px;line-height:1.75;color:var(--text2)}
-.pr p b{color:var(--text);font-weight:600}
+.hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+.hl-card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px 22px 20px;
+  box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hl-card .tag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px}
+.hl-card:nth-child(2) .tag{color:var(--accent2)}
+.hl-card:nth-child(3) .tag{color:var(--accent3)}
+.hl-card:nth-child(4) .tag{color:var(--accent)}
+.hl-card:nth-child(5) .tag{color:var(--accent2)}
+.hl-card:nth-child(6) .tag{color:var(--accent3)}
+.hl-card h3{font-size:17.5px;font-weight:800;line-height:1.35;margin-bottom:8px}
+.hl-card p{font-size:14px;line-height:1.7;color:var(--text2)}
+.hl-card p b{color:var(--text);font-weight:600}
+.hl-card .num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--text);margin:4px 0 8px}
+.hl-card .num small{font-size:13px;font-weight:500;color:var(--text3)}
+
+.shots{display:grid;grid-template-columns:1fr;gap:18px;margin-top:28px}
+.shot{background:var(--surface);border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.shot img{display:block;width:100%;height:auto;vertical-align:middle}
+.shot figcaption{font-family:var(--mono);font-size:12.5px;color:var(--text3);padding:14px 18px 16px;line-height:1.55;
+  border-top:1px solid var(--border);background:var(--surface2)}
+.shot figcaption b{color:var(--text2);font-weight:600}
+
+.tiers{display:flex;flex-direction:column;gap:10px;margin-top:24px}
+.tier{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+.tier .n{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent)}
+.tier h3{font-size:15.5px;font-weight:800}
+.tier p{font-size:13px;color:var(--text2);margin-top:2px;line-height:1.5}
+.tier .badge{font-family:var(--mono);font-size:11px;color:var(--text3);white-space:nowrap;
+  background:var(--surface2);border:1px solid var(--border);border-radius:999px;padding:5px 10px}
+
+.cmp-wrap{margin-top:28px;overflow-x:auto;border:1px solid var(--border);border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+.cmp{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+.cmp th,.cmp td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.55}
+.cmp th{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);
+  background:var(--surface2)}
+.cmp td:first-child{color:var(--text2);font-weight:600;white-space:nowrap}
+.cmp tr:last-child td{border-bottom:0}
+.cmp .win{color:var(--accent);font-weight:700}
+.cmp .mute{color:var(--text3)}
+
+.skill-when{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.skill-when span{font-family:var(--mono);font-size:12px;color:var(--text2);background:var(--surface);
+  border:1px solid var(--border);border-radius:999px;padding:7px 14px}
+
+.cmd-list{display:flex;flex-direction:column;gap:14px;margin-top:24px}
+.cmd{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.cmd .ch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;
+  background:var(--surface2);border-bottom:1px solid var(--border)}
+.cmd .ch .lab{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.cmd .ch .why{font-size:13px;color:var(--text2)}
+.cmd pre{font-family:var(--mono);font-size:13px;line-height:1.85;padding:16px 18px;overflow-x:auto;color:var(--text);margin:0}
+.cmd .cm{color:var(--text3)}
+.cmd .ok{color:var(--accent);font-weight:600}
+.cmd .kw{color:var(--accent2);font-weight:600}
+
+.rules{display:flex;flex-direction:column;gap:12px;margin-top:24px;counter-reset:rule}
+.rule{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 18px 64px;
+  box-shadow:var(--shadow);position:relative}
+.rule::before{counter-increment:rule;content:counter(rule,decimal-leading-zero);
+  position:absolute;left:18px;top:18px;font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent)}
+.rule h3{font-size:15.5px;font-weight:800;margin-bottom:6px}
+.rule p{font-size:14px;line-height:1.7;color:var(--text2)}
+.rule p b{color:var(--text);font-weight:600}
+
+.refs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.ref{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);
+  text-decoration:none;display:block;transition:border-color .15s}
+.ref:hover{border-color:rgba(var(--accent-rgb),.4)}
+.ref .k{font-family:var(--mono);font-size:11.5px;color:var(--accent);letter-spacing:.06em;margin-bottom:6px}
+.ref h3{font-size:14.5px;font-weight:800;margin-bottom:4px}
+.ref p{font-size:13px;color:var(--text2);line-height:1.55}
+
+.tree{margin-top:24px;background:#0f1320;border-radius:16px;padding:20px 22px;overflow-x:auto;
+  box-shadow:var(--shadow2)}
+.tree pre{font-family:var(--mono);font-size:12.5px;line-height:1.75;color:#c8cdd8;margin:0;white-space:pre}
+.tree .d{color:var(--accent)}
+.tree .c{color:#8a92a3}
 
 .install{margin-top:28px;background:var(--surface);border:1px solid var(--border);border-radius:18px;
   padding:22px 24px;box-shadow:var(--shadow)}
-.install pre{font-family:var(--mono);font-size:13.5px;line-height:1.8;color:var(--text);overflow-x:auto;
-  white-space:pre;margin:0}
+.install pre{font-family:var(--mono);font-size:13.5px;line-height:1.8;color:var(--text);overflow-x:auto;white-space:pre;margin:0}
 .install .cm{color:var(--text3)}
 .install .ok{color:var(--accent);font-weight:600}
 .install-note{font-size:14px;color:var(--text2);margin-top:16px;line-height:1.7}
 .install-note code{font-family:var(--mono);font-size:.9em;background:var(--surface2);border:1px solid var(--border);
   border-radius:6px;padding:1px 7px;color:var(--accent)}
 
-.sources{margin-top:36px;font-family:var(--mono);font-size:12.5px;color:var(--text3);line-height:1.9}
+.principles{display:flex;flex-direction:column;gap:12px;margin-top:26px}
+.pr{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px 22px;box-shadow:var(--shadow)}
+.pr h3{font-size:16.5px;font-weight:800;margin-bottom:6px}
+.pr p{font-size:14.5px;line-height:1.75;color:var(--text2)}
+.pr p b{color:var(--text);font-weight:600}
+
+.sources{margin-top:40px;font-family:var(--mono);font-size:12.5px;color:var(--text3);line-height:1.9}
 .sources a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(var(--accent-rgb),.35)}
 .sources b{color:var(--text2);font-weight:600}
 
@@ -190,7 +261,9 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   .hero{padding:64px 20px 56px}
   .stage-wrap{width:calc(100% - 24px)}
   .paper{padding:1.5rem 1.15rem 2rem;max-width:min(52em,calc(100% - .5rem))}
-  .readout{grid-template-columns:1fr}
+  .readout,.hl-grid,.refs{grid-template-columns:1fr}
+  .tier{grid-template-columns:48px 1fr;grid-template-rows:auto auto}
+  .tier .badge{grid-column:2}
   main{padding:48px 20px 80px}
 }
 </style>
@@ -204,24 +277,27 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     hekouwang
   </a>
   <div class="links">
+    <a href="#highlights">亮点</a>
     <a href="#stage">阅读台</a>
-    <a href="#metrics">指标</a>
+    <a href="#skill">Skill</a>
     <a href="https://github.com/huiyonghkw/hekouwang-typora-theme" target="_blank" rel="noopener">GitHub</a>
     <a class="cta" href="#install">Install</a>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="eyebrow"><i></i> Typora theme · CJK long-form</div>
+  <div class="eyebrow"><i></i> Typora theme · CJK long-form · Skill included</div>
   <h1>写中文长文时的<br><span class="hl">阅读指标</span></h1>
-  <p class="sub">不是聊天气泡密度，是我自己长时间盯着 Markdown 时觉得舒服的那套：正文 <b>1rem</b> · 行高 <b>1.65</b> · 行宽 <b>52em</b> · 纸感卡片。</p>
+  <p class="sub">不是聊天气泡密度。我把正文 <b>1rem</b> · 行高 <b>1.65</b> · 行宽 <b>52em</b> · 纸感卡片钉死——再附一套主题工程 Skill，让改配色不再靠猜。</p>
   <div class="actions">
     <a class="btn btn-primary" href="#install">安装到 Typora</a>
-    <a class="btn btn-ghost" href="#stage">看阅读台</a>
+    <a class="btn btn-ghost" href="#skill">Skill 怎么用</a>
   </div>
   <div class="hero-meta">
     <span>Hekouwang · Light</span>
     <span>Hekouwang Dark</span>
+    <span>0 !important</span>
+    <span>~100 KB 字体</span>
     <span>MIT</span>
   </div>
 </header>
@@ -232,12 +308,12 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
       <div class="title">验收样张 · 纸感阅读台</div>
       <div class="tog" role="group" aria-label="浅色 / 深色">
-        <button type="button" class="on" data-mode="light" id="btn-light">Light</button>
-        <button type="button" data-mode="dark" id="btn-dark">Dark</button>
+        <button type="button" class="on" data-mode="light">Light</button>
+        <button type="button" data-mode="dark">Dark</button>
       </div>
     </div>
     <div class="chrome" data-mode="light" id="chrome">
-      <article class="paper" id="paper">
+      <article class="paper">
         <h2>hekouwang 主题验收样张</h2>
         <p class="lede">——用来验收排版，也适合直接截进 README（浅色 / 深色各一张）</p>
         <p>这一份把 Typora 常渲染的块基本铺满。中英混排是重点：西文走 Anthropic Sans / Inter，中文 fallback 到苹方——<strong>这不是妥协，桌面端本身就是这个机制</strong>。我自己验收时会把本文件开着，浅深各盯三分钟。</p>
@@ -258,6 +334,66 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 </div>
 
 <main>
+  <section id="highlights">
+    <div class="sec-label">Core highlights</div>
+    <h2 class="sec">主题真正值钱的不是皮肤，是这些硬约束</h2>
+    <p class="prose">做主题最费时间的不是写 CSS，是一类<strong>不报错的失败</strong>——改了没变化、字体没上屏、配色凭直觉对不上参照。下面六条是我踩完坑以后钉死的产品决策。</p>
+    <div class="hl-grid">
+      <div class="hl-card">
+        <div class="tag">Metrics</div>
+        <h3>中文长文阅读指标</h3>
+        <div class="num">1rem · 1.65 · 52em</div>
+        <p>浅色 / 深色<strong>同一套</strong>字号行高行宽。深色只覆写 color / alpha，构建时断言纸感在位。</p>
+      </div>
+      <div class="hl-card">
+        <div class="tag">Tokens</div>
+        <h3>别手改 CSS</h3>
+        <p>真相源是 <b>scripts/tokens.json</b> → <b>build.py</b> 一次出两份 CSS。手改生成物，下次构建就没了。</p>
+      </div>
+      <div class="hl-card">
+        <div class="tag">Build</div>
+        <h3>零 !important · 零乱 px</h3>
+        <div class="num">0 <small>!important</small></div>
+        <p>靠 <b>#write</b> 特异性。除根字号外全 rem——Typora 偏好里的字号调节才不会失效。</p>
+      </div>
+      <div class="hl-card">
+        <div class="tag">Fonts</div>
+        <h3>~100 KB，不塞中文宋</h3>
+        <p>只随包 Inter latin（OFL）。中文走系统苹方——Anthropic Sans 实测 <b>CJK 汉字 0 个</b>，打包宋体是错方向。</p>
+      </div>
+      <div class="hl-card">
+        <div class="tag">Sample</div>
+        <h3>配色采样，不许猜</h3>
+        <p>我曾笃定底色是 <b>#faf9f5</b>，采样后发现那是窗口色；编辑区更接近 <b>#fdfdfc</b>。深色侧栏比正文更亮——取反必错。</p>
+      </div>
+      <div class="hl-card">
+        <div class="tag">Paper</div>
+        <h3>纸感画在 #write 上</h3>
+        <p>暖径向 + 大圆角 + 外阴影；壳层（侧栏 / gutter / 顶栏）更深一档。层级靠字重间距，<b>不靠左边竖条</b>。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="shots">
+    <div class="sec-label">In Typora</div>
+    <h2 class="sec">真机截图，不是营销假图</h2>
+    <p class="prose">验收样张开着，浅深各盯三分钟——headless 全绿不算数，最终要在 Typora 里肉眼看。</p>
+    <div class="shots">
+      <figure class="shot">
+        <img src="screenshot-zh.png" alt="中文验收样张：题头、阅读指标、中英混排" width="1200" height="800" loading="lazy">
+        <figcaption><b>中文样张</b> · demo/验收样张.md — 题头署名、阅读指标、中英混排正文</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshot-fences-zh.png" alt="连续代码块：Python / shell / CSS" width="1200" height="800" loading="lazy">
+        <figcaption><b>代码块</b> · 连续 fences — 语法色克制，块与块之间有呼吸</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="screenshot-window.png" alt="Typora 窗口：侧栏与纸感编辑区" width="1200" height="800" loading="lazy">
+        <figcaption><b>整窗</b> · 侧栏 / 文件树 / 纸感编辑区同屏</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <section id="metrics">
     <div class="sec-label">Reading metrics</div>
     <h2 class="sec">三项指标，决定你能不能盯几个小时</h2>
@@ -281,41 +417,232 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     </div>
   </section>
 
-  <section id="principles">
-    <div class="sec-label">Design</div>
-    <h2 class="sec">层级靠字重与间距，不靠左边竖条</h2>
-    <div class="principles">
-      <div class="pr">
-        <h3>默认服务中文长文</h3>
-        <p>不是按聊天气泡密度排。汉字密、方块字，需要 ≥1.6 的行高和大约 40–50 字的行宽。</p>
+  <section id="fonts">
+    <div class="sec-label">Typography</div>
+    <h2 class="sec">中英混排：三级降级，不打包中文</h2>
+    <p class="prose">Anthropic Sans 有 <b>581 字符、CJK 0 个</b>（连中文标点都没有）。正确做法是西文 + 系统中文配对。</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="n">01</div>
+        <div>
+          <h3>Anthropic Sans</h3>
+          <p>仅当你本机已有（Claude 桌面端）</p>
+        </div>
+        <span class="badge">不随包</span>
       </div>
-      <div class="pr">
-        <h3>低饱和行内代码</h3>
-        <p>行内 <b>code</b> 用暖褐 <code style="font-family:var(--mono);font-size:.9em">#8a5a3c</code>，一段里七八个反引号仍读得像文字，不抢戏。</p>
+      <div class="tier">
+        <div class="n">02</div>
+        <div>
+          <h3>Inter variable · latin</h3>
+          <p>真可变 300–800 + opsz；绝大多数人看到的是这一层</p>
+        </div>
+        <span class="badge">~100 KB · OFL</span>
       </div>
-      <div class="pr">
-        <h3>纸感画在编辑区上</h3>
-        <p>浅 / 深都有：暖径向、大圆角、外阴影；侧栏与 gutter 是更深一档的壳。上面阅读台就是这张纸的网页复刻。</p>
+      <div class="tier">
+        <div class="n">03</div>
+        <div>
+          <h3>系统 UI / 苹方</h3>
+          <p>中文 fallback；截图也按第 2 层校对</p>
+        </div>
+        <span class="badge">系统自带</span>
       </div>
     </div>
+  </section>
+
+  <section id="compare">
+    <div class="sec-label">vs Gallery</div>
+    <h2 class="sec">和 Gallery「Claude Theme」差在哪</h2>
+    <p class="prose">目标相近，但是<strong>独立实现，不是 fork</strong>。我对照过公开数字——最刺眼的是 <b>!important</b> 数量和字体包体积。</p>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead>
+          <tr><th>维度</th><th>Gallery Claude Theme</th><th>hekouwang</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>写法</td><td class="mute">手写约 3158 行</td><td class="win">token 生成</td></tr>
+          <tr><td>!important</td><td class="mute">397 处</td><td class="win">0（构建强制）</td></tr>
+          <tr><td>字号</td><td class="mute">部分 px</td><td class="win">除根字号外全 rem</td></tr>
+          <tr><td>打包字体</td><td class="mute">~24 MB（含 Noto Serif SC）</td><td class="win">~100 KB Inter latin</td></tr>
+          <tr><td>Anthropic 字体</td><td class="mute">再分发</td><td class="win">不打包；local() + Inter</td></tr>
+          <tr><td>正文中文</td><td class="mute">Noto Serif SC 宋</td><td class="win">系统无衬线</td></tr>
+          <tr><td>西文字重</td><td class="mute">单一 400，粗体合成</td><td class="win">可变 300–800 + opsz</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="skill">
+    <div class="sec-label">Skill · v1.3.0</div>
+    <h2 class="sec">主题工程 Skill：clone 就能用</h2>
+    <p class="prose">Skill 真源就在本仓库 <b>skills/hekouwang-typora-theme/</b>，不是另开 skill 仓。clone / 打开项目后，Claude Code / Cursor 能加载项目 skill 的 Agent 可直接用——<b>无需再单独安装</b>。</p>
+    <p class="prose">什么时候叫它：</p>
+    <div class="skill-when">
+      <span>改配色 / 字号 / 行高</span>
+      <span>主题不生效</span>
+      <span>字体没上屏</span>
+      <span>按参照 App 采样做新主题</span>
+      <span>加深色变体</span>
+      <span>提交 theme.typora.io</span>
+    </div>
+
+    <p class="prose" style="margin-top:28px"><b>最常用的三条命令</b>（Agent 或你自己在仓库根跑）：</p>
+    <div class="cmd-list">
+      <div class="cmd">
+        <div class="ch">
+          <span class="lab">01 · Build</span>
+          <span class="why">生成浅色 + 深色 CSS，含自检</span>
+        </div>
+        <pre><span class="ok">python3 scripts/build.py</span>
+<span class="cm"># → theme/hekouwang.css</span>
+<span class="cm"># → theme/hekouwang-dark.css</span>
+<span class="cm"># 断言：零 !important · 除根字号外零 px · 纸感在位</span></pre>
+      </div>
+      <div class="cmd">
+        <div class="ch">
+          <span class="lab">02 · Install</span>
+          <span class="why">装进 Typora；备份进子目录，不污染菜单</span>
+        </div>
+        <pre><span class="ok">./scripts/install.sh</span>
+<span class="cm"># 可选：--use-local-anthropic（默认关，仅个人本机）</span></pre>
+      </div>
+      <div class="cmd">
+        <div class="ch">
+          <span class="lab">03 · Verify fonts</span>
+          <span class="why">带「不存在的字体」作 fallback 基准</span>
+        </div>
+        <pre><span class="ok">python3 scripts/verify_render.py</span> <span class="kw">--css</span> theme/hekouwang.css \
+  <span class="kw">--fonts</span> "Hekouwang Sans,Hekouwang Sans Fb" \
+  <span class="kw">--vars</span> bg-color,text-color
+<span class="cm"># 宽度 ≈ 不存在字体 → 说明你要的字体没上屏</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="iron">
+    <div class="sec-label">Iron rules</div>
+    <h2 class="sec">六条铁律——全是静默失败</h2>
+    <p class="prose">这些坑不报错，页面照常渲染。Skill 把它们写成工具约束；你自己改主题时也别跳过。</p>
+    <div class="rules">
+      <div class="rule">
+        <h3>改完必须 Cmd+Q 再开</h3>
+        <p>切换主题<strong>不会</strong>重载已改的 CSS。不这么做，你会在一个用户根本没看到的版本上反复调参数。</p>
+      </div>
+      <div class="rule">
+        <h3>备份绝不能留在 themes 根目录</h3>
+        <p>Typora 把根目录下任何文件名含 <b>.css</b> 的都列进菜单，<strong>包括隐藏文件</strong>。备份必须进子目录（install.sh 已处理）。</p>
+      </div>
+      <div class="rule">
+        <h3>零 !important</h3>
+        <p>Typora 自己的 base.css 都不用。靠 <b>#write</b> 特异性。构建时断言。</p>
+      </div>
+      <div class="rule">
+        <h3>除根字号外零 px 字号</h3>
+        <p>否则偏好里的字号调节失效。构建时断言。</p>
+      </div>
+      <div class="rule">
+        <h3>配色不许猜，要采样</h3>
+        <p>窗口色 ≠ 编辑区色；深色侧栏比正文更亮。用 <b>sample_colors.py</b>，必要时 <b>--solve-alpha</b> 反解叠加。</p>
+      </div>
+      <div class="rule">
+        <h3>headless 全绿 ≠ Typora 里对</h3>
+        <p>系统 Chrome 比 Typora 内嵌 Chromium 新得多。最终验收必须在 Typora 里肉眼看。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sample">
+    <div class="sec-label">Sample · don’t guess</div>
+    <h2 class="sec">从参照截图采真实色值</h2>
+    <p class="prose">做浅色时我笃定底色是品牌米色，采样后发现对话区才是纸色。深色更极端——靠「把浅色取反」一定会做错。</p>
+    <div class="cmd-list">
+      <div class="cmd">
+        <div class="ch">
+          <span class="lab">采样</span>
+          <span class="why">按常见布局给候选 / 指定框</span>
+        </div>
+        <pre><span class="ok">python3 scripts/sample_colors.py</span> 参照截图.png
+<span class="ok">python3 scripts/sample_colors.py</span> 图.png <span class="kw">--box</span> 700,640,1700,700 <span class="kw">--label</span> 正文背景
+<span class="ok">python3 scripts/sample_colors.py</span> 图.png <span class="kw">--text-box</span> 690,300,1500,345 <span class="kw">--label</span> 正文文字</pre>
+      </div>
+      <div class="cmd">
+        <div class="ch">
+          <span class="lab">反解 alpha</span>
+          <span class="why">底色 · 结果色 · 候选色 — 三通道一致才是真的</span>
+        </div>
+        <pre><span class="ok">python3 scripts/sample_colors.py</span> <span class="kw">--solve-alpha</span> 1f1f1e 272725 ffffff,d97757
+<span class="cm"># 白叠加 0.036/0.036/0.031 一致 ✅ · 品牌橙通道不一致 ❌</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="refs">
+    <div class="sec-label">References</div>
+    <h2 class="sec">按需展开的四份说明书</h2>
+    <p class="prose">Agent 读 Skill 后按任务打开对应 reference；你也可以自己点开。</p>
+    <div class="refs">
+      <a class="ref" href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/references/tokens.md" target="_blank" rel="noopener">
+        <div class="k">tokens.md</div>
+        <h3>改配色 / 字号 / 行高</h3>
+        <p>tokens.json 字段与构建约定</p>
+      </a>
+      <a class="ref" href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/references/typora-spec.md" target="_blank" rel="noopener">
+        <div class="k">typora-spec.md</div>
+        <h3>选择器地图 · 五个静默坑</h3>
+        <p>官方规范与 Typora 特有行为</p>
+      </a>
+      <a class="ref" href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/references/fonts.md" target="_blank" rel="noopener">
+        <div class="k">fonts.md</div>
+        <h3>字体策略 · 授权红线</h3>
+        <p>三级降级与 Anthropic 字体边界</p>
+      </a>
+      <a class="ref" href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/references/workflow.md" target="_blank" rel="noopener">
+        <div class="k">workflow.md</div>
+        <h3>新主题 / 变体 / 发布</h3>
+        <p>做到 theme.typora.io 的完整流程</p>
+      </a>
+    </div>
+    <div class="tree">
+      <pre><span class="d">skills/hekouwang-typora-theme/</span>   <span class="c">← Skill 真源（SKILL.md + references/）</span>
+<span class="d">.claude/skills/… · .cursor/skills/…</span>  <span class="c">← 软链，供工具发现</span>
+<span class="d">scripts/tokens.json</span>      <span class="c">单一真相源</span>
+<span class="d">scripts/build.py</span>         <span class="c">生成 CSS + 构建自检</span>
+<span class="d">scripts/install.sh</span>       <span class="c">装进 Typora</span>
+<span class="d">scripts/sample_colors.py</span> <span class="c">截图采样</span>
+<span class="d">scripts/verify_render.py</span> <span class="c">字体 / 渲染探针</span>
+<span class="d">theme/</span>                   <span class="c">成品 CSS + Inter</span>
+<span class="d">demo/</span>                    <span class="c">验收样张</span></pre>
+    </div>
+  </section>
+
+  <section id="customize">
+    <div class="sec-label">Customize</div>
+    <h2 class="sec">自己改：只动 tokens，再 build + install</h2>
+    <div class="install">
+      <pre><span class="cm"># 编辑 scripts/tokens.json 后：</span>
+<span class="ok">python3 scripts/build.py</span>
+<span class="ok">./scripts/install.sh</span>
+<span class="cm"># 然后 Cmd+Q 完全退出 Typora 再重开</span></pre>
+    </div>
+    <p class="install-note"><code>dark</code> 段只覆盖 <code>color</code> / <code>alpha</code>；边框与浅底由 <code>border_base</code> / <code>shadow_base</code> 派生。别直接改 <code>theme/*.css</code>。</p>
   </section>
 
   <section id="install">
     <div class="sec-label">Install</div>
     <h2 class="sec">装进 Typora，退出再开</h2>
-    <p class="prose">切换主题不会重载已改动的 CSS——装完请 <b>Cmd+Q 完全退出</b> 再开，然后在主题菜单选 <b>Hekouwang</b> 或 <b>Hekouwang Dark</b>。</p>
+    <p class="prose">主题菜单里只有两套：<b>Hekouwang</b>（浅）与 <b>Hekouwang Dark</b>（深）。装完请 <b>Cmd+Q 完全退出</b> 再开。</p>
     <div class="install">
       <pre><span class="cm"># clone &amp; install (macOS / Linux)</span>
 git clone https://github.com/huiyonghkw/hekouwang-typora-theme.git
 cd hekouwang-typora-theme
 <span class="ok">./scripts/install.sh</span></pre>
     </div>
-    <p class="install-note">也可以只拷 <code>theme/hekouwang.css</code>、<code>theme/hekouwang-dark.css</code> 和 <code>theme/hekouwang/</code> 字体目录到 Typora 主题文件夹（Preferences → Open Theme Folder）。</p>
+    <p class="install-note">也可只拷 <code>theme/hekouwang.css</code>、<code>theme/hekouwang-dark.css</code> 和 <code>theme/hekouwang/</code> 到 Typora 主题文件夹（Preferences → Open Theme Folder）。</p>
   </section>
 
   <p class="sources">
     <b>来源</b><br>
     主题仓库 · <a href="https://github.com/huiyonghkw/hekouwang-typora-theme" target="_blank" rel="noopener">huiyonghkw/hekouwang-typora-theme</a><br>
+    Skill 真源 · <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/SKILL.md" target="_blank" rel="noopener">skills/hekouwang-typora-theme/SKILL.md</a> · v1.3.0<br>
     验收样张 · <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/demo/%E9%AA%8C%E6%94%B6%E6%A0%B7%E5%BC%A0.md" target="_blank" rel="noopener">demo/验收样张.md</a><br>
     Typora Gallery · <a href="https://theme.typora.io" target="_blank" rel="noopener">theme.typora.io</a><br>
     视觉外壳 · hekouwang-content-skill · V1科技白
@@ -326,7 +653,7 @@ cd hekouwang-typora-theme
     <div class="foot-meta">
       <a href="https://github.com/huiyonghkw/hekouwang-typora-theme" target="_blank" rel="noopener">GitHub</a>
       · MIT
-      · SkillHub <a href="https://www.skillhub.cn" target="_blank" rel="noopener">hekouwang-typora-theme-skill</a>
+      · <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/SKILL.md" target="_blank" rel="noopener">hekouwang-typora-theme-skill</a>
     </div>
   </footer>
 </main>
