@@ -6,3 +6,19 @@ theme/hekouwang/fonts-local/
 .DS_Store
 __pycache__/
 *.pyc
+
+# 付费档：不进公开仓（本机开发 / pack.sh 出货）
+scripts/palettes.paid.json
+theme/hekouwang-v1.css
+theme/hekouwang-v1-dark.css
+theme/hekouwang-v3.css
+theme/hekouwang-v3-dark.css
+theme/hekouwang-v4.css
+theme/hekouwang-v4-dark.css
+theme/hekouwang-v5.css
+theme/hekouwang-v5-dark.css
+theme/hekouwang-v6.css
+theme/hekouwang-v6-dark.css
+dist/
+*.zip
+hekouwang-typora-theme-pack-*.zip

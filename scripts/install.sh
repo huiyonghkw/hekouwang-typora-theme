@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 #
-# hekouwang · install to Typora themes folder
+# hekouwang · install free default (V2) to Typora themes folder
 #
 # Usage:
-#   ./scripts/install.sh                          # install theme (recommended)
+#   ./scripts/install.sh                          # install free themes (recommended)
 #   ./scripts/install.sh --use-local-anthropic    # additionally link Anthropic fonts (see below)
+#
+# 付费六套（V1/V3–V6）不在公开仓。买完用：
+#   ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-*.zip
+# 购买页见 scripts/links.sh → HKW_URL_BUY
 #
 # ---------------------------------------------------------------------------
 # ABOUT --use-local-anthropic
@@ -34,6 +38,8 @@ set -uo pipefail
 
 SLUG="hekouwang"
 SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+# shellcheck disable=SC1091
+. "$SRC_DIR/scripts/links.sh"
 THEME_DIR="$HOME/Library/Application Support/abnerworks.Typora/themes"
 BACKUP_DIR="$THEME_DIR/.$SLUG-backups"
 STAMP="$(date +%Y%m%d-%H%M%S)"
@@ -42,7 +48,7 @@ USE_LOCAL_ANTHROPIC=0
 for arg in "$@"; do
   case "$arg" in
     --use-local-anthropic) USE_LOCAL_ANTHROPIC=1 ;;
-    -h|--help) sed -n '2,25p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) sed -n '2,28p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown option: $arg" >&2; exit 1 ;;
   esac
 done
@@ -50,7 +56,7 @@ done
 ok()   { printf '  ✅ %s\n' "$*"; }
 warn() { printf '  ⚠️  %s\n' "$*"; }
 
-echo "hekouwang · install"
+echo "hekouwang · install (free · V2)"
 echo "────────────────────────────────────────"
 
 # ---- preflight (safe to abort: nothing touched yet) ----
@@ -60,19 +66,13 @@ if [ ! -d "$THEME_DIR" ]; then
   exit 1
 fi
 if [ ! -f "$SRC_DIR/theme/$SLUG.css" ]; then
-  echo "Missing $SRC_DIR/theme/$SLUG.css — run: python3 scripts/build.py" >&2
+  echo "Missing $SRC_DIR/theme/$SLUG.css — run: python3 scripts/build.py --tier free" >&2
   exit 1
 fi
 
-# ---- backup (from here on: warn, never abort) ----
-# 免费默认 V2 + 付费六套（V1–V6）浅/深 = 12 个 CSS
+# 公开仓只装免费默认 V2
 VARIANTS=(
   "$SLUG" "$SLUG-dark"
-  "$SLUG-v1" "$SLUG-v1-dark"
-  "$SLUG-v3" "$SLUG-v3-dark"
-  "$SLUG-v4" "$SLUG-v4-dark"
-  "$SLUG-v5" "$SLUG-v5-dark"
-  "$SLUG-v6" "$SLUG-v6-dark"
 )
 # 旧版曾安装 claude 变体，安装时清掉，避免主题菜单残留
 LEGACY_REMOVE=(
@@ -87,7 +87,7 @@ for variant in "${VARIANTS[@]}" "${LEGACY_REMOVE[@]}"; do
     || warn "backup of $variant failed, continuing anyway"
 done
 
-# ---- theme css（免费 V2 + 付费 V1/V3–V6 浅深） ----
+# ---- theme css（免费 V2） ----
 for variant in "${VARIANTS[@]}"; do
   src="$SRC_DIR/theme/$variant.css"
   [ -f "$src" ] || continue
@@ -137,11 +137,12 @@ fi
 
 echo "────────────────────────────────────────"
 echo "  Done. Quit Typora completely (Cmd+Q) and reopen."
-echo "  Themes menu (same reading metrics · different skins):"
-echo "    Free · V2 编辑"
-echo "      • Hekouwang / Hekouwang Dark"
-echo "    Pack · V1–V6（skill 六套视觉 · ¥9.9）"
-echo "      • Hekouwang V1 … V6  (+ Dark)"
+echo "  Themes menu · Free："
+echo "    • Hekouwang / Hekouwang Dark   （skill V2 编辑）"
+echo
+echo "  Pack · V1–V6（¥9.9）："
+echo "    $HKW_URL_BUY"
+echo "    买完：./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-*.zip"
 echo
 echo "  Note: switching themes does NOT reload a modified CSS file."
 echo "  You must fully quit and relaunch Typora."

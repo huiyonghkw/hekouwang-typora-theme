@@ -1,0 +1,19 @@
+hekouwang Typora Theme Pack — Personal Use License
+====================================================
+
+This paid pack (Hekouwang V1 / V3 / V4 / V5 / V6 and their Dark variants)
+is sold for personal use by the purchaser.
+
+You may:
+  - Install and use the CSS themes on devices you personally control
+  - Rebuild from the included palette file for your own machines
+
+You may not:
+  - Redistribute the pack, individual CSS files, or palette sources
+  - Publish the paid skins as your own Typora Gallery theme
+  - Include them in a competing commercial product
+
+The free themes Hekouwang / Hekouwang Dark (skill V2) remain MIT —
+see LICENSE in the public repository.
+
+Questions: WeChat hekouwang · or huiyonghkw@gmail.com

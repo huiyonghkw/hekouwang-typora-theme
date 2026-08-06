@@ -8,10 +8,12 @@ Skins map to **hekouwang-content-skill V1–V6**. Shared reading metrics: body `
 
 | Tier | Themes menu | What you get |
 |---|---|---|
-| **Free · MIT** | **Hekouwang** / **Hekouwang Dark** | Skill **V2 editorial** (warm paper). Gallery entry. |
+| **Free · MIT** | **Hekouwang** / **Hekouwang Dark** | Skill **V2 editorial** (warm paper). Gallery entry. Public repo ships this tier only. |
 | **Paid · ¥9.9** | **Hekouwang V1…V6** (+ Dark each) | Full skill matrix: tech / editorial / finance / glass / violet / flame · 12 CSS |
 
-Colors live in [`scripts/palettes.json`](scripts/palettes.json); metrics in [`scripts/tokens.json`](scripts/tokens.json). Rebuild: `python3 scripts/build.py`.
+**Buy:** landing-page [#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) (WeChat Pay / Alipay · WeChat `hekouwang`, note `Typora主题`) → zip via WeChat → `./unlock.sh`.
+
+Free colors: [`scripts/palettes.json`](scripts/palettes.json). Paid palettes stay off the public tree. Metrics: [`scripts/tokens.json`](scripts/tokens.json). Rebuild free: `python3 scripts/build.py`.
 
 ![English acceptance sample](docs/screenshot.png)
 
@@ -61,7 +63,7 @@ Anthropic Sans has **581 glyphs and zero CJK characters** — not even ideograph
 
 Most people see tier 2; screenshots are checked against that.
 
-## Install
+## Install (free V2)
 
 ```bash
 git clone https://github.com/huiyonghkw/hekouwang-typora-theme.git
@@ -73,12 +75,23 @@ Or copy `theme/hekouwang.css`, `theme/hekouwang-dark.css`, and the `theme/hekouw
 
 Then **quit Typora completely (Cmd+Q) and relaunch** — switching themes does not reload a modified CSS file. Choose **Hekouwang** or **Hekouwang Dark**.
 
+### Paid pack (V1 / V3–V6)
+
+Payment and delivery live only on the landing page: [#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy).
+
+After you receive the zip:
+
+```bash
+./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-YYYYMMDD.zip
+# or, inside the unzipped pack: ./unlock.sh
+```
+
 ## Customizing
 
 Do not edit the CSS; it is generated. Edit `scripts/tokens.json` and rebuild:
 
 ```bash
-python3 scripts/build.py
+python3 scripts/build.py          # public tree: free tier only by default
 # → theme/hekouwang.css
 # → theme/hekouwang-dark.css
 ./scripts/install.sh

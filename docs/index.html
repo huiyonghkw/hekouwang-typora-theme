@@ -75,6 +75,7 @@ a{color:inherit}
 .topnav .links a:hover{color:var(--text);background:var(--surface2)}
 .topnav .cta{background:var(--flare-cta)!important;color:#fff!important;font-weight:700;
   box-shadow:0 6px 18px rgba(var(--accent-rgb),.22)}
+.topnav .buy-link{color:var(--accent)!important;font-weight:700}
 
 .hero{position:relative;background:var(--hero-bg);padding:88px 28px 72px;text-align:center;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
@@ -279,6 +280,47 @@ h2.sec{font-size:clamp(26px,4vw,34px);font-weight:800;line-height:1.28;letter-sp
 .sources a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(var(--accent-rgb),.35)}
 .sources b{color:var(--text2);font-weight:600}
 
+/* 购买区 · 对齐 terminal-kit：付款码只写在落地页 */
+.buy-sub{font-family:var(--mono);font-size:13px;color:var(--text3);margin-top:10px;letter-spacing:.04em}
+.buy-steps{display:flex;flex-direction:column;gap:12px;margin-top:28px}
+.buy-step{display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}
+.buy-step .sq{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);
+  width:40px;height:40px;border-radius:12px;background:rgba(var(--accent-rgb),.1);
+  display:flex;align-items:center;justify-content:center}
+.buy-step .tt{font-size:16px;font-weight:800;margin-bottom:4px}
+.buy-step .ds{font-size:14px;line-height:1.65;color:var(--text2)}
+.buy-step code{font-family:var(--mono);font-size:.92em;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:1px 7px;color:var(--accent)}
+.qrgrp{margin-top:28px}
+.qrgrp .ghd{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.qrgrp .ghd .n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;
+  background:rgba(var(--accent-rgb),.12);color:var(--accent);font-size:11px}
+.qr{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.qrbox{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;text-align:center;box-shadow:var(--shadow)}
+.qrbox img{width:100%;max-width:240px;height:auto;display:block;margin:0 auto;border-radius:8px}
+.qrbox .lbl{font-family:var(--mono);font-size:12.5px;color:var(--text2);margin-top:12px;line-height:1.45}
+.qrbox .lbl b{color:var(--text)}
+.wxid{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px 20px;box-shadow:var(--shadow);
+  display:flex;flex-direction:column;justify-content:center;gap:8px}
+.wxid .k{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3)}
+.wxid .id{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--text);letter-spacing:.02em}
+.wxid .n{font-size:13.5px;line-height:1.65;color:var(--text2)}
+.ask{margin-top:18px;background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:16px 18px}
+.ask .lb{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:8px}
+.ask p,.ask{font-size:14px;line-height:1.7;color:var(--text2)}
+.ask b{color:var(--text)}
+.ask a{color:var(--accent)}
+.tier-table{margin-top:24px;width:100%;border-collapse:collapse;font-size:14px;
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.tier-table th,.tier-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.55}
+.tier-table th{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);background:var(--surface2)}
+.tier-table tr:last-child td{border-bottom:0}
+.tier-table .y{color:var(--accent);font-weight:700}
+.tier-table .n{color:var(--text3)}
+
 footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
 .foot-brand{font-family:var(--brand);font-size:16px;font-weight:700}
@@ -288,7 +330,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 
 @media(max-width:720px){
   .topnav{padding:10px 16px}
-  .topnav .links a:not(.cta){display:none}
+  .topnav .links a:not(.cta):not(.buy-link){display:none}
   .hero{padding:64px 20px 56px}
   .stage-wrap{width:calc(100% - 24px)}
   .paper{padding:1.5rem 1.15rem 2rem;max-width:min(52em,calc(100% - .5rem))}
@@ -296,6 +338,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   .tier{grid-template-columns:48px 1fr;grid-template-rows:auto auto}
   .tier .badge{grid-column:2}
   .cmd .ch .why{display:none}
+  .qr{grid-template-columns:1fr}
   main{padding:48px 20px 80px}
 }
 </style>
@@ -312,6 +355,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <a href="#highlights">亮点</a>
     <a href="#stage">阅读台</a>
     <a href="#skill">Skill</a>
+    <a class="buy-link" href="#buy">¥9.9</a>
     <a href="https://github.com/huiyonghkw/hekouwang-typora-theme" target="_blank" rel="noopener">GitHub</a>
     <a class="cta" href="#install">Install</a>
   </div>
@@ -322,8 +366,8 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   <h1>写中文长文时的<br><span class="hl">阅读指标</span></h1>
   <p class="sub">不是聊天气泡密度。我把正文 <b>1rem</b> · 行高 <b>1.65</b> · 行宽 <b>52em</b> · 纸感卡片钉死——再附一套主题工程 Skill，让改配色不再靠猜。</p>
   <div class="actions">
-    <a class="btn btn-primary" href="#install">安装到 Typora</a>
-    <a class="btn btn-ghost" href="#skill">Skill 怎么用</a>
+    <a class="btn btn-primary" href="#install">安装免费 V2</a>
+    <a class="btn btn-ghost" href="#buy">六套皮肤 · ¥9.9</a>
   </div>
   <div class="hero-meta">
     <span>Free · V2 编辑</span>
@@ -666,20 +710,94 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   </section>
 
   <section id="install">
-    <div class="sec-label">Install</div>
-    <h2 class="sec">装进 Typora，退出再开</h2>
-    <p class="prose">主题菜单里只有两套：<b>Hekouwang</b>（浅）与 <b>Hekouwang Dark</b>（深）。装完请 <b>Cmd+Q 完全退出</b> 再开。</p>
+    <div class="sec-label">Install · Free</div>
+    <h2 class="sec">免费默认：Hekouwang / Dark（V2）</h2>
+    <p class="prose">公开仓只装 <b>Hekouwang</b> 与 <b>Hekouwang Dark</b>（skill V2 编辑）。装完请 <b>Cmd+Q 完全退出</b> 再开。六套付费皮肤走下面 <a href="#buy">购买区</a>，用 <code>unlock.sh</code> 装，不混进这条命令。</p>
     <div class="install">
       <div class="ch">
         <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        <span class="lab">hekouwang-typora-theme</span>
+        <span class="lab">hekouwang-typora-theme · free</span>
       </div>
-      <pre><span class="cm"># clone &amp; install · macOS / Linux</span>
+      <pre><span class="cm"># clone &amp; install · macOS</span>
 <span class="p">$</span> <span class="o">git clone</span> <span class="arg">https://github.com/huiyonghkw/hekouwang-typora-theme.git</span>
 <span class="p">$</span> <span class="o">cd</span> <span class="arg">hekouwang-typora-theme</span> <span class="o">&amp;&amp;</span> <span class="o">./scripts/install.sh</span>
 <span class="ok">✓</span> <span class="cm">Cmd+Q 退出再开 · 主题菜单选 Hekouwang / Hekouwang Dark</span></pre>
     </div>
     <p class="install-note">也可只拷 <code>theme/hekouwang.css</code>、<code>theme/hekouwang-dark.css</code> 和 <code>theme/hekouwang/</code> 到 Typora 主题文件夹（Preferences → Open Theme Folder）。</p>
+  </section>
+
+  <section id="buy">
+    <div class="sec-label">Pack · ¥9.9</div>
+    <h2 class="sec">怎么买六套皮肤</h2>
+    <p class="buy-sub">three steps · WeChat Pay or Alipay · 一年更新</p>
+    <p class="prose">免费＝一套写得久的阅读指标（V2）。付费＝同一指标上的 skill 六套视觉：科技 / 编辑 / 财经 / 玻璃 / 紫 / 焰彩（浅+深；V2 与免费档同一文件）。</p>
+    <table class="tier-table">
+      <thead><tr><th></th><th>开源 · MIT</th><th>主题包 · ¥9.9</th></tr></thead>
+      <tbody>
+        <tr><td>Hekouwang / Dark（V2 编辑）</td><td class="y">✓</td><td class="y">✓</td></tr>
+        <tr><td>Hekouwang V1 / V3–V6（+ Dark）</td><td class="n">—</td><td class="y">✓</td></tr>
+        <tr><td>同一套 1rem · 1.65 · 52em · 纸感</td><td class="y">✓</td><td class="y">✓</td></tr>
+        <tr><td>一年更新 + 微信答疑</td><td class="n">—</td><td class="y">✓</td></tr>
+      </tbody>
+    </table>
+
+    <div class="buy-steps">
+      <div class="buy-step"><div class="sq">01</div><div>
+        <div class="tt">付款 ¥9.9</div>
+        <div class="ds">扫下面任意一个码 —— 微信支付、支付宝都行。</div>
+      </div></div>
+      <div class="buy-step"><div class="sq">02</div><div>
+        <div class="tt">加我，发付款截图</div>
+        <div class="ds">微信 <code>hekouwang</code>，备注「Typora主题」。</div>
+      </div></div>
+      <div class="buy-step"><div class="sq">03</div><div>
+        <div class="tt">收 zip，一条命令装上</div>
+        <div class="ds">我发你付费包。解压后跑 <code>./unlock.sh</code>，或丢给公开仓：<code>./scripts/unlock.sh 包.zip</code>。不用 GitHub 账号。</div>
+      </div></div>
+    </div>
+
+    <div class="qrgrp">
+      <div class="ghd"><span class="n">01</span>付款 · 二选一</div>
+      <div class="qr">
+        <div class="qrbox">
+          <img src="images/pay-wechat.png" alt="微信支付收款码" width="240" height="240" loading="lazy">
+          <div class="lbl"><b>微信支付</b> · ¥9.9</div>
+        </div>
+        <div class="qrbox">
+          <img src="images/pay-alipay.png" alt="支付宝收款码" width="240" height="240" loading="lazy">
+          <div class="lbl"><b>支付宝</b> · ¥9.9</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="qrgrp">
+      <div class="ghd"><span class="n">02</span>然后加我</div>
+      <div class="qr">
+        <div class="qrbox">
+          <img src="images/wechat-qr.png" alt="微信加好友二维码" width="240" height="240" loading="lazy">
+          <div class="lbl"><b>扫码加我</b></div>
+        </div>
+        <div class="wxid">
+          <div class="k">或者直接搜微信号</div>
+          <div class="id">hekouwang</div>
+          <div class="n">把付款截图发我，备注「Typora主题」。我发 zip；你本机 <code>./unlock.sh</code> 装进 Typora。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ask">
+      <span class="lb">no risk</span>
+      <b>七天无理由退款。</b>先装免费 V2、过两天再决定完全没问题 —— 它不是试用版，也不会到期。
+    </div>
+    <div class="ask">
+      <span class="lb">outside china</span>
+      <b>在海外、微信支付和支付宝都用不了？</b>目前还没接信用卡收款，这点我就直说了。
+      邮件 <a href="mailto:huiyonghkw@gmail.com">huiyonghkw@gmail.com</a>，我们另想办法；拿到的是同一个 zip、同样一年更新。
+    </div>
+    <div class="ask">
+      <span class="lb">license</span>
+      付费包仅供个人使用，请勿二次分发。免费 V2 仍是 MIT（公开仓 <code>LICENSE</code>）。
+    </div>
   </section>
 
   <p class="sources">

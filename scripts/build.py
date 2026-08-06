@@ -1079,11 +1079,59 @@ def build(tokens, dark=False, banner_name=None):
     return css
 
 
+def load_themes(tier: str):
+    """公开仓只有 palettes.json（免费 V2）。本机/付费包另有 palettes.paid.json。"""
+    with open(os.path.join(HERE, "palettes.json"), encoding="utf-8") as f:
+        free = json.load(f)
+    themes = list(free.get("themes") or [])
+    paid_path = os.path.join(HERE, "palettes.paid.json")
+    paid_themes = []
+    if os.path.isfile(paid_path):
+        with open(paid_path, encoding="utf-8") as f:
+            paid = json.load(f)
+        paid_themes = list(paid.get("themes") or [])
+
+    if tier == "free":
+        return [t for t in themes if t.get("tier", "free") == "free"]
+    if tier == "paid":
+        if not paid_themes:
+            raise SystemExit(
+                "缺少 scripts/palettes.paid.json —— 付费色板不进公开仓。"
+                "开发机保留该文件，或从付费 zip 解压后再 --tier paid。"
+            )
+        return paid_themes
+    # all
+    by_id = {t["id"]: t for t in themes}
+    for t in paid_themes:
+        by_id[t["id"]] = t
+    # 稳定顺序：v2 免费默认先，再 v1/v3–v6
+    order = ["v2", "v1", "v3", "v4", "v5", "v6"]
+    out = [by_id[i] for i in order if i in by_id]
+    for tid, t in by_id.items():
+        if tid not in order:
+            out.append(t)
+    return out
+
+
 def main():
+    import argparse
+    ap = argparse.ArgumentParser(description="Build hekouwang Typora CSS from tokens + palettes")
+    ap.add_argument(
+        "--tier",
+        choices=("free", "paid", "all"),
+        default="all",
+        help="free=公开默认 V2；paid=仅付费肤；all=有 paid 文件则六套，否则只出免费",
+    )
+    args = ap.parse_args()
+    tier = args.tier
+    paid_path = os.path.join(HERE, "palettes.paid.json")
+    if tier == "all" and not os.path.isfile(paid_path):
+        tier = "free"
+        print("ℹ️  无 palettes.paid.json → 只构建免费档（与公开仓一致）")
+
     with open(os.path.join(HERE, "tokens.json"), encoding="utf-8") as f:
         tokens = json.load(f)
-    with open(os.path.join(HERE, "palettes.json"), encoding="utf-8") as f:
-        palettes = json.load(f)
+    themes = load_themes(tier)
 
     out_dir = os.path.join(ROOT, "theme")
     os.makedirs(out_dir, exist_ok=True)
@@ -1093,7 +1141,7 @@ def main():
     any_fail = False
     written = []
 
-    for theme in palettes["themes"]:
+    for theme in themes:
         # 以 tokens.json 为骨架（阅读指标 / 字体 / 布局），只换配色与纸感
         base = json.loads(json.dumps(tokens))  # deep copy
         base["color"].update(theme["color"])
@@ -1187,17 +1235,18 @@ def main():
         print("⚠️  分辨力失败：纸感应画在 #write 上随栏宽伸缩")
         any_fail = True
 
-    # 六套齐：v1–v6 浅深
-    for n in range(1, 7):
-        if n == 2:
-            light, darkf = f"{slug}.css", f"{slug}-dark.css"
-        else:
-            light, darkf = f"{slug}-v{n}.css", f"{slug}-v{n}-dark.css"
-        if light not in written or darkf not in written:
-            print(f"⚠️  分辨力失败：缺 {light} / {darkf}")
+    # 按本趟 tier 验齐
+    expect = []
+    for theme in themes:
+        suf = theme.get("slug_suffix", "")
+        expect.append(f"{slug}{suf}.css")
+        expect.append(f"{slug}{suf}-dark.css")
+    for name in expect:
+        if name not in written:
+            print(f"⚠️  分辨力失败：缺 {name}")
             any_fail = True
 
-    print(f"\n共写出 {len(written)} 个 CSS：{', '.join(written)}")
+    print(f"\n共写出 {len(written)} 个 CSS（tier={tier}）：{', '.join(written)}")
     if any_fail:
         raise SystemExit(1)
 

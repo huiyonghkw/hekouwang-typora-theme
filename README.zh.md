@@ -10,10 +10,14 @@
 
 | 档 | 主题菜单 | 说明 |
 |---|---|---|
-| **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（米白 / 米黑）。Gallery 入口也是这一档。 |
+| **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（米白 / 米黑）。Gallery 入口也是这一档。公开仓只发这一档。 |
 | **付费包 · ¥9.9** | **Hekouwang V1…V6**（各含 Dark） | skill 全矩阵：科技 / 编辑 / 财经 / 玻璃 / 紫 / 焰彩 · 浅+深共 12 份 CSS（V2 与免费档同一套文件） |
 
-同一套 `tokens` 阅读骨架，只换 `scripts/palettes.json` 里的配色。改色 → `python3 scripts/build.py`。
+**怎么买：** 落地页购买区（微信/支付宝 · 微信 `hekouwang`，备注「Typora主题」）→ 我私发 zip → `./unlock.sh` 一键装进 Typora。
+
+→ [huiyonghkw.github.io/hekouwang-typora-theme/#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy)
+
+免费色板在 `scripts/palettes.json`；付费色板不进公开仓。阅读指标在 `scripts/tokens.json`。公开仓重建：`python3 scripts/build.py`（默认只出免费档）。
 
 ![中文验收样张](docs/screenshot-zh.png)
 
@@ -74,7 +78,7 @@ Anthropic Sans 实测 **581 字符、CJK 汉字 0 个**（连中文标点都没�
 
 绝大多数人看到的是第 2 层，截图也按第 2 层校对。
 
-## 安装
+## 安装（免费 V2）
 
 ```bash
 git clone https://github.com/huiyonghkw/hekouwang-typora-theme.git
@@ -86,12 +90,25 @@ cd hekouwang-typora-theme
 
 然后 **完全退出 Typora（Cmd+Q）再重开** —— 切换主题不会重载已改过的 CSS。在「主题」菜单选 **Hekouwang** 或 **Hekouwang Dark**。
 
+### 付费包（V1 / V3–V6）
+
+付款与交付只写在落地页（换渠道不用改脚本）：[#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy)。
+
+收到 zip 后：
+
+```bash
+./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-YYYYMMDD.zip
+# 或解压后在包内：./unlock.sh
+```
+
+（我这边打包装：`./scripts/pack.sh` → 桌面 zip，微信私发。）
+
 ## 定制
 
 别改 CSS，它是生成物。改 `scripts/tokens.json` 后：
 
 ```bash
-python3 scripts/build.py
+python3 scripts/build.py          # 公开仓默认只出免费档
 # → theme/hekouwang.css
 # → theme/hekouwang-dark.css
 ./scripts/install.sh
