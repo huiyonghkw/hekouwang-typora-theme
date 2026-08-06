@@ -11,7 +11,7 @@ Skins map to **hekouwang-content-skill V1–V6**. Shared reading metrics: body `
 | **Free · MIT** | **Hekouwang** / **Hekouwang Dark** | Skill **V2 editorial** (warm paper). Gallery entry. Public repo ships this tier only. |
 | **Paid · ¥9.9** | **Hekouwang V1…V6** (+ Dark each) | Skill matrix skins (tech / finance / glass / violet / flame + shared V2). **Palettes & craft stay off the public tree** — zip delivery only. |
 
-**Buy:** landing-page [#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) (WeChat Pay / Alipay · WeChat `hekouwang`, note `Typora主题`) → zip via WeChat → `./unlock.sh`.
+**Buy:** landing-page [#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) (WeChat Pay / Alipay · WeChat `hekouwang`, note `Typora主题`) → zip via WeChat → follow [#unlock](https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock).
 
 Free colors: [`scripts/palettes.json`](scripts/palettes.json). Paid palettes stay off the public tree. Metrics: [`scripts/tokens.json`](scripts/tokens.json). Rebuild free: `python3 scripts/build.py`.
 
