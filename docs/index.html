@@ -10,10 +10,22 @@
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://huiyonghkw.github.io/hekouwang-typora-theme/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1320'/%3E%3Cpath d='M8 22l4-8 3 4 5-9 4 6' fill='none' stroke='%2306a88c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
+/* 与 terminal-kit 落地页同策略：不走 Google Fonts。
+   正文拉丁 → 系统 SF Pro（-apple-system）；标题中文真粗 → 自托管 HKW Sans SC；
+   阅读台西文 → 主题随包 Inter latin。 */
+@font-face{
+  font-family:'HKW Sans SC';
+  src:url('fonts/hkw-sans-sc-subset.woff2') format('woff2-variations'),
+      url('fonts/hkw-sans-sc-subset.woff2') format('woff2');
+  font-weight:100 900;font-style:normal;font-display:swap;
+}
+@font-face{
+  font-family:'Inter';
+  src:url('fonts/inter-latin-wght-normal.woff2') format('woff2-variations'),
+      url('fonts/inter-latin-wght-normal.woff2') format('woff2');
+  font-weight:100 900;font-style:normal;font-display:swap;
+}
 :root{
   --bg:#f4f6f9;--surface:#ffffff;--surface2:#eef1f5;
   --border:rgba(15,20,30,.08);--border2:rgba(15,20,30,.14);
@@ -21,9 +33,10 @@
   --accent:#06a88c;--accent2:#6a45e0;--accent3:#bf7d1a;
   --accent-rgb:6,168,140;--accent2-rgb:106,69,224;--accent3-rgb:191,125,26;
   --grid-rgb:15,20,30;--danger:#d23f4d;
-  --font:'Inter','Noto Sans SC','PingFang SC',system-ui,sans-serif;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
-  --brand:'Noto Sans SC','Inter',system-ui,sans-serif;
+  --font:-apple-system,BlinkMacSystemFont,'Inter','HKW Sans SC','PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  --font-display:'HKW Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  --mono:'SF Mono',SFMono-Regular,ui-monospace,Menlo,Consolas,monospace;
+  --brand:'HKW Sans SC',-apple-system,BlinkMacSystemFont,'PingFang SC',system-ui,sans-serif;
   --shadow:0 1px 2px rgba(20,30,50,.05),0 8px 24px rgba(20,30,50,.06);
   --shadow2:0 2px 4px rgba(20,30,50,.05),0 16px 36px rgba(20,30,50,.09);
   --flare:linear-gradient(100deg,var(--accent),var(--accent2));
@@ -36,6 +49,7 @@
 html{scroll-behavior:smooth;font-size:16px}
 body{background:var(--bg);color:var(--text);font-family:var(--font);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.7;overflow-x:hidden}
+h1,h2,h3,.sec,.foot-brand{font-family:var(--font-display)}
 a{color:inherit}
 .prog{position:fixed;top:0;left:0;height:3px;width:0;z-index:50;
   background:var(--flare);transition:width .1s linear}
@@ -99,7 +113,7 @@ a{color:inherit}
 .chrome[data-mode="dark"]{background:#262626}
 .paper{margin:0 auto;max-width:min(52em,calc(100% - 1.5rem));box-sizing:border-box;
   padding:2rem 1.75rem 2.75rem;border-radius:14px;font-size:1rem;line-height:1.65;
-  font-family:'Inter','PingFang SC','Hiragino Sans GB','Noto Sans SC',system-ui,sans-serif;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB','HKW Sans SC',system-ui,sans-serif;
   overflow-wrap:break-word;transition:background .35s ease,color .35s ease,box-shadow .35s ease}
 .chrome[data-mode="light"] .paper{
   color:#141413;
