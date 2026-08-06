@@ -2,18 +2,19 @@
 name: hekouwang-typora-theme
 slug: hekouwang-typora-theme
 displayName: Typora 主题工程（hekouwang）
-summary: 做主题真正费时间的不是写 CSS，是一类不报错的失败——改了 CSS 但编辑器没变化、字体没生效却照常渲染、配色凭直觉猜结果和参照对不上。这把 skill 把三件事固化成工具：CSS 由 tokens.json 生成（构建时断言零 !important、零 px 字号）、从参照截图采样真实色值并能反解叠加色的 alpha、字体上屏探针永远带一个「不存在的字体」作 fallback 基准。附 hekouwang 主题深浅双版（复刻 Claude 桌面端阅读体验）。
+summary: 做主题真正费时间的不是写 CSS，是一类不报错的失败——改了 CSS 但编辑器没变化、字体没生效却照常渲染、配色凭直觉猜结果和参照对不上。这把 skill 把三件事固化成工具：CSS 由 tokens.json 生成（构建时断言零 !important、零 px 字号）、从参照截图采样真实色值并能反解叠加色的 alpha、字体上屏探针永远带一个「不存在的字体」作 fallback 基准。附 hekouwang 主题：默认中文长文档（work）+ 可选 Claude 对话档，深浅双版。
 license: MIT
 homepage: https://github.com/huiyonghkw/hekouwang-typora-theme
-version: 1.1.0
+version: 1.2.0
 description: >
-  会勇禾口王 · Typora 主题工程 Skill。维护「hekouwang」主题（复刻 Claude 桌面端阅读体验，
-  深浅双版），并提供一套可复用的主题工程方法：CSS 由 tokens.json 生成而非手写、构建时强制
-  零 !important / 零 px 字号、从参照截图采样真实色值（而不是猜配色）、用 fallback 基准探针
-  验证字体是否真的上屏。
-  当需要：① 改 Typora 主题的配色/字号/行高/紧凑度；② 装主题或排查「改了 CSS 但 Typora 里
-  没变化 / 字体没生效 / 主题菜单多出奇怪条目」；③ 按某个 App 或网站的观感做一套新主题
-  （采样它的真实色值）；④ 加深色版或新变体；⑤ 把主题发布到 theme.typora.io 时使用。
+  会勇禾口王 · Typora 主题工程 Skill。维护「hekouwang」主题（默认中文长文 work 档 +
+  可选 Claude 对话档，深浅双版），并提供一套可复用的主题工程方法：CSS 由 tokens.json
+  生成而非手写、构建时强制零 !important / 零 px 字号、从参照截图采样真实色值（而不是猜
+  配色）、用 fallback 基准探针验证字体是否真的上屏。
+  当需要：① 改 Typora 主题的配色/字号/行高/紧凑度/纸感；② 装主题或排查「改了 CSS 但
+  Typora 里没变化 / 字体没生效 / 主题菜单多出奇怪条目」；③ 按某个 App 或网站的观感做
+  一套新主题（采样它的真实色值）；④ 加深色版或新变体；⑤ 把主题发布到 theme.typora.io
+  时使用。
   触发词：Typora 主题 / typora theme / 改主题配色 / 主题不生效 / 换肤 / Markdown 编辑器主题 /
   hekouwang 主题 / 主题字体没上屏 / 采样配色 / 做一套主题 / 提交 Typora 主题库。
 allowed-tools: Bash, Read, Write, Edit, Glob, Grep
@@ -27,16 +28,17 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 
 ## 30 秒速览
 
-- **主题产物**：`theme/hekouwang.css`（浅色）+ `theme/hekouwang-dark.css`（深色）。
+- **主题产物（四套）**：
+  - `theme/hekouwang.css` + `hekouwang-dark.css` —— **默认**，中文长文 `work`
+  - `theme/hekouwang-claude.css` + `hekouwang-claude-dark.css` —— 可选，Claude 对话栏
 - **别手改 CSS**，它是生成物。改 `scripts/tokens.json` → 跑 `scripts/build.py`。
-- **两个变体同源**：`dark` 段只覆盖 `color` 和 `alpha`，派生值由 `border_base` /
-  `shadow_base` 算出，所以一个生成器服务两套。
+- **阅读档在 `_presets`**；`dark` 段只覆盖 `color` / `alpha`。构建会断言 work≠claude。
 - **开源仓库**：https://github.com/huiyonghkw/hekouwang-typora-theme （MIT）
 
 ## 最常用的三条命令
 
 ```bash
-python3 scripts/build.py                    # tokens.json → 两个 CSS（含自检）
+python3 scripts/build.py                    # → 四套 CSS（含自检 + 分辨力断言）
 ./scripts/install.sh                        # 装进 Typora（自动备份到子目录）
 python3 scripts/verify_render.py --css theme/hekouwang.css \
   --fonts "Hekouwang Sans,Hekouwang Sans Fb" --vars bg-color,text-color

@@ -1,13 +1,25 @@
 # hekouwang
 
-一套复刻 Claude 桌面端阅读体验的 Typora 主题。
+给「一天要盯着 Markdown 好几个小时」的人用的 Typora 主题——**默认按中文长文来排**，不是按聊天气泡来排。
+
+| 主题菜单名 | 档位 | 正文 | 行高 | 行宽 | 纸感 |
+|---|---|---|---|---|---|
+| **Hekouwang**（默认） | `work` 中文长文 | `1rem` | `1.65` | `42em`（约 40–42 字） | 浅色开 |
+| **Hekouwang Claude**（可选） | `claude_read` 对话栏 | `0.875rem` | `1.42857` | `65ch` | 关 |
 
 CSS 不是手写的，而是由 [`scripts/tokens.json`](scripts/tokens.json) 生成 —— 所有颜色、字号、间距都在那一个文件里，
-改视觉只改它，跑 [`scripts/build.py`](scripts/build.py) 重新生成。
+改视觉只改它，跑 [`scripts/build.py`](scripts/build.py) 一次出四套（work/claude × 浅/深）。
 
 ![screenshot](docs/screenshot-zh.png)
 
 *真实 Typora 窗口 —— 侧边栏、文件树、编辑区都在主题覆盖范围内。*
+*（改排版 token 后请 Cmd+Q 重开再截；仓库里的窗口截图需随版本更新。）*
+
+| work 默认 | Claude 对话档（可选） |
+|---|---|
+| ![work](docs/preview-work.png) | ![claude](docs/preview-claude.png) |
+
+*上表是 `#write` 排版对照预览（Chrome）。行高 / 行宽 / 纸感差异应一眼可辨；**不能替代** Typora 真窗验收。*
 
 ![screenshot](docs/screenshot.png)
 
@@ -24,15 +36,12 @@ CSS 不是手写的，而是由 [`scripts/tokens.json`](scripts/tokens.json) 生
 
 ## 设计取向
 
-这套主题是给「一天要盯着编辑器好几个小时」的人做的，下面每条都由此推出：
-
-- **不用高饱和强调色。** 行内代码用低饱和暖褐 `#8a5a3c`，不用鲜红。一段话里有七八个行内代码时，
-  它应该读起来还是文字，而不是一片色块疹子。
+- **默认服务中文长文，Claude 对话档是可选项。** 对话行高 ≈1.43 适合短回复；汉字密、方块字，长文需要 ≥1.6 的行高和大约 40 字的行宽。两套指标拆开，才不会互相拖累。
+- **不用高饱和强调色。** 行内代码用低饱和暖褐 `#8a5a3c`，不用鲜红。一段话里有七八个行内代码时，它应该读起来还是文字，而不是一片色块疹子。
 - **层级靠字号、字重、间距建立，不靠颜色。** 没有彩色竖条，没有重边框，没有装饰性线条。
-- **边框一律用墨色叠透明度**，不用平铺的灰。暖底上压一条 `#ccc` 会显脏显死；
-  `rgba(31,30,29,.14)` 才跟页面同一个色温。
-- **字号越大，字距收得越紧。** `h1` 是 `-0.022em`，正文回到 `0`。所谓「精致感」大半来自这里。
-- **紧凑但不局促。** 行高 `1.62`、段距 `0.78rem`，收紧过两轮，同一份文档比初版短 18%。
+- **边框一律用墨色叠透明度**，不用平铺的灰。暖底上压一条 `#ccc` 会显脏显死；`rgba(31,30,29,.14)` 才跟页面同一个色温。
+- **浅色 work 档有克制纸感。** 暖白径向 + 大圆角外阴影（卡片纸面），深色 **Hekouwang Dark** 同步同结构（gutter 用更亮的 `#262626`）。噪点默认关。
+- **字号越大，字距略收。** 中文长标题比西文 display 收得更克制，避免挤成一团。
 
 ## 中英混排是怎么回事
 
@@ -66,28 +75,31 @@ cd hekouwang-typora-theme
 ./scripts/install.sh
 ```
 
-或手动：把 `theme/hekouwang.css` 和 `theme/hekouwang/` 目录复制进 Typora 主题文件夹
+或手动：把 `theme/hekouwang.css`、`hekouwang-dark.css`、`hekouwang-claude.css`、
+`hekouwang-claude-dark.css` 和 `theme/hekouwang/` 目录复制进 Typora 主题文件夹
 （偏好设置 → 打开主题文件夹）。
 
 然后 **完全退出 Typora（Cmd+Q）再重开** —— 切换主题并不会重新加载被修改过的 CSS 文件。
-在「主题」菜单里选 **Hekouwang**。
+在「主题」菜单里选 **Hekouwang**（默认长文）或 **Hekouwang Claude**（对话栏观感）。
 
 ## 定制
 
 别改 CSS，它是生成物。改 `scripts/tokens.json` 后重新构建：
 
 ```bash
-python3 scripts/build.py      # → theme/hekouwang.css + theme/hekouwang-dark.css
+python3 scripts/build.py
+# → hekouwang.css / hekouwang-dark.css
+# → hekouwang-claude.css / hekouwang-claude-dark.css
 ./scripts/install.sh
 ```
 
-两个变体出自同一份 token：`dark` 段覆盖 `color` 与 `alpha` 两组，派生值（边框/阴影/色晕）
-由 `border_base` / `shadow_base` 一对基色算出而非写死，所以一个生成器同时服务两套。
+阅读档在 `_presets.work` 与 `_presets.claude_read`；`dark` 段只覆盖 `color` / `alpha`，
+派生值由 `border_base` / `shadow_base` 算出。
 
-构建脚本会拒绝生成违反两条 Typora 规范的 CSS，改错了会当场报错，而不是安静地把编辑器弄坏：
+构建脚本会拒绝违反 Typora 规范的 CSS，并断言 work / claude 输出真的不同（行高、行宽、纸感）：
 
-- **零 `!important`** —— 靠 `#write` 的特异性就够了，Typora 自己的基础样式也不用它
-- **除根字号外零 `px` 字号** —— 否则 Typora 偏好设置里的字号调节会失效
+- **零 `!important`**
+- **除根字号外零 `px` 字号**
 
 ## 与现有 "Claude Theme" 的差异
 
@@ -103,7 +115,8 @@ Gallery 里已有一套 [Claude Theme](https://theme.typora.io/theme/Claude-Them
 | Anthropic 字体 | 打包并再分发 | **不打包**；`local()` 探测 + Inter 兜底 |
 | 正文中文 | Noto Serif SC（宋体） | 系统无衬线 |
 | 西文字重 | 单一 400，粗体是合成的 | 真可变 **300–800** + `opsz` 光学尺寸轴 |
-| 页面背景 | `#faf9f5` | `#fdfdfc` |
+| 页面背景 | `#faf9f5` | `#fdfdfc`（work 浅色另加纸感） |
+| 阅读档 | 一套观感 | **work 默认** + **claude 可选** |
 | 界面覆盖 | 主要是编辑区 | 侧边栏、文件树、大纲、搜索面板、专注模式 |
 
 其中两条值得解释：
@@ -130,11 +143,18 @@ Gallery 里已有一套 [Claude Theme](https://theme.typora.io/theme/Claude-Them
 
 ## 状态
 
-- 浅色版：完成
-- 深色版：完成 —— **采样**自桌面端深色模式，不是把浅色版取反。这个区别很关键：
-  深色下侧边栏 `#262626` 比正文区 `#1f1f1e` *更亮*，与浅色版的明暗关系正好相反，
-  取反的话一定会做错。
-- 在 **macOS** 上设计与测试。理论上支持 Windows/Linux 但未经测试，也未包含 Windows "unibody" 布局的样式。
+- 浅色 / 深色 × work / claude：完成
+- 深色色值：**采样**自桌面端深色模式，不是把浅色版取反
+- 在 **macOS** 上设计与测试。理论上支持 Windows/Linux 但未经测试，也未包含 Windows "unibody" 布局的样式
+
+## 爆款图文可用的钩子（产品叙事）
+
+后续做介绍帖时，优先用这些**可截图、可对照**的矛盾，不要堆功能列表：
+
+1. **「最像 Claude 的主题，默认却不该照抄 Claude 的对话行高」** —— work vs claude 同文档前后对比
+2. **Gallery Claude Theme：397 个 `!important` / 24MB 宋体 vs 本主题 0 / 100KB** —— 工程对比卡
+3. **深色侧栏比正文更亮** —— 反直觉采样卡（别人取反必做错）
+4. **Anthropic Sans 0 个汉字** —— 中英混排真相卡
 
 ## 主题工程 Skill
 

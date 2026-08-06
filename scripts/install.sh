@@ -65,7 +65,13 @@ if [ ! -f "$SRC_DIR/theme/$SLUG.css" ]; then
 fi
 
 # ---- backup (from here on: warn, never abort) ----
-for variant in "$SLUG" "$SLUG-dark"; do
+VARIANTS=(
+  "$SLUG"
+  "$SLUG-dark"
+  "$SLUG-claude"
+  "$SLUG-claude-dark"
+)
+for variant in "${VARIANTS[@]}"; do
   [ -f "$THEME_DIR/$variant.css" ] || continue
   mkdir -p "$BACKUP_DIR" 2>/dev/null
   cp "$THEME_DIR/$variant.css" "$BACKUP_DIR/$variant-$STAMP.css" 2>/dev/null \
@@ -73,13 +79,14 @@ for variant in "$SLUG" "$SLUG-dark"; do
     || warn "backup of $variant failed, continuing anyway"
 done
 
-# ---- theme css (light + dark variants) ----
-for variant in "$SLUG.css" "$SLUG-dark.css"; do
-  [ -f "$SRC_DIR/theme/$variant" ] || continue
-  if cp "$SRC_DIR/theme/$variant" "$THEME_DIR/$variant" 2>/dev/null; then
-    ok "installed $variant"
+# ---- theme css (work default + claude optional, each light/dark) ----
+for variant in "${VARIANTS[@]}"; do
+  src="$SRC_DIR/theme/$variant.css"
+  [ -f "$src" ] || continue
+  if cp "$src" "$THEME_DIR/$variant.css" 2>/dev/null; then
+    ok "installed $variant.css"
   else
-    warn "failed to copy $variant — check folder permissions"
+    warn "failed to copy $variant.css — check folder permissions"
   fi
 done
 
@@ -113,8 +120,11 @@ if [ "$USE_LOCAL_ANTHROPIC" -eq 1 ]; then
 fi
 
 echo "────────────────────────────────────────"
-echo "  Done. Quit Typora completely (Cmd+Q) and reopen, then pick \"Hekouwang\""
-echo "  under the Themes menu."
+echo "  Done. Quit Typora completely (Cmd+Q) and reopen."
+echo "  Themes menu:"
+echo "    • Hekouwang        — CJK long-form default (paper, 1.65 leading)"
+echo "    • Hekouwang Claude — Claude desktop chat metrics (optional)"
+echo "    • … Dark variants of each"
 echo
 echo "  Note: switching themes does NOT reload a modified CSS file."
 echo "  You must fully quit and relaunch Typora."
