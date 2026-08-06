@@ -13,7 +13,7 @@
 | **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（米白 / 米黑）。Gallery 入口也是这一档。公开仓只发这一档。 |
 | **付费包 · ¥9.9** | **Hekouwang V1…V6**（各含 Dark） | skill 矩阵里的科技 / 财经 / 玻璃 / 紫 / 焰彩（+ 与免费同文件的 V2）· 浅+深；**色板与工艺不进公开仓**，只随 zip 私发 |
 
-**怎么买：** 落地页购买区（微信/支付宝 · 微信 `hekouwang`，备注「Typora主题」）→ 我私发 zip → `./unlock.sh` 一键装进 Typora。
+**怎么买：** 落地页购买区（微信/支付宝 · 微信 `hekouwang`，备注「Typora主题」）→ 我私发 zip → 按落地页 [装付费包](https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock) 一键装进 Typora。
 
 → [huiyonghkw.github.io/hekouwang-typora-theme/#buy](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy)
 

@@ -76,6 +76,7 @@ a{color:inherit}
 .topnav .cta{background:var(--flare-cta)!important;color:#fff!important;font-weight:700;
   box-shadow:0 6px 18px rgba(var(--accent-rgb),.22)}
 .topnav .buy-link{color:var(--accent)!important;font-weight:700}
+.topnav .unlock-link{color:var(--text)!important;font-weight:700}
 
 .hero{position:relative;background:var(--hero-bg);padding:88px 28px 72px;text-align:center;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
@@ -313,6 +314,8 @@ h2.sec{font-size:clamp(26px,4vw,34px);font-weight:800;line-height:1.28;letter-sp
 .ask p,.ask{font-size:14px;line-height:1.7;color:var(--text2)}
 .ask b{color:var(--text)}
 .ask a{color:var(--accent)}
+.unlock-check{margin:14px 0 0;padding-left:1.1em;font-size:14.5px;line-height:1.75;color:var(--text2)}
+.unlock-check li{margin:6px 0}
 .tier-table{margin-top:24px;width:100%;border-collapse:collapse;font-size:14px;
   background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
 .tier-table th,.tier-table td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.55}
@@ -330,7 +333,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 
 @media(max-width:720px){
   .topnav{padding:10px 16px}
-  .topnav .links a:not(.cta):not(.buy-link){display:none}
+  .topnav .links a:not(.cta):not(.buy-link):not(.unlock-link){display:none}
   .hero{padding:64px 20px 56px}
   .stage-wrap{width:calc(100% - 24px)}
   .paper{padding:1.5rem 1.15rem 2rem;max-width:min(52em,calc(100% - .5rem))}
@@ -356,6 +359,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <a href="#stage">阅读台</a>
     <a href="#skill">Skill</a>
     <a class="buy-link" href="#buy">¥9.9</a>
+    <a class="unlock-link" href="#unlock">装付费包</a>
     <a href="https://github.com/huiyonghkw/hekouwang-typora-theme" target="_blank" rel="noopener">GitHub</a>
     <a class="cta" href="#install">Install</a>
   </div>
@@ -777,8 +781,8 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <div class="ds">微信 <code>hekouwang</code>，备注「Typora主题」。</div>
       </div></div>
       <div class="buy-step"><div class="sq">03</div><div>
-        <div class="tt">收 zip，一条命令装上</div>
-        <div class="ds">我发你付费包。解压后跑 <code>./unlock.sh</code>，或丢给公开仓：<code>./scripts/unlock.sh 包.zip</code>。不用 GitHub 账号。</div>
+        <div class="tt">收 zip，按安装手册装上</div>
+        <div class="ds">我只发付费 zip。装法看本页 <a href="#unlock"><b>装付费包</b></a>（解压后 <code>./unlock.sh</code>，或公开仓 <code>./scripts/unlock.sh 包.zip</code>）。不用 GitHub 账号。</div>
       </div></div>
     </div>
 
@@ -806,7 +810,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <div class="wxid">
           <div class="k">或者直接搜微信号</div>
           <div class="id">hekouwang</div>
-          <div class="n">把付款截图发我，备注「Typora主题」。我发 zip；你本机 <code>./unlock.sh</code> 装进 Typora。</div>
+          <div class="n">把付款截图发我，备注「Typora主题」。我发 zip；装法见 <a href="#unlock">本页「装付费包」</a>。</div>
         </div>
       </div>
     </div>
@@ -823,6 +827,73 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <div class="ask">
       <span class="lb">license</span>
       付费包仅供个人使用，请勿二次分发。免费 V2 仍是 MIT（公开仓 <code>LICENSE</code>）。
+    </div>
+  </section>
+
+  <section id="unlock">
+    <div class="sec-label">Unlock · Paid pack</div>
+    <h2 class="sec">付费包安装手册</h2>
+    <p class="buy-sub">收到 zip 后来这里 · 不用记命令</p>
+    <p class="prose">付费包只追加 <b>Hekouwang V1 / V3–V6</b>（各含 Dark，共 10 个 CSS）。免费的 <b>Hekouwang / Hekouwang Dark</b>（V2）仍走公开仓 <a href="#install">Install</a>。色板与工艺源码只在 zip 里，不会出现在公开 GitHub 树。</p>
+
+    <div class="buy-steps">
+      <div class="buy-step"><div class="sq">01</div><div>
+        <div class="tt">确认 zip 能解压</div>
+        <div class="ds">文件名类似 <code>hekouwang-typora-theme-pack-v1.1.0-YYYYMMDD.zip</code>。解压后应有 <code>unlock.sh</code>、<code>theme/</code>（10 个 css）、<code>LICENSE-PRO.txt</code>、<code>VERSION</code>。<br>
+        若打不开或提示损坏：多半是微信传输截断——让我重发，或改用文件传输助手 / 网盘再下一次。</div>
+      </div></div>
+      <div class="buy-step"><div class="sq">02</div><div>
+        <div class="tt">还没装免费 V2？先装</div>
+        <div class="ds">已装过可跳过。未装则：</div>
+      </div></div>
+    </div>
+    <div class="install" style="margin-top:14px">
+      <div class="ch">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="lab">free V2 · once</span>
+      </div>
+      <pre><span class="p">$</span> <span class="o">git clone</span> <span class="arg">https://github.com/huiyonghkw/hekouwang-typora-theme.git</span>
+<span class="p">$</span> <span class="o">cd</span> <span class="arg">hekouwang-typora-theme</span> <span class="o">&amp;&amp;</span> <span class="o">./scripts/install.sh</span></pre>
+    </div>
+
+    <div class="buy-steps" style="margin-top:22px">
+      <div class="buy-step"><div class="sq">03</div><div>
+        <div class="tt">安装付费包（二选一）</div>
+        <div class="ds"><b>方式 A · 推荐</b>：解压后在包目录执行 <code>chmod +x ./unlock.sh &amp;&amp; ./unlock.sh</code><br>
+        <b>方式 B</b>：在公开仓目录执行 <code>./scripts/unlock.sh ~/Downloads/你的包.zip</code><br>
+        成功时终端会列出 10 个 CSS 已装进 Typora 主题目录。</div>
+      </div></div>
+      <div class="buy-step"><div class="sq">04</div><div>
+        <div class="tt">Cmd+Q 完全退出 Typora，再打开</div>
+        <div class="ds">点红点不够。重开后：菜单 <b>主题 / Themes</b> → 选 <b>Hekouwang V1 … V6</b>（或对应 Dark）。<br>
+        macOS 主题目录：<code>~/Library/Application Support/abnerworks.Typora/themes/</code></div>
+      </div></div>
+    </div>
+
+    <div class="ask" style="margin-top:22px">
+      <span class="lb">checklist</span>
+      <b>装好后菜单里应有：</b>
+      <ul class="unlock-check">
+        <li>Hekouwang / Hekouwang Dark（免费 V2）</li>
+        <li>Hekouwang V1 / V1 Dark（科技）</li>
+        <li>Hekouwang V3 / V3 Dark（财经）</li>
+        <li>Hekouwang V4 / V4 Dark（玻璃）</li>
+        <li>Hekouwang V5 / V5 Dark（紫 HUD）</li>
+        <li>Hekouwang V6 / V6 Dark（焰彩）</li>
+      </ul>
+    </div>
+
+    <div class="ask">
+      <span class="lb">faq</span>
+      <b>菜单里没有 V1–V6？</b>先看 unlock 有无报错，再 Cmd+Q 重开；主题目录里应能看到 <code>hekouwang-v1.css</code> 等。<br>
+      <b>Windows / Linux？</b>本包按 macOS 路径验收。其他系统：Typora → Open Theme Folder，手动拷入 zip 里 <code>theme/*.css</code>，再重启。<br>
+      <b>能否转发给别人？</b>不能。见包内 <code>LICENSE-PRO.txt</code>。
+    </div>
+
+    <div class="ask">
+      <span class="lb">support</span>
+      装崩了找我：微信 <code>hekouwang</code> · 备注「Typora主题」· 本页锚点
+      <a href="https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock">#unlock</a>
     </div>
   </section>
 
