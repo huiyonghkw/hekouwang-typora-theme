@@ -196,15 +196,29 @@ h2.sec{font-size:clamp(26px,4vw,34px);font-weight:800;line-height:1.28;letter-sp
   border:1px solid var(--border);border-radius:999px;padding:7px 14px}
 
 .cmd-list{display:flex;flex-direction:column;gap:14px;margin-top:24px}
-.cmd{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
-.cmd .ch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;
-  background:var(--surface2);border-bottom:1px solid var(--border)}
-.cmd .ch .lab{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
-.cmd .ch .why{font-size:13px;color:var(--text2)}
-.cmd pre{font-family:var(--mono);font-size:13px;line-height:1.85;padding:16px 18px;overflow-x:auto;color:var(--text);margin:0}
-.cmd .cm{color:var(--text3)}
-.cmd .ok{color:var(--accent);font-weight:600}
-.cmd .kw{color:var(--accent2);font-weight:600}
+/* 深色终端窗 · 对齐 terminal-kit 命令卡 */
+.cmd,.install{background:#0d1117;border:1px solid rgba(15,20,30,.35);border-radius:12px;overflow:hidden;
+  box-shadow:0 12px 32px rgba(15,20,30,.18),0 2px 6px rgba(15,20,30,.08)}
+.cmd .ch,.install .ch{display:flex;align-items:center;gap:8px;padding:10px 14px;
+  background:#161b22;border-bottom:1px solid rgba(255,255,255,.06)}
+.cmd .ch .dots,.install .ch .dots{display:flex;gap:6px;flex:none}
+.cmd .ch .dots i,.install .ch .dots i{width:11px;height:11px;border-radius:50%;display:block}
+.cmd .ch .dots i:nth-child(1),.install .ch .dots i:nth-child(1){background:#ff5f57}
+.cmd .ch .dots i:nth-child(2),.install .ch .dots i:nth-child(2){background:#febc2e}
+.cmd .ch .dots i:nth-child(3),.install .ch .dots i:nth-child(3){background:#28c840}
+.cmd .ch .lab,.install .ch .lab{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.04em;
+  color:#7b8499;margin-left:4px}
+.cmd .ch .why{margin-left:auto;font-family:var(--mono);font-size:11px;color:#5c6578;max-width:52%;
+  text-align:right;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmd pre,.install pre{font-family:var(--mono);font-size:13px;line-height:1.85;padding:16px 18px;
+  overflow-x:auto;color:#c8cdd8;margin:0;white-space:pre}
+.cmd .cm,.install .cm{color:#6b7488}
+.cmd .p,.install .p{color:#06d3ae;font-weight:600}
+.cmd .o,.install .o{color:#f0a050}
+.cmd .arg,.install .arg{color:#c8cdd8}
+.cmd .kw,.install .kw{color:#f0a050}
+.cmd .ok,.install .ok{color:#28c840;font-weight:600}
+.cmd .hi,.install .hi{color:#06d3ae}
 
 .rules{display:flex;flex-direction:column;gap:12px;margin-top:24px;counter-reset:rule}
 .rule{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px 20px 18px 64px;
@@ -229,11 +243,7 @@ h2.sec{font-size:clamp(26px,4vw,34px);font-weight:800;line-height:1.28;letter-sp
 .tree .d{color:var(--accent)}
 .tree .c{color:#8a92a3}
 
-.install{margin-top:28px;background:var(--surface);border:1px solid var(--border);border-radius:18px;
-  padding:22px 24px;box-shadow:var(--shadow)}
-.install pre{font-family:var(--mono);font-size:13.5px;line-height:1.8;color:var(--text);overflow-x:auto;white-space:pre;margin:0}
-.install .cm{color:var(--text3)}
-.install .ok{color:var(--accent);font-weight:600}
+.install{margin-top:28px}
 .install-note{font-size:14px;color:var(--text2);margin-top:16px;line-height:1.7}
 .install-note code{font-family:var(--mono);font-size:.9em;background:var(--surface2);border:1px solid var(--border);
   border-radius:6px;padding:1px 7px;color:var(--accent)}
@@ -264,6 +274,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   .readout,.hl-grid,.refs{grid-template-columns:1fr}
   .tier{grid-template-columns:48px 1fr;grid-template-rows:auto auto}
   .tier .badge{grid-column:2}
+  .cmd .ch .why{display:none}
   main{padding:48px 20px 80px}
 }
 </style>
@@ -489,30 +500,32 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <div class="cmd-list">
       <div class="cmd">
         <div class="ch">
-          <span class="lab">01 · Build</span>
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="lab">01 · build</span>
           <span class="why">生成浅色 + 深色 CSS，含自检</span>
         </div>
-        <pre><span class="ok">python3 scripts/build.py</span>
-<span class="cm"># → theme/hekouwang.css</span>
-<span class="cm"># → theme/hekouwang-dark.css</span>
+        <pre><span class="cm"># → theme/hekouwang.css + hekouwang-dark.css</span>
+<span class="p">$</span> <span class="o">python3 scripts/build.py</span>
 <span class="cm"># 断言：零 !important · 除根字号外零 px · 纸感在位</span></pre>
       </div>
       <div class="cmd">
         <div class="ch">
-          <span class="lab">02 · Install</span>
-          <span class="why">装进 Typora；备份进子目录，不污染菜单</span>
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="lab">02 · install</span>
+          <span class="why">装进 Typora；备份进子目录</span>
         </div>
-        <pre><span class="ok">./scripts/install.sh</span>
+        <pre><span class="p">$</span> <span class="o">./scripts/install.sh</span>
 <span class="cm"># 可选：--use-local-anthropic（默认关，仅个人本机）</span></pre>
       </div>
       <div class="cmd">
         <div class="ch">
-          <span class="lab">03 · Verify fonts</span>
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="lab">03 · verify fonts</span>
           <span class="why">带「不存在的字体」作 fallback 基准</span>
         </div>
-        <pre><span class="ok">python3 scripts/verify_render.py</span> <span class="kw">--css</span> theme/hekouwang.css \
-  <span class="kw">--fonts</span> "Hekouwang Sans,Hekouwang Sans Fb" \
-  <span class="kw">--vars</span> bg-color,text-color
+        <pre><span class="p">$</span> <span class="o">python3 scripts/verify_render.py</span> <span class="kw">--css</span> <span class="arg">theme/hekouwang.css</span> \
+  <span class="kw">--fonts</span> <span class="arg">"Hekouwang Sans,Hekouwang Sans Fb"</span> \
+  <span class="kw">--vars</span> <span class="arg">bg-color,text-color</span>
 <span class="cm"># 宽度 ≈ 不存在字体 → 说明你要的字体没上屏</span></pre>
       </div>
     </div>
@@ -557,20 +570,22 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <div class="cmd-list">
       <div class="cmd">
         <div class="ch">
-          <span class="lab">采样</span>
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="lab">sample_colors</span>
           <span class="why">按常见布局给候选 / 指定框</span>
         </div>
-        <pre><span class="ok">python3 scripts/sample_colors.py</span> 参照截图.png
-<span class="ok">python3 scripts/sample_colors.py</span> 图.png <span class="kw">--box</span> 700,640,1700,700 <span class="kw">--label</span> 正文背景
-<span class="ok">python3 scripts/sample_colors.py</span> 图.png <span class="kw">--text-box</span> 690,300,1500,345 <span class="kw">--label</span> 正文文字</pre>
+        <pre><span class="p">$</span> <span class="o">python3 scripts/sample_colors.py</span> <span class="arg">参照截图.png</span>
+<span class="p">$</span> <span class="o">python3 scripts/sample_colors.py</span> <span class="arg">图.png</span> <span class="kw">--box</span> <span class="arg">700,640,1700,700</span> <span class="kw">--label</span> <span class="arg">正文背景</span>
+<span class="p">$</span> <span class="o">python3 scripts/sample_colors.py</span> <span class="arg">图.png</span> <span class="kw">--text-box</span> <span class="arg">690,300,1500,345</span> <span class="kw">--label</span> <span class="arg">正文文字</span></pre>
       </div>
       <div class="cmd">
         <div class="ch">
-          <span class="lab">反解 alpha</span>
-          <span class="why">底色 · 结果色 · 候选色 — 三通道一致才是真的</span>
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="lab">solve-alpha</span>
+          <span class="why">底色 · 结果色 · 候选 — 三通道一致才真</span>
         </div>
-        <pre><span class="ok">python3 scripts/sample_colors.py</span> <span class="kw">--solve-alpha</span> 1f1f1e 272725 ffffff,d97757
-<span class="cm"># 白叠加 0.036/0.036/0.031 一致 ✅ · 品牌橙通道不一致 ❌</span></pre>
+        <pre><span class="p">$</span> <span class="o">python3 scripts/sample_colors.py</span> <span class="kw">--solve-alpha</span> <span class="arg">1f1f1e 272725 ffffff,d97757</span>
+<span class="ok">✓</span> <span class="cm">白叠加 0.036/0.036/0.031 一致 · 品牌橙通道不一致 ❌</span></pre>
       </div>
     </div>
   </section>
@@ -618,9 +633,13 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <div class="sec-label">Customize</div>
     <h2 class="sec">自己改：只动 tokens，再 build + install</h2>
     <div class="install">
+      <div class="ch">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="lab">customize · tokens → build → install</span>
+      </div>
       <pre><span class="cm"># 编辑 scripts/tokens.json 后：</span>
-<span class="ok">python3 scripts/build.py</span>
-<span class="ok">./scripts/install.sh</span>
+<span class="p">$</span> <span class="o">python3 scripts/build.py</span>
+<span class="p">$</span> <span class="o">./scripts/install.sh</span>
 <span class="cm"># 然后 Cmd+Q 完全退出 Typora 再重开</span></pre>
     </div>
     <p class="install-note"><code>dark</code> 段只覆盖 <code>color</code> / <code>alpha</code>；边框与浅底由 <code>border_base</code> / <code>shadow_base</code> 派生。别直接改 <code>theme/*.css</code>。</p>
@@ -631,10 +650,14 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <h2 class="sec">装进 Typora，退出再开</h2>
     <p class="prose">主题菜单里只有两套：<b>Hekouwang</b>（浅）与 <b>Hekouwang Dark</b>（深）。装完请 <b>Cmd+Q 完全退出</b> 再开。</p>
     <div class="install">
-      <pre><span class="cm"># clone &amp; install (macOS / Linux)</span>
-git clone https://github.com/huiyonghkw/hekouwang-typora-theme.git
-cd hekouwang-typora-theme
-<span class="ok">./scripts/install.sh</span></pre>
+      <div class="ch">
+        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="lab">hekouwang-typora-theme</span>
+      </div>
+      <pre><span class="cm"># clone &amp; install · macOS / Linux</span>
+<span class="p">$</span> <span class="o">git clone</span> <span class="arg">https://github.com/huiyonghkw/hekouwang-typora-theme.git</span>
+<span class="p">$</span> <span class="o">cd</span> <span class="arg">hekouwang-typora-theme</span> <span class="o">&amp;&amp;</span> <span class="o">./scripts/install.sh</span>
+<span class="ok">✓</span> <span class="cm">Cmd+Q 退出再开 · 主题菜单选 Hekouwang / Hekouwang Dark</span></pre>
     </div>
     <p class="install-note">也可只拷 <code>theme/hekouwang.css</code>、<code>theme/hekouwang-dark.css</code> 和 <code>theme/hekouwang/</code> 到 Typora 主题文件夹（Preferences → Open Theme Folder）。</p>
   </section>
