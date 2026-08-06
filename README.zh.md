@@ -19,19 +19,97 @@
 
 免费色板在 `scripts/palettes.json`；付费色板不进公开仓。阅读指标在 `scripts/tokens.json`。公开仓重建：`python3 scripts/build.py`（默认只出免费档）。
 
-![中文验收样张](docs/screenshot-zh.png)
-
-*中文样张（`demo/验收样张.md`）——题头署名、阅读指标、中英混排正文。*
-
-![英文验收样张](docs/screenshot.png)
-
-*英文样张（`demo/acceptance-sample.md`）——同一套指标，便于对照西文节奏。*
-
-![代码块](docs/screenshot-fences-zh.png)
-
-*连续代码块（Python / shell / CSS）——语法色克制，块与块之间有呼吸。*
-
 *[English](README.md)*
+
+---
+
+## 免费档 · 真机（V2 编辑）
+
+公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，暖米白纸感。
+
+![免费 V2 · 中文验收样张](docs/screenshot-zh.png)
+
+*免费 V2 · `demo/验收样张.md` — 题头、阅读指标、中英混排。*
+
+![免费 V2 · 英文样张](docs/screenshot.png)
+
+*免费 V2 · `demo/acceptance-sample.md` — 同一指标，对照西文节奏。*
+
+![免费 V2 · 代码块](docs/screenshot-fences-zh.png)
+
+*免费 V2 · 连续 fences — 语法色克制，块与块之间有呼吸。*
+
+![免费 V2 · 整窗](docs/screenshot-window.png)
+
+*免费 V2 · 侧栏 / 文件树 / 纸感编辑区同屏。*
+
+---
+
+## 付费包 · 真机（V1 / V3–V6）
+
+下面都是 Typora 真机截图（`demo/验收样张.md`）。**指标与免费档相同**（`1rem` · `1.65` · `52em` · 纸感），差在 skill 配色 + 付费阅读工艺。V2 与免费档同一套文件，这里不再重复。
+
+| Skill | 一眼差在哪 | 浅色 | 深色 |
+|---|---|---|---|
+| **V1 科技** | 冷调绿紫 · 文档站感 | [V1.png](docs/V1.png) | [V1-Dark.png](docs/V1-Dark.png) |
+| **V3 财经** | Material 蓝 · 数据感 | [V3.png](docs/V3.png) | [V3-Dark.jpeg](docs/V3-Dark.jpeg) |
+| **V4 玻璃** | 雾白 / 近黑 · 轻量 | [V4.png](docs/V4.png) | [V4-Dark.png](docs/V4-Dark.png) |
+| **V5 紫 HUD** | **紫 × 青**（链接/引用走青） | [V5.png](docs/V5.png) | [V5-Dark.jpeg](docs/V5-Dark.jpeg) |
+| **V6 焰彩** | **紫 × 橙 × 粉**（H1 焰彩渐变字） | [V6.png](docs/V6.png) | [V6-Dark.jpeg](docs/V6-Dark.jpeg) |
+
+### V1 科技
+
+![V1 科技 · 浅色](docs/V1.png)
+
+*Hekouwang V1 — 冷亮底，绿紫语义。*
+
+![V1 科技 · 深色](docs/V1-Dark.png)
+
+*Hekouwang V1 Dark — 近黑壳 + 青绿强调。*
+
+### V3 财经
+
+![V3 财经 · 浅色](docs/V3.png)
+
+*Hekouwang V3 — Material 蓝，偏报表/看板阅读。*
+
+![V3 财经 · 深色](docs/V3-Dark.jpeg)
+
+*Hekouwang V3 Dark。*
+
+### V4 玻璃
+
+![V4 玻璃 · 浅色](docs/V4.png)
+
+*Hekouwang V4 — 雾白纸面，轻量系统蓝。*
+
+![V4 玻璃 · 深色](docs/V4-Dark.png)
+
+*Hekouwang V4 Dark。*
+
+### V5 紫 · 发布会 HUD（紫 × 青）
+
+跟 V6 都偏紫，但副色是 **青** `#0ea5a0` / `#6fe0e0`：链接、引用边、H2 底线走青，不是焰彩。
+
+![V5 紫 HUD · 浅色](docs/V5.png)
+
+*Hekouwang V5 — 淡紫壳 + 白纸卡；链接为青绿。*
+
+![V5 紫 HUD · 深色](docs/V5-Dark.jpeg)
+
+*Hekouwang V5 Dark — 近黑紫底 `#0a0716`，青作数据点缀。*
+
+### V6 焰彩（紫 × 橙 × 粉）
+
+skill 焰彩三停靠：主紫 + **焰橙** `#ff8a3d` + **焰粉** `#ff4f8b`。H1 渐变字、H2/分割线三色，链接走橙——和 V5 的「青 HUD」一眼能分。
+
+![V6 焰彩 · 浅色](docs/V6.png)
+
+*Hekouwang V6 — 白纸卡；标题紫→橙→粉。*
+
+![V6 焰彩 · 深色](docs/V6-Dark.jpeg)
+
+*Hekouwang V6 Dark — 深紫底 `#170a30`，焰彩点缀。*
 
 ---
 
@@ -55,14 +133,14 @@
 
 ### 六套菜单名
 
-| Skill 格 | Typora 菜单 |
-|---|---|
-| V1 科技 | Hekouwang V1 / V1 Dark |
-| V2 编辑（免费） | Hekouwang / Hekouwang Dark |
-| V3 财经 | Hekouwang V3 / V3 Dark |
-| V4 玻璃 | Hekouwang V4 / V4 Dark |
-| V5 紫 | Hekouwang V5 / V5 Dark |
-| V6 焰彩 | Hekouwang V6 / V6 Dark |
+| Skill 格 | Typora 菜单 | 辨识 |
+|---|---|---|
+| V1 科技 | Hekouwang V1 / V1 Dark | 冷调绿紫 |
+| V2 编辑（免费） | Hekouwang / Hekouwang Dark | 暖米白 / 米黑 |
+| V3 财经 | Hekouwang V3 / V3 Dark | Material 蓝 |
+| V4 玻璃 | Hekouwang V4 / V4 Dark | 雾白 / 近黑 |
+| V5 紫 HUD | Hekouwang V5 / V5 Dark | **紫 × 青** |
+| V6 焰彩 | Hekouwang V6 / V6 Dark | **紫 × 橙 × 粉** |
 
 ---
 

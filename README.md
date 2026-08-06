@@ -15,19 +15,77 @@ Skins map to **hekouwang-content-skill V1–V6**. Shared reading metrics: body `
 
 Free colors: [`scripts/palettes.json`](scripts/palettes.json). Paid palettes stay off the public tree. Metrics: [`scripts/tokens.json`](scripts/tokens.json). Rebuild free: `python3 scripts/build.py`.
 
-![English acceptance sample](docs/screenshot.png)
-
-*English sample (`demo/acceptance-sample.md`) — body, metrics, mixed Latin + CJK.*
-
-![Chinese acceptance sample](docs/screenshot-zh.png)
-
-*Chinese sample (`demo/验收样张.md`) — same reading metrics, CJK-first copy.*
-
-![Code fences](docs/screenshot-fences.png)
-
-*Consecutive fences (Python / shell / CSS) — syntax colors stay quiet; blocks breathe.*
-
 *[中文说明](README.zh.md)*
+
+---
+
+## Free tier · real Typora (V2 editorial)
+
+What the public repo / Gallery ships: **Hekouwang** / **Hekouwang Dark**. Same reading metrics, warm paper.
+
+![Free V2 · Chinese sample](docs/screenshot-zh.png)
+
+*Free V2 · `demo/验收样张.md`.*
+
+![Free V2 · English sample](docs/screenshot.png)
+
+*Free V2 · `demo/acceptance-sample.md`.*
+
+![Free V2 · fences](docs/screenshot-fences.png)
+
+*Free V2 · consecutive fences.*
+
+![Free V2 · window](docs/screenshot-window.png)
+
+*Free V2 · sidebar + paper editor.*
+
+---
+
+## Paid pack · real Typora (V1 / V3–V6)
+
+Same metrics as free (`1rem` · `1.65` · `52em` · paper). Skins follow **hekouwang-content-skill**. V2 is the free pair (not repeated here).
+
+| Skill | Tell-apart | Light | Dark |
+|---|---|---|---|
+| **V1 tech** | cool teal–violet | [V1.png](docs/V1.png) | [V1-Dark.png](docs/V1-Dark.png) |
+| **V3 finance** | Material blue | [V3.png](docs/V3.png) | [V3-Dark.jpeg](docs/V3-Dark.jpeg) |
+| **V4 glass** | mist white / near-black | [V4.png](docs/V4.png) | [V4-Dark.png](docs/V4-Dark.png) |
+| **V5 violet HUD** | **violet × teal** | [V5.png](docs/V5.png) | [V5-Dark.jpeg](docs/V5-Dark.jpeg) |
+| **V6 flame** | **violet × orange × pink** | [V6.png](docs/V6.png) | [V6-Dark.jpeg](docs/V6-Dark.jpeg) |
+
+### V1 tech
+
+![V1 light](docs/V1.png)
+
+![V1 dark](docs/V1-Dark.png)
+
+### V3 finance
+
+![V3 light](docs/V3.png)
+
+![V3 dark](docs/V3-Dark.jpeg)
+
+### V4 glass
+
+![V4 light](docs/V4.png)
+
+![V4 dark](docs/V4-Dark.png)
+
+### V5 violet HUD (violet × teal)
+
+Links / quote edge / H2 rule use **teal** — not the flame oranges.
+
+![V5 light](docs/V5.png)
+
+![V5 dark](docs/V5-Dark.jpeg)
+
+### V6 flame (violet × orange × pink)
+
+H1 flare gradient; links in orange. Easy to tell from V5’s teal HUD.
+
+![V6 light](docs/V6.png)
+
+![V6 dark](docs/V6-Dark.jpeg)
 
 ---
 
