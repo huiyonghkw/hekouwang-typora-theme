@@ -1,5 +1,7 @@
 # hekouwang
 
+**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/) — V1科技白外壳 + 可切换浅/深的纸感阅读台。
+
 给「一天要盯着 Markdown 好几个小时」的人用的 Typora 主题——按**中文长文**来排，不是按聊天气泡来排。
 
 主题菜单里只有两套：

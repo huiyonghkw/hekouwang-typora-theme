@@ -1,5 +1,7 @@
 # hekouwang
 
+**Live site:** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/) — V1 tech-white shell + interactive paper reading stage (light / dark).
+
 A Typora theme for people who write long-form Markdown in Chinese for hours.
 
 Two themes in the menu:
