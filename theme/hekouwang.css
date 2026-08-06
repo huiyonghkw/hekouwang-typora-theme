@@ -464,6 +464,8 @@ content {
 #write pre.md-fences .CodeMirror pre {
   padding: 0 0.5rem; /* 左右留空，避免 [ ] 贴边被裁 */
 }
+/* free tier: no paid craft overlay */
+
 #write pre.md-fences.md-focus { border-color: rgba(217,119,87,0.45); }
 
 /* 语言选择器：必须露在代码块下方，可点可输入 */
