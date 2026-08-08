@@ -113,6 +113,10 @@ After any CSS change: **Cmd+Q and relaunch**—switching themes does not reload 
 | Free V2 | `#ebe8df` | `#1f1f1e` |
 | Paid V1 / V3–V6 | each skin’s gutter | each skin’s body ground |
 
+![Light PDF / paper acceptance](docs/screenshot-pdf-light.png)
+
+*Light · `demo/验收样张.md` — beige canvas, paper reading surface, no white column on a tinted page.*
+
 ### Reading metrics
 
 | Token | Value | Why |
