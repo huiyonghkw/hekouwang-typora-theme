@@ -56,7 +56,9 @@
 `#outline-content .outline-item` `#md-searchpanel` `.md-search-hit` `.modal-content`
 `.context-menu` `.btn` `::-webkit-scrollbar`
 
-**导出**：只作用于导出的规则包进 `@media print { .typora-export * { -webkit-print-color-adjust: exact } }`
+**导出 / PDF**：整页与画布（gutter `#ebe8df`）同色；`#write` 禁纯白底。导出精装：H2 签名线、
+抬升 fence（`#fffef8`）、圆角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
+（改 `tr`）。
 
 ## 五个静默失败的坑
 

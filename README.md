@@ -96,7 +96,22 @@ H1 flare gradient; links in orange. Easy to tell from V5’s teal HUD.
 - **Hierarchy from size, weight, and spacing — not color bars.** No left accent stripes, no heavy chrome borders.
 - **Borders are ink at low alpha**, never flat gray on a warm page.
 - **Paper card on `#write`** (light and dark): warm radial, large radius, outer shadow; chrome (sidebar / gutter / titlebar) sits one step behind the paper.
+- **PDF export is one canvas + refined blocks.** Page background matches the gutter (light `#ebe8df` / dark = body ground)—never a pure-white `#write` column on a tinted page. Export craft (shared by all V1–V6 light/dark skins): H2 signature line, lifted fences, rounded tables, gradient rules. No left accent bars.
 - **Larger type, slightly tighter tracking.** CJK titles stay milder than Latin display tracking.
+
+### PDF export
+
+Typora PDF = standalone HTML (`body.typora-export`) then Electron `printToPDF`. This theme:
+
+1. **Flattens the editor paper card** for export (no floating radius/shadow; `@page` matches the canvas).
+2. **Refines blocks**: H2 brand signature underline, fences lifted slightly above the canvas, rounded tables with soft header + zebra, mid-fade HR.
+
+After any CSS change: **Cmd+Q and relaunch**—switching themes does not reload modified CSS.
+
+| Skin | Light canvas | Dark canvas |
+|---|---|---|
+| Free V2 | `#ebe8df` | `#1f1f1e` |
+| Paid V1 / V3–V6 | each skin’s gutter | each skin’s body ground |
 
 ### Reading metrics
 

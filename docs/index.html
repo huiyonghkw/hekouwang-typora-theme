@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>hekouwang · Typora 主题 — 写中文长文时的阅读指标</title>
-<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 行宽 52em · 纸感卡片。附主题工程 Skill：tokens 生成 CSS、采样配色、字体上屏探针。">
+<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 行宽 52em · 纸感卡片 · PDF 导出整页一色精装。附主题工程 Skill：tokens 生成 CSS、采样配色、字体上屏探针。">
 <meta property="og:title" content="hekouwang · Typora 主题">
-<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 52em · 纸感卡片 · 主题工程 Skill">
+<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 52em · 纸感卡片 · PDF 导出精装 · 主题工程 Skill">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://huiyonghkw.github.io/hekouwang-typora-theme/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1320'/%3E%3Cpath d='M8 22l4-8 3 4 5-9 4 6' fill='none' stroke='%2306a88c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -356,6 +356,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   </a>
   <div class="links">
     <a href="#highlights">亮点</a>
+    <a href="#pdf">PDF 导出</a>
     <a href="#stage">阅读台</a>
     <a href="#skill">Skill</a>
     <a class="buy-link" href="#buy">¥9.9</a>
@@ -431,9 +432,9 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       </div>
       <div class="hl-card">
         <div class="tag">Build</div>
-        <h3>零 !important · 零乱 px</h3>
-        <div class="num">0 <small>!important</small></div>
-        <p>靠 <b>#write</b> 特异性。除根字号外全 rem——Typora 偏好里的字号调节才不会失效。</p>
+        <h3>正文零 !important</h3>
+        <div class="num">0 <small>编辑态</small></div>
+        <p>靠 <b>#write</b> 特异性。除根字号外全 rem。<b>仅导出段</b>允许 !important——压过 Typora 注入规则与纸感浮卡片。</p>
       </div>
       <div class="hl-card">
         <div class="tag">Fonts</div>
@@ -450,7 +451,36 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <h3>纸感画在 #write 上</h3>
         <p>暖径向 + 大圆角 + 外阴影；壳层（侧栏 / gutter / 顶栏）更深一档。层级靠字重间距，<b>不靠左边竖条</b>。</p>
       </div>
+      <div class="hl-card">
+        <div class="tag">PDF</div>
+        <h3>导出整页一色 + 精装</h3>
+        <p>画布跟 gutter 同色，禁内容区纯白柱。H2 签名线 · 抬升 fence · 圆角表 · 渐变 HR——<b>浅/深十二套共用</b>。</p>
+      </div>
     </div>
+  </section>
+
+  <section id="pdf">
+    <div class="sec-label">Export · PDF</div>
+    <h2 class="sec">导出 PDF：先压平，再精装</h2>
+    <p class="prose">Typora 的 PDF 不是「把编辑器截下来」，而是写出独立 HTML（<code>body.typora-export</code>）再 <code>printToPDF</code>。编辑器纸感（gutter + <code>#write</code> 浮卡片）若原样带进 PDF，就会变成<strong>外圈底色 + 中间白柱</strong>。本主题对<strong>免费 V2 与付费 V1–V6 的浅/深十二套</strong>共用同一套导出精装，只换各皮肤的色板。</p>
+    <div class="hl-grid">
+      <div class="hl-card">
+        <div class="tag">1 · Flatten</div>
+        <h3>整页画布同色</h3>
+        <p>浅色默认 <b>#ebe8df</b>；深色跟正文底。拆掉 <code>#write</code> 圆角与外阴影；<code>@page</code> 也同色，避免打印引擎露出白纸边。</p>
+      </div>
+      <div class="hl-card">
+        <div class="tag">2 · Craft</div>
+        <h3>块级精装</h3>
+        <p>H2 底部品牌色签名线（⛔ 无左边竖条）；标题 fence 抬升为略亮于画布的纸面卡；表格圆角 + 浅表头 + 斑马纹；分隔线中间淡入。</p>
+      </div>
+      <div class="hl-card">
+        <div class="tag">3 · Reload</div>
+        <h3>改完必须 Cmd+Q</h3>
+        <p>切换主题<strong>不会</strong>重载已改 CSS。不退出重开，导出仍是内存里的旧样式——这是静默失败。</p>
+      </div>
+    </div>
+    <p class="prose" style="margin-top:22px">验收：打开任意长文 → 导出 PDF → 页边与正文同色、无白柱；H2 有短签名线；代码/标题块略浮于画布。</p>
   </section>
 
   <section id="shots">
@@ -614,8 +644,8 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <p>Typora 把根目录下任何文件名含 <b>.css</b> 的都列进菜单，<strong>包括隐藏文件</strong>。备份必须进子目录（install.sh 已处理）。</p>
       </div>
       <div class="rule">
-        <h3>零 !important</h3>
-        <p>Typora 自己的 base.css 都不用。靠 <b>#write</b> 特异性。构建时断言。</p>
+        <h3>正文零 !important（导出段除外）</h3>
+        <p>编辑态靠 <b>#write</b> 特异性。构建时断言。导出 PDF 段允许 !important——否则压不住 Typora 注入规则与纸感浮卡片。</p>
       </div>
       <div class="rule">
         <h3>除根字号外零 px 字号</h3>

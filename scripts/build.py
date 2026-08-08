@@ -200,8 +200,9 @@ CSS = Template(r"""
    -------------------------------------------------------------------------- */
 html {
   font-size: ${type_root_px};          /* 规范：唯一允许用 px 的地方 */
-  /* 壳层跟侧栏/gutter；纸面只在 #write。mac seamless 顶栏 inherit 自此 */
-  background-color: ${paper_gutter_bg};
+  /* 画布跟 PDF 外圈同色（gutter）。导出无 <content>，html 即整页底；
+     若 html 与 #write 一深一浅，就会「外面有底色、中间白柱」。 */
+  background-color: ${paper_canvas_bg};
 }
 
 html, body {
@@ -854,7 +855,7 @@ ${craft_extra}
 
 /* --------------------------------------------------------------------------
    顶栏 / 标题栏 / 菜单（整窗一致性最后一块）
-   壳层 = 侧栏 / gutter；html 已铺 gutter，titlebar inherit；此处再钉死一遍。
+   壳层 = 侧栏 / content gutter；顶栏显式铺 gutter（html 已改为画布色）。
    -------------------------------------------------------------------------- */
 #top-titlebar,
 titlebar {
@@ -893,16 +894,183 @@ titlebar {
 
 /* --------------------------------------------------------------------------
    导出 / 打印
+   1) 整页画布同色（gutter），拆掉 #write 浮卡片 —— 禁纯白底白柱
+   2) 精装层：呼吸边距、H2 签名线、抬升 fence、表格圆角、渐变 HR
+   导出 DOM：body.typora-export > .typora-export-content > #write
+   !important 仅本段；check() 豁免。⛔ 不用左边彩色竖条。
    -------------------------------------------------------------------------- */
+
+@page {
+  margin: 0;
+  background: ${paper_canvas_bg};
+}
+
+html {
+  background: ${paper_canvas_bg} !important;
+  background-color: ${paper_canvas_bg} !important;
+}
+
+body.typora-export,
+body.typora-export .typora-export-content,
+body.typora-export #write {
+  background: ${paper_canvas_bg} !important;
+  background-color: ${paper_canvas_bg} !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+body.typora-export #write {
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+  /* 页内呼吸：Typora 已给 body 左右 mm 边距，这里补上下与微调 */
+  padding: 1.35rem 0.15rem 2.4rem !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* —— 标题：字距 + H2 底部签名线（非左边竖条）—— */
+body.typora-export #write h1 {
+  letter-spacing: -0.02em;
+  margin-top: 0 !important;
+  margin-bottom: 0.85rem !important;
+}
+body.typora-export #write h2 {
+  letter-spacing: -0.014em;
+  padding-bottom: 0.55rem;
+  margin-top: 2rem !important;
+  background-image: linear-gradient(90deg, ${color_accent} 0%, transparent 100%);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: min(11rem, 40%) 2px;
+}
+body.typora-export #write h3 {
+  letter-spacing: -0.006em;
+  margin-top: 1.35rem !important;
+}
+
+/* 开篇元信息引用：h1 后连续引用更轻，不抢标题 */
+body.typora-export #write h1 + blockquote,
+body.typora-export #write h1 + blockquote + blockquote,
+body.typora-export #write h1 + blockquote + blockquote + blockquote,
+body.typora-export #write h1 + blockquote + blockquote + blockquote + blockquote {
+  background: transparent !important;
+  border-left: none !important;
+  padding-left: 0 !important;
+  color: var(--hk-muted);
+  font-size: 0.92em;
+  line-height: 1.55;
+  margin: 0.2rem 0 !important;
+}
+body.typora-export #write h1 + blockquote {
+  margin-top: 0.35rem !important;
+}
+body.typora-export #write h1 + blockquote + blockquote + blockquote + blockquote {
+  margin-bottom: 1.25rem !important;
+}
+
+/* 普通引用：浅铺 + 细线，圆角只在右侧 */
+body.typora-export #write blockquote {
+  background: ${accent_wash} !important;
+  border-left: 2.5px solid ${accent_border} !important;
+  border-radius: 0 var(--hk-r) var(--hk-r) 0;
+  padding: 0.55rem 1.05rem !important;
+}
+
+/* 标题 fence（发布文案灰盒）→ 纸面抬升，略亮于画布、绝不用纯白 */
+body.typora-export #write pre.md-fences {
+  background: ${export_surface} !important;
+  border: 1px solid ${hairline} !important;
+  border-radius: 12px !important;
+  box-shadow:
+    0 1px 0 ${export_shine},
+    0 8px 22px ${shadow_soft} !important;
+  padding: 1rem 1.2rem !important;
+  margin: 0.85rem 0 1.15rem !important;
+}
+body.typora-export #write pre.md-fences + pre.md-fences {
+  margin-top: 1.35rem !important;
+}
+
+/* 表格：圆角容器 + 表头轻强调 + 斑马纹 */
+body.typora-export #write table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid ${hairline} !important;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 1rem 0 1.35rem !important;
+  background: ${export_surface} !important;
+}
+body.typora-export #write table th {
+  background: ${accent_wash} !important;
+  border-bottom: 1.5px solid ${divider} !important;
+  padding: 0.72rem 0.9rem !important;
+  font-weight: 650;
+}
+body.typora-export #write table td {
+  padding: 0.62rem 0.9rem !important;
+  border-bottom: 1px solid ${hairline} !important;
+  background: transparent !important;
+}
+body.typora-export #write table tbody tr:nth-child(even) td {
+  background: ${code_bg} !important;
+}
+body.typora-export #write table tbody tr:last-child td {
+  border-bottom: none !important;
+}
+body.typora-export #write table tbody tr:hover {
+  background: transparent !important;
+}
+
+/* 分隔线：中间淡入的品牌色 */
+body.typora-export #write hr {
+  height: 1px !important;
+  border: 0 !important;
+  margin: 1.85rem 0 !important;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    ${accent_border} 35%,
+    ${accent_border} 65%,
+    transparent 100%
+  ) !important;
+}
+
+/* 行内代码：在米色页上更清晰一点 */
+body.typora-export #write code,
+body.typora-export #write tt {
+  background: ${inline_code_bg} !important;
+  border-radius: 5px;
+  padding: 0.12em 0.38em;
+}
+
 @media print {
   .typora-export * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  #write { max-width: 100%; }
-  #typora-sidebar { display: none; }                 /* 导出 PDF 不带侧边栏 */
-  /* 防止表格 / 代码块 / 图片 / 引用 / 公式在分页处被拦腰切断 */
-  #write table, #write pre.md-fences, #write blockquote,
+  @page {
+    margin: 0;
+    background: ${paper_canvas_bg};
+  }
+  html, body, #write {
+    background: ${paper_canvas_bg} !important;
+    background-color: ${paper_canvas_bg} !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  #write {
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 1.35rem 0.15rem 2.4rem !important;
+  }
+  #typora-sidebar { display: none; }
+  #write pre.md-fences, #write blockquote,
   #write figure, #write img, #write .md-alert,
   #write .md-mathblock { break-inside: avoid; }
-  #write p, #write li { orphans: 2; widows: 2; }      /* 段落首尾至少留 2 行 */
+  #write table tr { break-inside: avoid; }
+  #write p, #write li { orphans: 2; widows: 2; }
 }
 """)
 
@@ -915,13 +1083,20 @@ def check(css):
     唯一允许的 px 字号（根字号），而 `#write h1 { font-size: 30px }` 是违规。
     一刀切 grep "font-size.*px" 两者都报，等于没有区分力。所以按规则块解析，
     只豁免选择器为 html 的那一块。
+
+    !important：全局禁止，但「导出压平」段豁免——Typora 注入规则要用它才能压住。
     """
     import re
     problems = []
 
-    n_imp = css.count("!important")
+    # 导出段：从注释标记到文件尾（或仅该段）允许 !important
+    export_mark = "导出 / 打印"
+    export_css = css.split(export_mark, 1)[1] if export_mark in css else ""
+    head_css = css.split(export_mark, 1)[0] if export_mark in css else css
+
+    n_imp = head_css.count("!important")
     if n_imp:
-        problems.append(f"出现 !important × {n_imp}（目标 0：靠 #write 特异性覆盖即可）")
+        problems.append(f"出现 !important × {n_imp}（目标 0：靠 #write 特异性覆盖即可；导出段除外）")
 
     for m in re.finditer(r"([^{}]+)\{([^{}]*)\}", css):
         selector = m.group(1).strip().split("\n")[-1].strip()
@@ -995,6 +1170,11 @@ def paper_surfaces(t, dark):
     if not enabled:
         return {
             "paper_gutter_bg": "var(--bg-color)",
+            "paper_canvas_bg": "var(--bg-color)" if not dark else t["color"]["bg"],
+            "export_surface": "#f7f4ec" if not dark else t["color"].get("hover", "#2c2c2a"),
+            "export_shine": (
+                "rgba(255, 255, 255, 0.55)" if not dark else "rgba(255, 255, 255, 0.06)"
+            ),
             "paper_write_extra": "/* paper off */",
         }
 
@@ -1034,6 +1214,12 @@ def paper_surfaces(t, dark):
         bg = radial
     return {
         "paper_gutter_bg": gutter,
+        # 画布 = gutter 同色。导出抬升面用 highlight 系，禁止 #ffffff 白柱。
+        "paper_canvas_bg": gutter if not dark else mid,
+        "export_surface": highlight if not dark else highlight,
+        "export_shine": (
+            "rgba(255, 255, 255, 0.55)" if not dark else "rgba(255, 255, 255, 0.06)"
+        ),
         "paper_write_extra": (
             f"background: {bg}; "
             f"border-radius: var(--hk-r-lg); "
@@ -1309,6 +1495,41 @@ def main():
             any_fail = True
         if "Paid craft" in work_css:
             print("⚠️  分辨力失败：免费默认不该含 Paid craft")
+            any_fail = True
+        # html 画布 = gutter 同色（浅色 #ebe8df），禁止再单独铺纯白
+        html_rule = re.search(r"^html\s*\{([^}]*)\}", work_css, re.M)
+        if not html_rule or "background-color: #ebe8df" not in html_rule.group(1):
+            print("⚠️  分辨力失败：浅色 html 画布须为 gutter #ebe8df（与 PDF 外圈同色）")
+            any_fail = True
+        # gutter 仍应在 content 上（编辑器两侧）
+        if not content_block or "#ebe8df" not in content_block.group(1):
+            print("⚠️  分辨力失败：content 仍应铺 gutter（编辑器两侧米色）")
+            any_fail = True
+        # 导出：#write 也压成同色，禁止导出段再写 #ffffff
+        export_at = work_css.find("导出 / 打印")
+        export_chunk = work_css[export_at:] if export_at >= 0 else ""
+        if export_at < 0 or "box-shadow: none !important" not in export_chunk:
+            print("⚠️  分辨力失败：导出段须用 !important 拆掉 #write 纸感阴影")
+            any_fail = True
+        if re.search(r"background(?:-color)?:\s*#ffffff\b", export_chunk):
+            print("⚠️  分辨力失败：导出段勿再使用纯白底（会与外圈底色打架出白柱）")
+            any_fail = True
+        if "background-size: min(11rem, 40%) 2px" not in export_chunk:
+            print("⚠️  分辨力失败：导出精装须含 H2 签名线")
+            any_fail = True
+        if "export_surface" in work_css and "${export_surface}" in work_css:
+            print("⚠️  分辨力失败：export_surface 未被替换")
+            any_fail = True
+        if "border-radius: 12px !important" not in export_chunk:
+            print("⚠️  分辨力失败：导出 fence/表格应有抬升圆角")
+            any_fail = True
+        print_at = work_css.find("\n@media print")
+        print_block = work_css[print_at:print_at + 4000] if print_at >= 0 else ""
+        if "#write table," in print_block and "break-inside: avoid" in print_block.split("#write table")[1][:80]:
+            print("⚠️  分辨力失败：整表 break-inside:avoid 会制造 PDF 末页空白，应改为 tr")
+            any_fail = True
+        if "table tr" not in print_block or "break-inside: avoid" not in print_block:
+            print("⚠️  分辨力失败：打印应保留 table tr { break-inside: avoid }")
             any_fail = True
 
     # 按本趟 expect 验齐
