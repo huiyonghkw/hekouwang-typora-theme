@@ -137,6 +137,10 @@ Typora PDF = 独立 HTML（`body.typora-export`）再 `printToPDF`。本主题�
 | V2 免费 | `#ebe8df` | `#1f1f1e` |
 | V1 / V3–V6 | 各皮肤 gutter | 各皮肤正文底 |
 
+![浅色 PDF / 纸感验收](docs/screenshot-pdf-light.png)
+
+*浅色 · `demo/验收样张.md` — 画布米色、阅读面纸感，无「外圈底色 + 中间白柱」。*
+
 ---
 
 ### 阅读指标
