@@ -87,14 +87,55 @@ python3 scripts/verify_render.py \
 
 ## 视觉版本
 
-| 视觉 | 气质 | 浅色 | 深色 |
-|---|---|---|---|
-| V1 科技 | 冷调绿紫、文档站感 | [查看](docs/V1.png) | [查看](docs/V1-Dark.png) |
-| V2 编辑（免费） | 暖米白纸感、长期阅读 | [查看](docs/screenshot-zh.png) | [查看](docs/screenshot-window.png) |
-| V3 财经 | 数据感与克制蓝色 | [查看](docs/V3.png) | [查看](docs/V3-Dark.jpeg) |
-| V4 玻璃 | 雾白、轻量、近黑 | [查看](docs/V4.png) | [查看](docs/V4-Dark.png) |
-| V5 紫 HUD | 紫 × 青的发布会秩序 | [查看](docs/V5.png) | [查看](docs/V5-Dark.jpeg) |
-| V6 焰彩 | 紫 × 橙 × 粉的强调表达 | [查看](docs/V6.png) | [查看](docs/V6-Dark.jpeg) |
+同一篇验收样张、同一套阅读指标，只切换视觉语言。先看图，再决定你更愿意每天打开哪一套。
+
+### V1 · 科技
+
+冷调绿紫、克制的文档站质感，适合技术笔记与产品文档。
+
+![Hekouwang V1 浅色](docs/V1.png)
+
+![Hekouwang V1 深色](docs/V1-Dark.png)
+
+### V2 · 编辑（免费）
+
+暖米白纸感。它是公开仓与 Typora Gallery 提供的完整免费版本，也是这套主题的默认阅读体验。
+
+![Hekouwang V2 浅色 · 中文长文](docs/screenshot-zh.png)
+
+![Hekouwang V2 · 侧栏、文件树与编辑区](docs/screenshot-window.png)
+
+### V3 · 财经
+
+克制蓝色与数据感，适合复盘、研究和需要频繁阅读表格的内容。
+
+![Hekouwang V3 浅色](docs/V3.png)
+
+![Hekouwang V3 深色](docs/V3-Dark.jpeg)
+
+### V4 · 玻璃
+
+雾白与近黑之间保留足够层次，轻量但不轻飘。
+
+![Hekouwang V4 浅色](docs/V4.png)
+
+![Hekouwang V4 深色](docs/V4-Dark.png)
+
+### V5 · 紫 HUD
+
+紫 × 青的发布会秩序：紫色建立气质，青色负责链接、引用与信息定位。
+
+![Hekouwang V5 浅色](docs/V5.png)
+
+![Hekouwang V5 深色](docs/V5-Dark.jpeg)
+
+### V6 · 焰彩
+
+紫 × 橙 × 粉的强表达版本。强调色只落在真正需要被看见的位置，正文仍然把阅读权交还给文字。
+
+![Hekouwang V6 浅色](docs/V6.png)
+
+![Hekouwang V6 深色](docs/V6-Dark.jpeg)
 
 ## 给想定制的人
 
