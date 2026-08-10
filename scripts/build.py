@@ -925,6 +925,40 @@ titlebar {
   color: var(--text-color);
 }
 
+/* Windows 设置 / 大菜单：Typora 原生把左侧做成深壳、菜单列表做成白色圆角卡。
+   只改 .megamenu-content 会让两者和右侧纸面各自为政。显式接管三层，保持
+   主题的侧栏 → 菜单项 → 内容面层级；这不是仿 Mdmdt 的黑壳，而是跟当前皮肤走。 */
+body.os-windows #megamenu-menu-sidebar {
+  background: var(--side-bar-bg-color);
+  border-right: 1px solid var(--hk-line);
+  box-shadow: none;
+  overflow: hidden;
+}
+body.os-windows #megamenu-menu-list {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0.5rem;
+}
+body.os-windows #megamenu-menu-list li a {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--hk-r-sm);
+  color: var(--hk-soft);
+}
+body.os-windows #megamenu-menu-list li a:hover,
+body.os-windows #megamenu-menu-list li a.active,
+body.os-windows #megamenu-menu-list li a.active:hover {
+  background: var(--item-hover-bg-color);
+  border-color: transparent;
+  color: var(--text-color);
+}
+body.os-windows .megamenu-content {
+  background: var(--bg-color);
+  box-shadow: none;
+}
+
 /* --------------------------------------------------------------------------
    导出 / 打印
    1) 整页画布同色（gutter），拆掉 #write 浮卡片 —— 禁纯白底白柱
@@ -1566,6 +1600,18 @@ def main():
             any_fail = True
         if "table tr" not in print_block or "break-inside: avoid" not in print_block:
             print("⚠️  分辨力失败：打印应保留 table tr { break-inside: avoid }")
+            any_fail = True
+        # Windows 设置页必须同时接管左侧壳、菜单列表和右侧内容；否则 Typora
+        # 原生深壳会露出，默认白色圆角列表与主题纸面互相打架。
+        windows_menu_checks = (
+            "body.os-windows #megamenu-menu-sidebar",
+            "background: var(--side-bar-bg-color)",
+            "body.os-windows #megamenu-menu-list {",
+            "body.os-windows .megamenu-content {",
+            "box-shadow: none;",
+        )
+        if not all(s in work_css for s in windows_menu_checks):
+            print("⚠️  分辨力失败：Windows 设置页须统一侧栏、菜单列表与内容面")
             any_fail = True
 
     # 按本趟 expect 验齐
