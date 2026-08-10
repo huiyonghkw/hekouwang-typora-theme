@@ -166,6 +166,30 @@ body {
   font-kerning: normal;
 }
 
+/* Windows：Typora 会在 body 挂 .os-windows。不能只把「微软雅黑」塞进通用
+   fallback：system-ui 在 Windows 版本间的 CJK 回退并不稳定，且 macOS 的
+   antialiased 会绕开 ClearType，长文会发灰。这里让阅读面、代码和 UI 控件
+   共享可预期的栈；不打包 CJK 字体，保留系统更新与许可边界。 */
+body.os-windows {
+  --hk-sans: "Hekouwang Sans", "Anthropic Sans", "Hekouwang Sans Fb", "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI", "Microsoft YaHei", Arial, sans-serif;
+  --hk-serif: "Hekouwang Serif", "Anthropic Serif", Georgia, "Times New Roman", "SimSun", serif;
+  --monospace: "Hekouwang Mono", "Anthropic Mono", "Cascadia Mono", "Cascadia Code", Consolas, "Lucida Console", monospace;
+  -webkit-font-smoothing: auto;
+  font-smoothing: auto;
+  text-rendering: auto;
+  font-synthesis: none;
+  letter-spacing: 0.005em;
+}
+body.os-windows #write {
+  -webkit-font-smoothing: auto;
+  text-rendering: auto;
+  letter-spacing: 0;
+}
+body.os-windows input,
+body.os-windows textarea,
+body.os-windows select,
+body.os-windows button { font: inherit; }
+
 /* 编辑区：两侧 gutter 铺浅底；纸感跟 #write 走，宽度随窗口伸缩 */
 content {
   background: #ebe8df;
@@ -192,6 +216,15 @@ content {
   /* Anthropic Sans opsz：正文用 Text 光学尺寸（轴默认 16） */
   font-variation-settings: "opsz" 16;
   background: radial-gradient(140% 95% at 50% -8%, #fffef8 0%, #fdfdfc 48%, #ebe8df 100%); border-radius: var(--hk-r-lg); box-shadow: inset 0 1px 0 rgba(31,30,29,0.04), inset 0 0 4.5rem rgba(31,30,29,0.05), 0 1px 2px rgba(31,30,29,0.04), 0 10px 28px rgba(31,30,29,0.06);
+}
+
+/* 含 Windows 分屏在内的窄窗口：避免双重 padding 把正文挤成竖条。 */
+@media (max-width: 760px) {
+  #write {
+    max-width: calc(100% - 1.5rem);
+    padding: 1.5rem 1.25rem 3.5rem;
+    border-radius: var(--hk-r);
+  }
 }
 
 /* C：首行缩进只打在段落上，绝不能写在 #write 上 —— 否则会继承到

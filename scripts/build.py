@@ -220,6 +220,30 @@ body {
   font-kerning: normal;
 }
 
+/* Windows：Typora 会在 body 挂 .os-windows。不能只把「微软雅黑」塞进通用
+   fallback：system-ui 在 Windows 版本间的 CJK 回退并不稳定，且 macOS 的
+   antialiased 会绕开 ClearType，长文会发灰。这里让阅读面、代码和 UI 控件
+   共享可预期的栈；不打包 CJK 字体，保留系统更新与许可边界。 */
+body.os-windows {
+  --hk-sans: ${font_windows_sans_stack};
+  --hk-serif: ${font_windows_serif_stack};
+  --monospace: ${font_windows_mono_stack};
+  -webkit-font-smoothing: auto;
+  font-smoothing: auto;
+  text-rendering: auto;
+  font-synthesis: none;
+  letter-spacing: 0.005em;
+}
+body.os-windows #write {
+  -webkit-font-smoothing: auto;
+  text-rendering: auto;
+  letter-spacing: 0;
+}
+body.os-windows input,
+body.os-windows textarea,
+body.os-windows select,
+body.os-windows button { font: inherit; }
+
 /* 编辑区：两侧 gutter 铺浅底；纸感跟 #write 走，宽度随窗口伸缩 */
 content {
   background: ${paper_gutter_bg};
@@ -246,6 +270,15 @@ content {
   /* Anthropic Sans opsz：正文用 Text 光学尺寸（轴默认 16） */
   font-variation-settings: "opsz" 16;
   ${paper_write_extra}
+}
+
+/* 含 Windows 分屏在内的窄窗口：避免双重 padding 把正文挤成竖条。 */
+@media (max-width: 760px) {
+  #write {
+    max-width: calc(100% - 1.5rem);
+    padding: 1.5rem 1.25rem 3.5rem;
+    border-radius: var(--hk-r);
+  }
 }
 
 /* C：首行缩进只打在段落上，绝不能写在 #write 上 —— 否则会继承到
@@ -1486,7 +1519,10 @@ def main():
             any_fail = True
         import re
         content_block = re.search(r"content \{([^}]*)\}", work_css)
-        write_chunk = work_css.split("#write {")[1].split("}")[0] if "#write {" in work_css else ""
+        # 只取基础 #write 规则。平台增强（如 body.os-windows #write）可以在它之前，
+        # 不能因此把「纸感是否画在阅读面」误判为失败。
+        write_match = re.search(r"^#write\s*\{([^}]*)\}", work_css, re.M)
+        write_chunk = write_match.group(1) if write_match else ""
         if content_block and "radial-gradient" in content_block.group(1):
             print("⚠️  分辨力失败：纸感不应铺在 content 全宽（会变成两侧假空白）")
             any_fail = True

@@ -187,7 +187,29 @@ cd hekouwang-typora-theme
 
 或手动把 `theme/hekouwang.css`、`theme/hekouwang-dark.css` 和 `theme/hekouwang/` 目录复制进 Typora 主题文件夹（偏好设置 → 打开主题文件夹）。
 
-然后 **完全退出 Typora（Cmd+Q）再重开** —— 切换主题不会重载已改过的 CSS。在「主题」菜单选 **Hekouwang** 或 **Hekouwang Dark**。
+然后 **完全退出 Typora 再重开** —— 切换主题不会重载已改过的 CSS。在「主题」菜单选 **Hekouwang** 或 **Hekouwang Dark**。
+
+### Windows 安装与阅读兼容
+
+主题从构建层支持 Typora 的 `body.os-windows`：西文优先随包的 Inter，中文优先「微软雅黑 UI / 微软雅黑」，代码优先 Cascadia Mono / Cascadia Code / Consolas；不会分发体积大且授权边界复杂的 CJK 字体。
+
+在 PowerShell 中运行：
+
+```powershell
+git clone https://github.com/huiyonghkw/hekouwang-typora-theme.git
+cd hekouwang-typora-theme
+.\scripts\install-windows.ps1
+```
+
+若执行策略阻止本地脚本，可仅对这次安装运行 `powershell -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1`，不会修改系统执行策略。
+
+安装器默认写入 `%APPDATA%\Typora\themes`，会把同名旧 CSS 备份到 `.hekouwang-backups` 子目录（不会污染 Typora 主题菜单）。若你的 Typora 主题目录不在默认位置：
+
+```powershell
+.\scripts\install-windows.ps1 -ThemeDir 'D:\your\Typora\themes'
+```
+
+完全退出并重开 Typora 后选择 **Hekouwang** 或 **Hekouwang Dark**。Windows 真机发布前，必须逐项验收编辑/源码/专注模式、中英混排、代码/表格/Mermaid，以及 PDF、HTML、图片导出；Chrome 预检不能替代 Typora 真机。
 
 ### 付费包（V1 / V3–V6）
 
@@ -212,6 +234,8 @@ python3 scripts/build.py          # 公开仓默认只出免费档
 # → theme/hekouwang-dark.css
 ./scripts/install.sh
 ```
+
+Windows 改为运行 `scripts\install-windows.ps1`，不要在 Windows 上执行 macOS 安装脚本。
 
 `dark` 段只覆盖 `color` / `alpha`；边框与浅底由 `border_base` / `shadow_base` 派生。
 
@@ -250,7 +274,7 @@ Gallery 里已有 [Claude Theme](https://theme.typora.io/theme/Claude-Theme/)，
 
 - 浅色 + 深色：完成
 - 深色色值：**采样**，不是浅色取反
-- 在 **macOS** 上设计与测试（Windows / Linux 未测；尚无 Windows unibody 样式）
+- macOS 已完成真机设计验收；Windows 有独立字体、渲染和安装层，待 Win10 / Win11 Typora 真机回归签收
 
 ## 主题工程 Skill
 

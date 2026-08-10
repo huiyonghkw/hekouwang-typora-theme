@@ -102,14 +102,14 @@ def find_chrome():
     sys.exit("找不到 Chrome/Chromium，请手动指定 --chrome")
 
 
-def build_page(css_path, fonts, variables):
+def build_page(css_path, fonts, variables, body_class=""):
     css_url = "file://" + os.path.abspath(css_path)
     js = (PROBE_JS
           .replace("__FONTS__", json.dumps(fonts))
           .replace("__VARS__", json.dumps(variables)))
     return f"""<!doctype html><html><head><meta charset="utf-8">
 <link rel="stylesheet" href="{css_url}"></head>
-<body><div id="write"><p>probe 中文 mixed</p>
+<body class="{body_class}"><div id="write"><p>probe 中文 mixed</p>
 <pre id="__PROBE__">pending</pre>
 <script>{js}</script></div></body></html>"""
 
@@ -140,6 +140,8 @@ def main():
                     help="逗号分隔的 CSS 变量名，可省略 -- 前缀，如 bg-color,text-color")
     ap.add_argument("--screenshot", help="同时出一张截图")
     ap.add_argument("--chrome", help="Chrome 可执行文件路径")
+    ap.add_argument("--windows", action="store_true",
+                    help="用 body.os-windows 预检 Windows 字体栈与排版规则")
     args = ap.parse_args()
 
     if not os.path.exists(args.css):
@@ -152,7 +154,8 @@ def main():
     with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False,
                                      dir=os.path.dirname(os.path.abspath(args.css)),
                                      encoding="utf-8") as f:
-        f.write(build_page(args.css, fonts, variables))
+        f.write(build_page(args.css, fonts, variables,
+                           "os-windows" if args.windows else ""))
         html = f.name
 
     try:
@@ -168,7 +171,8 @@ def main():
         sys.exit("探针未返回结果（页面可能报错或超时）")
     data = json.loads(m.group(1))
 
-    print(f"\n渲染验证 · {os.path.basename(args.css)}")
+    platform = " · Windows 预检" if args.windows else ""
+    print(f"\n渲染验证 · {os.path.basename(args.css)}{platform}")
     print("─" * 56)
 
     if data.get("write"):
@@ -202,6 +206,8 @@ def main():
 
     print("\n⚠️ 这里全绿只代表在系统 Chrome 里没问题。")
     print("   目标宿主 Typora 用的是更老的内嵌 Chromium，最终验收必须在 Typora 里看。")
+    if args.windows:
+        print("   Windows 真机还须验收：编辑/源码/专注、表格/代码/Mermaid，以及 PDF/HTML/图片导出。")
 
 
 if __name__ == "__main__":
