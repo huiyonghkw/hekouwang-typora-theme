@@ -5,7 +5,7 @@ displayName: Typora 主题工程（hekouwang）
 summary: 做主题真正费时间的不是写 CSS，是一类不报错的失败——改了 CSS 但编辑器没变化、字体没生效却照常渲染、配色凭直觉猜结果和参照对不上。这把 skill 把三件事固化成工具：CSS 由 tokens.json 生成（构建时断言零 !important、零 px 字号）、从参照截图采样真实色值并能反解叠加色的 alpha、字体上屏探针永远带一个「不存在的字体」作 fallback 基准。附 hekouwang 主题：中文长文浅色 + 深色两套。
 license: MIT
 homepage: https://github.com/huiyonghkw/hekouwang-typora-theme
-version: 1.3.0
+version: 1.3.1
 description: >
   会勇禾口王 · Typora 主题工程 Skill。维护「hekouwang」主题（中文长文浅色 + 深色），
   并提供一套可复用的主题工程方法：CSS 由 tokens.json
