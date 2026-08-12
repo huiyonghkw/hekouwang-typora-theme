@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.3 — 2026-08-12
+
+ClawHub 分类：`creative`；误建 slug `hekouwang-typora-theme` 已合并进本 skill。
+
 ## 1.3.2 — 2026-08-12
 
 P2：商业化可发现性 + SEO。
