@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.2 — 2026-08-12
+
+P2：商业化可发现性 + SEO。
+
+- summary 补英文关键词（Typora theme / CJK long-form）
+- README.zh 补 30 秒验收命令块
+
 ## 1.3.1 — 2026-08-12
 
 本地与 ClawHub 1.3.0 对齐，并统一 standalone / monorepo 双布局说明。

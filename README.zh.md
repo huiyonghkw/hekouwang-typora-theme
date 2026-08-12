@@ -21,6 +21,16 @@
 
 *[English](README.md)*
 
+## 30 秒验收
+
+```bash
+python3 scripts/build.py                    # 生成浅色+深色 CSS
+./scripts/install.sh                        # 装进 Typora（自动备份）
+python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sans,Hekouwang Sans Fb" --vars bg-color,text-color
+```
+
+联系付费包：**微信 hekouwang**（备注「Typora主题」）· GitHub **@huiyonghkw**
+
 ---
 
 ## 免费档 · 真机（V2 编辑）
