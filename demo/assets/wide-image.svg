@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-labelledby="title desc">
+  <title id="title">宽幅图片裁切验收图</title>
+  <desc id="desc">画面左、中、右三处都有定位标记，用来检查宽幅图片在窄窗和导出时是否被裁切。</desc>
+  <rect x="1" y="1" width="1198" height="318" rx="16" fill="#F5F4ED" stroke="#B8B2A8" stroke-width="2"/>
+  <path d="M60 160h1080" stroke="#D97757" stroke-width="4"/>
+  <circle cx="60" cy="160" r="12" fill="#D97757"/>
+  <circle cx="600" cy="160" r="12" fill="#D97757"/>
+  <circle cx="1140" cy="160" r="12" fill="#D97757"/>
+  <g fill="#35332F" font-family="system-ui, sans-serif" font-size="32" text-anchor="middle">
+    <text x="84" y="122">LEFT</text>
+    <text x="600" y="122">CENTER</text>
+    <text x="1116" y="122">RIGHT</text>
+  </g>
+  <text x="600" y="250" fill="#5C5953" font-family="system-ui, sans-serif" font-size="24" text-anchor="middle">1200 × 320 · three markers must remain visible</text>
+</svg>

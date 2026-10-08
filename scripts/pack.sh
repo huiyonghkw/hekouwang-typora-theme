@@ -17,6 +17,7 @@ ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 PAID_CSS=(
   hekouwang-v1.css hekouwang-v1-dark.css
+  hekouwang-v2-pro.css hekouwang-v2-pro-dark.css
   hekouwang-v3.css hekouwang-v3-dark.css
   hekouwang-v4.css hekouwang-v4-dark.css
   hekouwang-v5.css hekouwang-v5-dark.css
@@ -24,7 +25,8 @@ PAID_CSS=(
 )
 
 STAMP="$(date +%Y%m%d)"
-OUT="${1:-$HOME/Desktop/hekouwang-typora-theme-pack-$STAMP.zip}"
+PACK_VERSION="$(tr -d '[:space:]' < "$ROOT/VERSION")"
+OUT="${1:-$HOME/Desktop/hekouwang-typora-theme-pack-v${PACK_VERSION}-$STAMP.zip}"
 STAGE="$(mktemp -d "${TMPDIR:-/tmp}/hkw-typora-pack-stage.XXXXXX")"
 trap 'rm -rf "$STAGE"' EXIT
 
@@ -57,7 +59,7 @@ for f in "${PAID_CSS[@]}"; do
   [ -f "$ROOT/theme/$f" ] || { bad "缺 theme/$f"; exit 1; }
   cp "$ROOT/theme/$f" "$DEST/theme/$f"
 done
-ok "拷贝 10 份付费 CSS"
+ok "拷贝 ${#PAID_CSS[@]} 份付费 CSS"
 
 cp "$SCRIPT_DIR/palettes.paid.json" "$DEST/scripts/palettes.paid.json"
 cp "$SCRIPT_DIR/craft_paid.py" "$DEST/scripts/craft_paid.py"
@@ -68,8 +70,8 @@ cp "$ROOT/VERSION" "$DEST/VERSION"
 chmod +x "$DEST/unlock.sh"
 
 cat > "$DEST/README.txt" <<EOF
-hekouwang Typora 主题包 · V1 / V3–V6（各含 Dark）
-版本 $(tr -d '[:space:]' < "$ROOT/VERSION") · 打包日 $STAMP
+hekouwang Typora 主题包 · V1 / V2 Pro / V3–V6（各含 Dark）
+版本 $PACK_VERSION · 打包日 $STAMP
 
 怎么装（macOS）
 --------------
@@ -82,13 +84,13 @@ hekouwang Typora 主题包 · V1 / V3–V6（各含 Dark）
      ./unlock.sh
    或把本 zip 丢给公开仓脚本：
      ./scripts/unlock.sh /path/to/本文件.zip
-3. Cmd+Q 完全退出 Typora，再开 → 主题菜单选 Hekouwang V1…V6
+3. Cmd+Q 完全退出 Typora，再开 → 主题菜单选 Hekouwang V1 / V2 Pro / V3–V6
 
 买到什么
 --------
-- skill 对齐的 V1 科技 / V3 财经 / V4 玻璃 / V5 紫 / V6 焰彩
-- 浅色 + 深色各一份（共 10 个 CSS）
-- 与免费 V2 同一套阅读指标：1rem · 1.65 · 52em · 纸感
+- V1 石墨青绿 / V2 Pro 典藏编辑 / V3 海军蓝财经 / V4 冰蓝玻璃 / V5 紫晶电青 HUD / V6 李紫焰彩
+- 六套视觉各有浅色 + 深色（共 12 个付费 CSS）；免费 V2 保持独立
+- 与免费 V2 同一套阅读指标：1rem · 1.65 · 普通窗口 52em / 宽屏 80em · 纸感
 
 授权：见 LICENSE-PRO.txt（个人使用，请勿二次分发）
 落地页 / 更新：$HKW_URL_BUY
@@ -110,12 +112,17 @@ out, top = sys.argv[1], sys.argv[2]
 need = [f"{top}/theme/{n}" for n in sys.argv[3:]]
 need += [
     f"{top}/unlock.sh",
+    f"{top}/README.txt",
     f"{top}/LICENSE-PRO.txt",
     f"{top}/VERSION",
     f"{top}/scripts/palettes.paid.json",
     f"{top}/scripts/craft_paid.py",
 ]
 z = zipfile.ZipFile(out)
+corrupt = z.testzip()
+if corrupt:
+    print("CORRUPT:", corrupt)
+    sys.exit(1)
 names = set(z.namelist())
 missing = [n for n in need if n not in names]
 if missing:

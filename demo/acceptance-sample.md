@@ -315,16 +315,11 @@ Chinese counterpart for CJK screenshots: [`验收样张.md`](./验收样张.md).
 
 ---
 
-## 10. Screenshot guide (for README)
+## 10. Final screenshots (README / GitHub Pages)
 
-| Suggested file | Frame | Theme |
-|---|---|---|
-| `docs/screenshot.png` | This file — title + body | Hekouwang |
-| `docs/screenshot-zh.png` | Chinese sample top | Hekouwang |
-| `docs/screenshot-fences.png` / `screenshot-fences-zh.png` | Consecutive code fences | Hekouwang |
-| (todo) `docs/screenshot-dark.png` | Dark real window | Hekouwang Dark |
+The current images live in `docs/previews/`: free V2 uses `v2-light.webp` / `v2-dark.webp`; the six paid variants use `v1`, `v2-pro`, and `v3` through `v6`, each with `-light.webp` / `-dark.webp`; the A4 export sample uses `v2-export-a4.webp`. All theme screenshots use the same [`主题展示样张.md`](./主题展示样张.md) fixture so headings, prose, quotes, code, and tables are directly comparable.
 
-Before shooting: open this repo in the sidebar, select the sample, **Cmd+Q and relaunch**, then capture.
+Before capturing, fully quit and relaunch Typora; verify the theme menu entry and the sidebar and window colors. For the native PDF export, inspect the first page and page breaks.
 
 ---
 

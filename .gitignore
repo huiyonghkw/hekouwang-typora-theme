@@ -12,6 +12,8 @@ scripts/palettes.paid.json
 scripts/craft_paid.py
 theme/hekouwang-v1.css
 theme/hekouwang-v1-dark.css
+theme/hekouwang-v2-pro.css
+theme/hekouwang-v2-pro-dark.css
 theme/hekouwang-v3.css
 theme/hekouwang-v3-dark.css
 theme/hekouwang-v4.css

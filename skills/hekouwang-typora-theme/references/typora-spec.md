@@ -25,8 +25,8 @@
 --select-text-bg-color --search-select-bg-color --control-text-color --blur-text-color
 ```
 
-数量很少，所以大部分样式还是要写选择器 —— 但**靠 `#write` 的特异性就够，不需要
-`!important`**（base.css 自己都不用）。对照：gallery 上某同类主题用了 397 个。
+数量很少，所以大部分样式还是要写选择器。编辑区靠 `#write` 的特异性，
+不使用 `!important`；导出段覆盖 Typora 的打印基础样式时可使用。对照：gallery 上某同类主题用了 397 个。
 
 ## 选择器地图
 

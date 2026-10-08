@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>hekouwang · Typora 主题 — 写中文长文时的阅读指标</title>
-<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 行宽 52em · 纸感卡片 · PDF 导出整页一色精装。附主题工程 Skill：tokens 生成 CSS、采样配色、字体上屏探针。">
+<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 居中 48–60rem 响应式阅读列 · 52em 纸面渐进至最多 80em 技术画布 · PDF 多页导出。附主题工程 Skill。">
 <meta property="og:title" content="hekouwang · Typora 主题">
-<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 52em · 纸感卡片 · PDF 导出精装 · 主题工程 Skill">
+<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 48–60rem 响应式阅读列 / 52em 纸面至 80em 技术画布 · 纸感卡片 · PDF 导出 · 主题工程 Skill">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://huiyonghkw.github.io/hekouwang-typora-theme/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1320'/%3E%3Cpath d='M8 22l4-8 3 4 5-9 4 6' fill='none' stroke='%2306a88c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -195,6 +195,18 @@ h2.sec{font-size:clamp(26px,4vw,34px);font-weight:800;line-height:1.28;letter-sp
   border-top:1px solid var(--border);background:var(--surface2)}
 .shot figcaption b{color:var(--text2);font-weight:600}
 
+.premium-gallery{display:grid;gap:18px;margin-top:18px}
+.premium-card{min-width:0;padding:18px;background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;box-shadow:var(--shadow)}
+.premium-card h3{font-size:18px;line-height:1.35;margin:0 0 5px}
+.premium-card p{font-size:14px;line-height:1.6;color:var(--text2);margin:0}
+.premium-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.premium-pair figure{min-width:0;margin:0}
+.premium-pair a{display:block;overflow:hidden;border-radius:10px;border:1px solid var(--border)}
+.premium-pair a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.premium-pair img{display:block;width:100%;height:auto}
+.premium-pair figcaption{font-size:12.5px;line-height:1.45;color:var(--text3);padding:7px 2px 0}
+
 .tiers{display:flex;flex-direction:column;gap:10px;margin-top:24px}
 .tier{display:grid;grid-template-columns:56px 1fr auto;gap:14px;align-items:center;
   background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
@@ -338,6 +350,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   .stage-wrap{width:calc(100% - 24px)}
   .paper{padding:1.5rem 1.15rem 2rem;max-width:min(52em,calc(100% - .5rem))}
   .readout,.hl-grid,.refs{grid-template-columns:1fr}
+  .premium-pair{grid-template-columns:1fr}
   .tier{grid-template-columns:48px 1fr;grid-template-rows:auto auto}
   .tier .badge{grid-column:2}
   .cmd .ch .why{display:none}
@@ -369,15 +382,15 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 <header class="hero">
   <div class="eyebrow"><i></i> Typora theme · CJK long-form · Skill included</div>
   <h1>写中文长文时的<br><span class="hl">阅读指标</span></h1>
-  <p class="sub">不是聊天气泡密度。我把正文 <b>1rem</b> · 行高 <b>1.65</b> · 行宽 <b>52em</b> · 纸感卡片钉死——再附一套主题工程 Skill，让改配色不再靠猜。</p>
+  <p class="sub">不是聊天气泡密度。正文 <b>1rem</b> · 行高 <b>1.65</b> · 居中的 <b>48–60rem</b> 响应式阅读列 · <b>52em</b> 纸面在宽屏渐进至最多 <b>80em</b> 技术画布——再附一套主题工程 Skill。</p>
   <div class="actions">
     <a class="btn btn-primary" href="#install">安装免费 V2</a>
     <a class="btn btn-ghost" href="#buy">六套皮肤 · ¥9.9</a>
   </div>
   <div class="hero-meta">
     <span>Free · V2 编辑</span>
-    <span>Pack · V1–V6 · ¥9.9</span>
-    <span>1rem · 1.65 · 52em</span>
+    <span>Pack · V1 / V2 Pro / V3–V6 · ¥9.9</span>
+    <span>1rem · 1.65 · 48–60rem 阅读列</span>
     <span>MIT · V2</span>
   </div>
 </header>
@@ -397,7 +410,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <h2>hekouwang 主题验收样张</h2>
         <p class="lede">——用来验收排版，也适合直接截进 README（浅色 / 深色各一张）</p>
         <p>这一份把 Typora 常渲染的块基本铺满。中英混排是重点：西文走 Anthropic Sans / Inter，中文 fallback 到苹方——<strong>这不是妥协，桌面端本身就是这个机制</strong>。我自己验收时会把本文件开着，浅深各盯三分钟。</p>
-        <p><strong>现行阅读指标（Hekouwang）</strong>：正文 <code>1rem</code> · 行高 <code>1.65</code> · 行宽 <code>min(52em, 100%−gutter)</code> · <code>#write</code> 纸感卡片。</p>
+        <p><strong>阅读指标（Hekouwang）</strong>：正文 <code>1rem</code> · 行高 <code>1.65</code> · 居中的 <code>48–60rem</code> 响应式阅读列；<code>52em</code> 纸面在视口 ≥<code>1440px</code> 时渐进至最多 <code>80em</code> 技术画布 · <code>#write</code> 纸感卡片。</p>
         <h3>一、正文与中英混排</h3>
         <p>我写这段是为了看长段落的呼吸感。并排对照时，西文字形应接近 Anthropic Sans / Inter，中文走苹方；行距要像在读文章，不是在扫聊天气泡。</p>
         <p>比如这句里混着 <code>variable font</code>、opsz 轴、以及 300→800 的字重范围，看看西文和苹方交接得顺不顺。数字也要对齐：2026 年、1,247 次、99.8% 的占比、测得 <code>font-size: 16px</code> 根字号。</p>
@@ -409,7 +422,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   <div class="metrics-chip" aria-hidden="true">
     <span>body 1rem</span>
     <span>leading 1.65</span>
-    <span>measure min(52em, …)</span>
+    <span>read 48 → 60rem · canvas 52em → 80em</span>
   </div>
 </div>
 
@@ -422,8 +435,8 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">Metrics</div>
         <h3>中文长文阅读指标</h3>
-        <div class="num">1rem · 1.65 · 52em</div>
-        <p>浅色 / 深色<strong>同一套</strong>字号行高行宽。深色只覆写 color / alpha，构建时断言纸感在位。</p>
+        <div class="num">1rem · 1.65 · 48–60rem</div>
+        <p>浅色 / 深色共用随宽屏增长的居中阅读列；代码和宽表可用最多 80em 画布。构建逐套审计对比度：公开仓 2 套，付费包另有 12 套，共 14 套。</p>
       </div>
       <div class="hl-card">
         <div class="tag">Tokens</div>
@@ -449,12 +462,12 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">Paper</div>
         <h3>纸感画在 #write 上</h3>
-        <p>暖径向 + 大圆角 + 外阴影；壳层（侧栏 / gutter / 顶栏）更深一档。层级靠字重间距，<b>不靠左边竖条</b>。</p>
+        <p>暖径向 + 大圆角 + 外阴影；常规窗口纸面与顶栏留 <b>1rem</b> 间距，壳层更深一档。层级靠字重间距，<b>不靠左边竖条</b>。</p>
       </div>
       <div class="hl-card">
         <div class="tag">PDF</div>
         <h3>导出整页一色 + 精装</h3>
-        <p>画布跟 gutter 同色，禁内容区纯白柱。H2 签名线 · 抬升 fence · 圆角表 · 渐变 HR——<b>浅/深十二套共用</b>。</p>
+        <p>画布跟 gutter 同色，禁内容区纯白柱。纸张和页边距遵循 Typora 导出设置；H2 签名线 · 抬升 fence · 圆角表——<b>14 套共用导出排版规则</b>。</p>
       </div>
     </div>
   </section>
@@ -462,12 +475,12 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   <section id="pdf">
     <div class="sec-label">Export · PDF</div>
     <h2 class="sec">导出 PDF：先压平，再精装</h2>
-    <p class="prose">Typora 的 PDF 不是「把编辑器截下来」，而是写出独立 HTML（<code>body.typora-export</code>）再 <code>printToPDF</code>。编辑器纸感（gutter + <code>#write</code> 浮卡片）若原样带进 PDF，就会变成<strong>外圈底色 + 中间白柱</strong>。本主题对<strong>免费 V2 与付费 V1–V6 的浅/深十二套</strong>共用同一套导出精装，只换各皮肤的色板。</p>
+    <p class="prose">Typora 的 PDF 不是「把编辑器截下来」，而是写出独立 HTML（<code>body.typora-export</code>）再 <code>printToPDF</code>。编辑器纸感（gutter + <code>#write</code> 浮卡片）若原样带进 PDF，就会变成<strong>外圈底色 + 中间白柱</strong>。本主题对<strong>免费 V2 两套与付费 V1 / V2 Pro / V3–V6 十二套</strong>共用导出排版规则，颜色跟各皮肤走。</p>
     <div class="hl-grid">
       <div class="hl-card">
         <div class="tag">1 · Flatten</div>
         <h3>整页画布同色</h3>
-        <p>浅色默认 <b>#ebe8df</b>；深色跟正文底。拆掉 <code>#write</code> 圆角与外阴影；<code>@page</code> 也同色，避免打印引擎露出白纸边。</p>
+        <p>浅色默认 <b>#ebe8df</b>；深色跟正文底。拆掉 <code>#write</code> 圆角与外阴影；纸张尺寸、页边距和页眉页脚由 Typora 导出设置决定。</p>
       </div>
       <div class="hl-card">
         <div class="tag">2 · Craft</div>
@@ -480,32 +493,27 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <p>切换主题<strong>不会</strong>重载已改 CSS。不退出重开，导出仍是内存里的旧样式——这是静默失败。</p>
       </div>
     </div>
-    <p class="prose" style="margin-top:22px">验收：打开任意长文 → 导出 PDF → 页边与正文同色、无白柱；H2 有短签名线；代码/标题块略浮于画布。</p>
+    <p class="prose" style="margin-top:22px">验收目标：打开 <code>demo/验收样张.md</code> → 导出 A4 多页 PDF → 检查首页、第二页和末页的上下留白，以及跨页表格、代码和图片。下方是 <code>demo/主题展示样张.md</code> 使用定稿免费 V2 CSS 从 Typora 原生导出的 A4 首页；也可<a href="previews/v2-export-a4.pdf">打开原始 PDF</a>。</p>
     <div class="shots" style="margin-top:28px">
       <figure class="shot">
-        <img src="screenshot-pdf-light.png" alt="浅色纸感验收：米色画布上的阅读面，题头与中英混排" width="1108" height="1400" loading="lazy">
-        <figcaption><b>浅色 · PDF / 纸感验收</b> · <code>demo/验收样张.md</code> — 画布米色、阅读面纸感；标题阶梯与引用克制竖线</figcaption>
+        <a href="previews/v2-export-a4.webp"><img src="previews/v2-export-a4.webp" alt="免费 V2 使用 macOS Typora 原生导出的 A4 PDF 首页：标题、正文、代码与表格" width="1241" height="1754" loading="lazy" decoding="async"></a>
+        <figcaption><b>免费 V2 · 定稿 A4 导出</b> · Typora 原生 PDF 首页，展示标题、代码与表格排版</figcaption>
       </figure>
     </div>
   </section>
 
   <section id="shots">
-    <div class="sec-label">In Typora</div>
-    <h2 class="sec">真机截图，不是营销假图</h2>
-    <p class="prose">验收样张开着，浅深各盯三分钟——headless 全绿不算数，最终要在 Typora 里肉眼看。</p>
-    <div class="shots">
-      <figure class="shot">
-        <img src="screenshot-zh.png" alt="中文验收样张：题头、阅读指标、中英混排" width="1200" height="800" loading="lazy">
-        <figcaption><b>中文样张</b> · demo/验收样张.md — 题头署名、阅读指标、中英混排正文</figcaption>
-      </figure>
-      <figure class="shot">
-        <img src="screenshot-fences-zh.png" alt="连续代码块：Python / shell / CSS" width="1200" height="800" loading="lazy">
-        <figcaption><b>代码块</b> · 连续 fences — 语法色克制，块与块之间有呼吸</figcaption>
-      </figure>
-      <figure class="shot">
-        <img src="screenshot-window.png" alt="Typora 窗口：侧栏与纸感编辑区" width="1200" height="800" loading="lazy">
-        <figcaption><b>整窗</b> · 侧栏 / 文件树 / 纸感编辑区同屏</figcaption>
-      </figure>
+    <div class="sec-label">Free V2 · 1.2.0</div>
+    <h2 class="sec">免费 V2 · 浅色与深色实机截图</h2>
+    <p class="prose">下图使用定稿 CSS 在 macOS Typora 中拍摄，展示标题、中英混排、引用、代码和表格。点击图片可查看原图；六套付费主题的浅深截图见<a href="#compare-shots">下方图库</a>。</p>
+    <div class="premium-gallery">
+      <article class="premium-card">
+        <h3>Hekouwang · 免费 V2</h3><p>同一套阅读指标下，浅色暖纸与深色阅读面分别展示。</p>
+        <div class="premium-pair">
+          <figure><a href="previews/v2-light.webp"><img src="previews/v2-light.webp" alt="免费 V2 浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
+          <figure><a href="previews/v2-dark.webp"><img src="previews/v2-dark.webp" alt="免费 V2 深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -526,8 +534,8 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       </div>
       <div class="gauge">
         <div class="gl">Measure</div>
-        <div class="gv">52em</div>
-        <div class="gu">流体行宽：min(52em, 100% − gutter)。</div>
+        <div class="gv">48–60rem / ≤80em</div>
+        <div class="gu">正文阅读列居中，从 48rem 随宽屏渐进至最多 60rem；纸面普通窗口 52em，从 1440px 视口起扩为最多 80em 的技术画布。</div>
       </div>
     </div>
   </section>
@@ -765,46 +773,72 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 <span class="ok">✓</span> <span class="cm">Cmd+Q 退出再开 · 主题菜单选 Hekouwang / Hekouwang Dark</span></pre>
     </div>
     <p class="install-note">也可只拷 <code>theme/hekouwang.css</code>、<code>theme/hekouwang-dark.css</code> 和 <code>theme/hekouwang/</code> 到 Typora 主题文件夹（Preferences → Open Theme Folder）。</p>
+    <p class="install-note">从旧版升级？先看 <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/UPGRADE.md">1.2.0 升级说明</a>，其中列出免费版、付费包的安装与重启步骤。</p>
   </section>
 
   <section id="buy">
     <div class="sec-label">Pack · ¥9.9</div>
     <h2 class="sec">怎么买六套皮肤</h2>
     <p class="buy-sub">three steps · WeChat Pay or Alipay · 一年更新</p>
-    <p class="prose">免费＝一套写得久的阅读指标（V2，公开仓 MIT）。付费＝同一指标上的 skill 皮肤（科技 / 财经 / 玻璃 / 紫×青 / 焰彩紫橙粉等，各含 Dark；V2 与免费同文件），并多一层阅读工艺。<b>色板与工艺源码不进公开仓</b>，只随 zip 私发——clone 公开仓跑 <code>build.py</code> 只会出免费 V2。</p>
+    <p class="prose">免费版是完整的 V2 编辑主题（公开仓 MIT）。付费包在相同阅读指标上提供六套分别设计的视觉系统：V1 石墨青绿、V2 Pro 典藏编辑、V3 海军蓝财经、V4 冰蓝玻璃、V5 紫晶电青 HUD、V6 李紫焰彩，各有浅色与深色。<b>V2 Pro 与免费 V2 是不同的菜单项和 CSS</b>；付费色板与工艺源码只随 zip 私发。clone 公开仓跑 <code>build.py</code> 只会出免费 V2。</p>
     <table class="tier-table">
       <thead><tr><th></th><th>开源 · MIT</th><th>主题包 · ¥9.9</th></tr></thead>
       <tbody>
-        <tr><td>Hekouwang / Dark（V2 编辑）</td><td class="y">✓</td><td class="y">✓</td></tr>
-        <tr><td>Hekouwang V1 / V3–V6（+ Dark）</td><td class="n">—</td><td class="y">✓</td></tr>
-        <tr><td>同一套 1rem · 1.65 · 52em · 纸感</td><td class="y">✓</td><td class="y">✓</td></tr>
+        <tr><td>Hekouwang / Dark（免费 V2）</td><td class="y">✓</td><td>从公开仓单独安装</td></tr>
+        <tr><td>Hekouwang V1 / V2 Pro / V3–V6（+ Dark）</td><td class="n">—</td><td class="y">12 个 CSS</td></tr>
+        <tr><td>同一套 1rem · 1.65 · 48–60rem 响应式阅读列 / ≤80em 技术画布 · 纸感</td><td class="y">✓</td><td class="y">✓</td></tr>
         <tr><td>付费阅读工艺（更深纸影 · 标题点缀 · 引用/代码块）</td><td class="n">—</td><td class="y">✓</td></tr>
         <tr><td>一年更新 + 微信答疑</td><td class="n">—</td><td class="y">✓</td></tr>
       </tbody>
     </table>
 
     <div class="ask" id="compare-shots" style="margin-top:28px">
-      <span class="lb">compare · real Typora</span>
-      <b>真机对比</b>（同开 <code>demo/验收样张.md</code>）。完整画廊见
-      <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/README.zh.md#%E4%BB%98%E8%B4%B9%E5%8C%85--%E7%9C%9F%E6%9C%BAv1--v3v6">README 付费真机</a>。
+      <span class="lb">six visual systems · 1.2.0</span>
+      <b>六套付费主题 · 浅深实机截图</b>。以下图片使用定稿 CSS 在 macOS Typora 中拍摄，点击可查看原图。每套都展示标题、正文、引用、代码和表格；<a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/UPGRADE.md">升级说明</a>列出从旧版切换的步骤。
     </div>
-    <div class="shots" style="margin-top:18px">
-      <figure class="shot">
-        <img src="V5.png" alt="V5 紫 HUD 浅色：紫×青" width="1310" height="1000" loading="lazy">
-        <figcaption><b>V5 紫 HUD</b> · 紫 × 青（链接走青绿）</figcaption>
-      </figure>
-      <figure class="shot">
-        <img src="V6.png" alt="V6 焰彩浅色：紫×橙×粉" width="1310" height="1000" loading="lazy">
-        <figcaption><b>V6 焰彩</b> · 紫 × 橙 × 粉（H1 焰彩渐变）</figcaption>
-      </figure>
-      <figure class="shot">
-        <img src="V1.png" alt="V1 科技浅色" width="1310" height="1000" loading="lazy">
-        <figcaption><b>V1 科技</b> · 冷调绿紫</figcaption>
-      </figure>
-      <figure class="shot">
-        <img src="V3.png" alt="V3 财经浅色" width="1310" height="1000" loading="lazy">
-        <figcaption><b>V3 财经</b> · Material 蓝</figcaption>
-      </figure>
+    <div class="premium-gallery">
+      <article class="premium-card">
+        <h3>V1 · 石墨青绿</h3><p>冷蓝灰与薄荷青的技术文档气质，紫色链接帮助定位。</p>
+        <div class="premium-pair">
+          <figure><a href="previews/v1-light.webp"><img src="previews/v1-light.webp" alt="V1 石墨青绿浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
+          <figure><a href="previews/v1-dark.webp"><img src="previews/v1-dark.webp" alt="V1 石墨青绿深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
+        </div>
+      </article>
+      <article class="premium-card">
+        <h3>V2 Pro · 典藏编辑</h3><p>胡桃墨、古铜与暖纸色，双线装饰与清晰的无衬线标题层级；与免费 V2 分开安装。</p>
+        <div class="premium-pair">
+          <figure><a href="previews/v2-pro-light.webp"><img src="previews/v2-pro-light.webp" alt="V2 Pro 典藏编辑浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
+          <figure><a href="previews/v2-pro-dark.webp"><img src="previews/v2-pro-dark.webp" alt="V2 Pro 典藏编辑深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
+        </div>
+      </article>
+      <article class="premium-card">
+        <h3>V3 · 海军蓝财经</h3><p>海军蓝与黄铜，把表格和数据阅读放在前面。</p>
+        <div class="premium-pair">
+          <figure><a href="previews/v3-light.webp"><img src="previews/v3-light.webp" alt="V3 海军蓝财经浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
+          <figure><a href="previews/v3-dark.webp"><img src="previews/v3-dark.webp" alt="V3 海军蓝财经深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
+        </div>
+      </article>
+      <article class="premium-card">
+        <h3>V4 · 冰蓝玻璃</h3><p>冰蓝、雾面叠片与圆角，适合轻量产品文档。</p>
+        <div class="premium-pair">
+          <figure><a href="previews/v4-light.webp"><img src="previews/v4-light.webp" alt="V4 冰蓝玻璃浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
+          <figure><a href="previews/v4-dark.webp"><img src="previews/v4-dark.webp" alt="V4 冰蓝玻璃深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
+        </div>
+      </article>
+      <article class="premium-card">
+        <h3>V5 · 紫晶电青 HUD</h3><p>浅色紫晶壳配青色信号；深色冷靛紫壳配电青点缀。</p>
+        <div class="premium-pair">
+          <figure><a href="previews/v5-light.webp"><img src="previews/v5-light.webp" alt="V5 紫晶电青 HUD 浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
+          <figure><a href="previews/v5-dark.webp"><img src="previews/v5-dark.webp" alt="V5 紫晶电青 HUD 深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
+        </div>
+      </article>
+      <article class="premium-card">
+        <h3>V6 · 李紫焰彩</h3><p>李紫、珊瑚橙与粉色，暖色杂志感留给重点。</p>
+        <div class="premium-pair">
+          <figure><a href="previews/v6-light.webp"><img src="previews/v6-light.webp" alt="V6 李紫焰彩浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
+          <figure><a href="previews/v6-dark.webp"><img src="previews/v6-dark.webp" alt="V6 李紫焰彩深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
+        </div>
+      </article>
     </div>
 
     <div class="buy-steps">
@@ -826,11 +860,11 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="ghd"><span class="n">01</span>付款 · 二选一</div>
       <div class="qr">
         <div class="qrbox">
-          <img src="images/pay-wechat.png" alt="微信支付收款码" width="240" height="240" loading="lazy">
+          <img src="images/pay-wechat.png" alt="微信支付收款码" width="560" height="596" loading="lazy">
           <div class="lbl"><b>微信支付</b> · ¥9.9</div>
         </div>
         <div class="qrbox">
-          <img src="images/pay-alipay.png" alt="支付宝收款码" width="240" height="240" loading="lazy">
+          <img src="images/pay-alipay.png" alt="支付宝收款码" width="560" height="622" loading="lazy">
           <div class="lbl"><b>支付宝</b> · ¥9.9</div>
         </div>
       </div>
@@ -840,7 +874,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="ghd"><span class="n">02</span>然后加我</div>
       <div class="qr">
         <div class="qrbox">
-          <img src="images/wechat-qr.png" alt="微信加好友二维码" width="240" height="240" loading="lazy">
+          <img src="images/wechat-qr.png" alt="微信加好友二维码" width="560" height="560" loading="lazy">
           <div class="lbl"><b>扫码加我</b></div>
         </div>
         <div class="wxid">
@@ -870,12 +904,12 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <div class="sec-label">Unlock · Paid pack</div>
     <h2 class="sec">付费包安装手册</h2>
     <p class="buy-sub">收到 zip 后来这里 · 不用记命令</p>
-    <p class="prose">付费包只追加 <b>Hekouwang V1 / V3–V6</b>（各含 Dark，共 10 个 CSS）。免费的 <b>Hekouwang / Hekouwang Dark</b>（V2）仍走公开仓 <a href="#install">Install</a>。色板与工艺源码只在 zip 里，不会出现在公开 GitHub 树。</p>
+    <p class="prose">付费包追加 <b>Hekouwang V1 / V2 Pro / V3–V6</b>（各含 Dark，共 12 个 CSS）。免费的 <b>Hekouwang / Hekouwang Dark</b>（V2）仍走公开仓 <a href="#install">Install</a>。色板与工艺源码只在 zip 里，不会出现在公开 GitHub 树。</p>
 
     <div class="buy-steps">
       <div class="buy-step"><div class="sq">01</div><div>
         <div class="tt">确认 zip 能解压</div>
-        <div class="ds">文件名类似 <code>hekouwang-typora-theme-pack-v1.1.0-YYYYMMDD.zip</code>。解压后应有 <code>unlock.sh</code>、<code>theme/</code>（10 个 css）、<code>LICENSE-PRO.txt</code>、<code>VERSION</code>。<br>
+        <div class="ds">文件名类似 <code>hekouwang-typora-theme-pack-v1.2.0-YYYYMMDD.zip</code>。解压后应有 <code>unlock.sh</code>、<code>theme/</code>（12 个 CSS）、<code>LICENSE-PRO.txt</code>、<code>VERSION</code>。<br>
         若打不开或提示损坏：多半是微信传输截断——让我重发，或改用文件传输助手 / 网盘再下一次。</div>
       </div></div>
       <div class="buy-step"><div class="sq">02</div><div>
@@ -897,11 +931,11 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <div class="tt">安装付费包（二选一）</div>
         <div class="ds"><b>方式 A · 推荐</b>：解压后在包目录执行 <code>chmod +x ./unlock.sh &amp;&amp; ./unlock.sh</code><br>
         <b>方式 B</b>：在公开仓目录执行 <code>./scripts/unlock.sh ~/Downloads/你的包.zip</code><br>
-        成功时终端会列出 10 个 CSS 已装进 Typora 主题目录。</div>
+        成功时终端会列出 12 个 CSS 已装进 Typora 主题目录。</div>
       </div></div>
       <div class="buy-step"><div class="sq">04</div><div>
         <div class="tt">Cmd+Q 完全退出 Typora，再打开</div>
-        <div class="ds">点红点不够。重开后：菜单 <b>主题 / Themes</b> → 选 <b>Hekouwang V1 … V6</b>（或对应 Dark）。<br>
+        <div class="ds">点红点不够。重开后：菜单 <b>主题 / Themes</b> → 选 <b>Hekouwang V1 / V2 Pro / V3–V6</b>（或对应 Dark）。<br>
         macOS 主题目录：<code>~/Library/Application Support/abnerworks.Typora/themes/</code></div>
       </div></div>
     </div>
@@ -911,17 +945,18 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <b>装好后菜单里应有：</b>
       <ul class="unlock-check">
         <li>Hekouwang / Hekouwang Dark（免费 V2）</li>
-        <li>Hekouwang V1 / V1 Dark（科技）</li>
-        <li>Hekouwang V3 / V3 Dark（财经）</li>
-        <li>Hekouwang V4 / V4 Dark（玻璃）</li>
-        <li>Hekouwang V5 / V5 Dark（紫 HUD）</li>
-        <li>Hekouwang V6 / V6 Dark（焰彩）</li>
+        <li>Hekouwang V1 / V1 Dark（石墨青绿）</li>
+        <li>Hekouwang V2 Pro / V2 Pro Dark（典藏编辑）</li>
+        <li>Hekouwang V3 / V3 Dark（海军蓝财经）</li>
+        <li>Hekouwang V4 / V4 Dark（冰蓝玻璃）</li>
+        <li>Hekouwang V5 / V5 Dark（紫晶电青 HUD）</li>
+        <li>Hekouwang V6 / V6 Dark（李紫焰彩）</li>
       </ul>
     </div>
 
     <div class="ask">
       <span class="lb">faq</span>
-      <b>菜单里没有 V1–V6？</b>先看 unlock 有无报错，再 Cmd+Q 重开；主题目录里应能看到 <code>hekouwang-v1.css</code> 等。<br>
+      <b>菜单里没有 V1 / V2 Pro / V3–V6？</b>先看 unlock 有无报错，再 Cmd+Q 重开；主题目录里应能看到 <code>hekouwang-v2-pro.css</code> 等。<br>
       <b>Windows / Linux？</b>本包按 macOS 路径验收。其他系统：Typora → Open Theme Folder，手动拷入 zip 里 <code>theme/*.css</code>，再重启。<br>
       <b>能否转发给别人？</b>不能。见包内 <code>LICENSE-PRO.txt</code>。
     </div>

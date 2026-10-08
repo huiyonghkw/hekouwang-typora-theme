@@ -6,7 +6,7 @@
 #   ./scripts/install.sh                          # install free themes (recommended)
 #   ./scripts/install.sh --use-local-anthropic    # additionally link Anthropic fonts (see below)
 #
-# 付费六套（V1/V3–V6）不在公开仓。买完用：
+# 付费六套（V1/V2 Pro/V3–V6）不在公开仓。买完用：
 #   ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-*.zip
 # 购买页见 scripts/links.sh → HKW_URL_BUY
 #
@@ -140,7 +140,7 @@ echo "  Done. Quit Typora completely (Cmd+Q) and reopen."
 echo "  Themes menu · Free："
 echo "    • Hekouwang / Hekouwang Dark   （skill V2 编辑）"
 echo
-echo "  Pack · V1–V6（¥9.9）："
+echo "  Pack · V1 / V2 Pro / V3–V6（¥9.9）："
 echo "    $HKW_URL_BUY"
 echo "    买完：./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-*.zip"
 echo

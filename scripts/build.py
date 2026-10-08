@@ -14,6 +14,11 @@ import json
 import os
 from string import Template
 
+if __package__:
+    from .contrast_check import audit_css
+else:
+    from contrast_check import audit_css
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
@@ -40,6 +45,81 @@ def hexa(hex_color, alpha):
     h = hex_color.lstrip("#")
     r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
     return f"rgba({r},{g},{b},{alpha})"
+
+
+def _rgb(hex_color):
+    value = hex_color.lstrip("#")
+    if len(value) == 3:
+        value = "".join(ch * 2 for ch in value)
+    if len(value) != 6:
+        raise ValueError(f"expected #rrggbb color, got {hex_color!r}")
+    return tuple(int(value[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _hex(rgb):
+    return "#" + "".join(f"{round(channel):02x}" for channel in rgb)
+
+
+def _luminance(hex_color):
+    channels = [x / 255 for x in _rgb(hex_color)]
+    linear = [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4
+              for x in channels]
+    return sum(x * weight for x, weight in zip(linear, (0.2126, 0.7152, 0.0722)))
+
+
+def contrast_ratio(foreground, background):
+    a, b = sorted((_luminance(foreground), _luminance(background)), reverse=True)
+    return (a + 0.05) / (b + 0.05)
+
+
+def _mix_color(base, target, fraction):
+    return _hex(a + (b - a) * fraction for a, b in zip(_rgb(base), _rgb(target)))
+
+
+def readable_color(base, backgrounds, minimum, dark):
+    """保留原色相，向白/黑做最小混合，直到所有实际底色达到目标对比度。"""
+    backgrounds = [backgrounds] if isinstance(backgrounds, str) else backgrounds
+    if min(contrast_ratio(base, bg) for bg in backgrounds) >= minimum:
+        return base
+    target = "#ffffff" if dark else "#000000"
+    lo, hi = 0.0, 1.0
+    for _ in range(24):
+        mid = (lo + hi) / 2
+        candidate = _mix_color(base, target, mid)
+        if min(contrast_ratio(candidate, bg) for bg in backgrounds) >= minimum:
+            hi = mid
+        else:
+            lo = mid
+    candidate = _mix_color(base, target, hi)
+    # 8-bit rounding can land just below a threshold; move one step if needed.
+    while min(contrast_ratio(candidate, bg) for bg in backgrounds) < minimum:
+        hi = min(1.0, hi + 1 / 255)
+        candidate = _mix_color(base, target, hi)
+        if hi == 1.0:
+            break
+    return candidate
+
+
+def composite_color(foreground, background, alpha):
+    return _mix_color(background, foreground, float(alpha))
+
+
+def paper_colors(tokens, dark):
+    paper = tokens.get("paper") or {}
+    variant = (paper.get("dark") or {}) if dark else paper
+    bg = tokens["color"]["bg"]
+    if not paper.get("enabled", True) or (dark and not variant.get("enabled", True)):
+        return [bg]
+    return [variant.get(name, bg) for name in ("highlight", "mid", "shade")]
+
+
+def on_accent_color(accent):
+    dark_ink, light_ink = "#141413", "#ffffff"
+    if contrast_ratio(dark_ink, accent) >= 4.55:
+        return dark_ink
+    if contrast_ratio(light_ink, accent) >= 4.55:
+        return light_ink
+    return "#000000"
 
 
 # 纸感默认只用径向 + inset（无噪点图）。噪点 SVG 在部分 Chromium 上又重又脏，留作可选实验。
@@ -157,13 +237,13 @@ CSS = Template(r"""
   --item-hover-text-color:    ${color_text};
   --active-file-bg-color:     ${color_hover};
   --active-file-text-color:   ${color_text};
-  --active-file-border-color: ${color_accent};
-  --primary-color:            ${color_accent};
-  --primary-btn-border-color: ${color_accent};
-  --primary-btn-text-color:   #ffffff;
+  --active-file-border-color: ${color_accent_text};
+  --primary-color:            ${color_accent_text};
+  --primary-btn-border-color: ${color_accent_text};
+  --primary-btn-text-color:   ${color_on_accent};
   --window-border:            ${line};
-  --md-char-color:            ${color_text_faint};
-  --meta-content-color:       ${color_text_muted};
+  --md-char-color:            ${color_faint_readable};
+  --meta-content-color:       ${color_muted_readable};
   --control-text-color:       ${color_text_soft};
   --control-text-hover-color: ${color_text};
   --select-text-bg-color:     ${accent_wash};
@@ -171,19 +251,25 @@ CSS = Template(r"""
   --blur-text-color:          ${color_text_faint};
   --monospace:                ${font_mono_stack};
   --rawblock-edit-panel-bd:   ${line};
+  --mermaid-theme:            ${mermaid_theme};
 
   /* —— Bone 私有 —— */
   --hk-raised:    ${color_bg_raised};
   --hk-sunken:    ${color_sunken};
   --hk-ink:       ${color_ink};
   --hk-soft:      ${color_text_soft};
-  --hk-muted:     ${color_text_muted};
-  --hk-faint:     ${color_text_faint};
-  --hk-accent:    ${color_accent};
+  --hk-muted:     ${color_muted_readable};
+  --hk-faint:     ${color_faint_readable};
+  --hk-accent:    ${color_accent_text};
+  --hk-accent-decor: ${color_accent};
+  --hk-accent-text: ${color_accent_text};
+  --hk-on-accent: ${color_on_accent};
+  --hk-control-border: ${color_control_border};
   --hk-accent2:   ${color_accent2};
   --hk-accent3:   ${color_accent3};
-  --hk-link:      ${color_link};
-  --hk-code:      ${color_code_text};
+  --hk-link:      ${color_link_readable};
+  --hk-link-hover: ${color_link_hover};
+  --hk-code:      ${color_code_text_readable};
   --hk-hairline:  ${hairline};
   --hk-line:      ${line};
   --hk-divider:   ${divider};
@@ -193,6 +279,8 @@ CSS = Template(r"""
   --hk-pill:      ${shape_radius_pill};
   --hk-sans:      ${font_sans_stack};
   --hk-serif:     ${font_serif_stack};
+  /* 用户可在 hekouwang.user.css 中覆盖，不必重建整套配色。 */
+  --hk-reading-measure: ${type_reading_measure};
 }
 
 /* --------------------------------------------------------------------------
@@ -254,6 +342,7 @@ content {
   max-width: min(${type_measure}, calc(100% - ${layout_measure_gutter}));
   box-sizing: border-box;
   margin: 0 auto;
+  margin-top: ${layout_write_margin_top};
   padding: ${layout_write_pad_top} ${layout_write_pad_x} ${layout_write_pad_bottom};
   font-size: ${type_body_size};
   line-height: ${type_body_lh};
@@ -272,12 +361,28 @@ content {
   ${paper_write_extra}
 }
 
+/* 宽窗口保留技术画布；正文阅读列在下方单独限宽。 */
+@media (min-width: ${layout_wide_breakpoint}) {
+  #write {
+    max-width: min(${layout_wide_measure}, calc(${type_measure} + 100vw - ${layout_wide_breakpoint}), calc(100% - ${layout_measure_gutter}));
+  }
+}
+
 /* 含 Windows 分屏在内的窄窗口：避免双重 padding 把正文挤成竖条。 */
 @media (max-width: 760px) {
   #write {
     max-width: calc(100% - 1.5rem);
+    margin-top: 0.75rem;
     padding: 1.5rem 1.25rem 3.5rem;
     border-radius: var(--hk-r);
+  }
+}
+/* 裸 pre > code 用于预览/HTML 片段；Typora 编辑器的 CodeMirror 仍自行滚动。
+   pre 保留 overflow:visible 以让语言工具浮层可见，因此在 code 子节点折行。 */
+@media screen {
+  body:not(.typora-export) #write pre.md-fences > code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -348,8 +453,8 @@ content {
 /* --------------------------------------------------------------------------
    行内
    -------------------------------------------------------------------------- */
-/* strong 让一档给标题：列表里「精准筛选：」不再和 h2 同级抢黑 */
-#write strong { font-weight: 600; color: var(--hk-soft); }
+/* 强调保持正文墨色，靠字重建立层级；不把语义强调降成灰字。 */
+#write strong { font-weight: 650; color: inherit; }
 #write h1 strong, #write h2 strong, #write h3 strong,
 #write h4 strong, #write h5 strong, #write h6 strong {
   color: inherit;
@@ -378,7 +483,7 @@ content {
   transition: text-decoration-color .15s ease, color .15s ease;
 }
 #write a:hover {
-  color: var(--hk-accent);
+  color: var(--hk-link-hover);
   text-decoration-color: var(--hk-accent);
 }
 
@@ -489,12 +594,12 @@ content {
   height: 1.05em;
   margin-left: -1.45em;
   margin-top: 0.28em;
-  border: 1.5px solid var(--hk-divider);
+  border: 1.5px solid var(--hk-control-border);
   border-radius: 4px;
   background: var(--hk-raised);
   transition: background .15s ease, border-color .15s ease;
 }
-#write .md-task-list-item > input:hover { border-color: var(--hk-accent); }
+#write .md-task-list-item > input:hover { border-color: var(--hk-accent-text); }
 #write .md-task-list-item > input:checked {
   background: var(--hk-accent);
   border-color: var(--hk-accent);
@@ -505,7 +610,7 @@ content {
   width: 0.28em;
   height: 0.55em;
   margin: 0.08em 0 0 0.32em;
-  border: solid #fff;
+  border: solid var(--hk-on-accent);
   border-width: 0 1.8px 1.8px 0;
   transform: rotate(45deg);
 }
@@ -554,8 +659,7 @@ content {
 #write pre.md-fences .CodeMirror pre {
   padding: 0 0.5rem; /* 左右留空，避免 [ ] 贴边被裁 */
 }
-${craft_extra}
-#write pre.md-fences.md-focus { border-color: ${accent_border}; }
+#write pre.md-fences.md-focus { border-color: var(--hk-accent-text); }
 
 /* 语言选择器：必须露在代码块下方，可点可输入 */
 .md-fences .code-tooltip {
@@ -602,6 +706,15 @@ ${craft_extra}
 .cm-s-inner .cm-link     { color: var(--hk-link); }
 .cm-s-inner .cm-error    { color: ${syn_error}; }
 
+/* 源码模式保持与正文接近的阅读宽度，并保留 Typora 的行号内边距。 */
+#typora-source .CodeMirror-lines {
+  box-sizing: border-box;
+  max-width: min(calc(var(--hk-reading-measure) + 4rem), calc(100% - ${layout_measure_gutter}));
+  margin: 0 auto;
+}
+@media (max-width: 760px) {
+  #typora-source .CodeMirror-lines { max-width: calc(100% - 1.5rem); }
+}
 /* 源码模式（另一套 CodeMirror 主题类，cm-s-inner 管不到） */
 .cm-s-typora-default .cm-header      { color: var(--hk-ink); font-weight: 650; }
 .cm-s-typora-default .cm-comment     { color: ${syn_comment}; }
@@ -613,14 +726,56 @@ ${craft_extra}
 /* --------------------------------------------------------------------------
    表格
    表头：极淡沉底 + ink 字色（认出行，不成灰条带）。
-   表宽跟正文栏走——曾用负 margin 破栏，首列会贴纸边像被裁切，已撤回。
+   常规表填满阅读列，宽数据表使用技术画布和局部滚动。
    -------------------------------------------------------------------------- */
 #write table {
   margin: ${type_block_gap} 0;
   width: 100%;
+  min-width: min(100%, 32rem);
   max-width: 100%;
-  font-size: ${type_small};
+  font-size: ${type_table_size};
   border-collapse: collapse;
+}
+/* 宽数据表至少填满技术画布，内容更宽时只在自身滚动容器中展开。 */
+@media screen {
+  #write figure > table:has(tr > :nth-child(7)) {
+    min-width: max-content;
+    max-width: none;
+  }
+}
+/* 常规六列及以下表格填满响应式阅读列；七列起使用技术画布。 */
+#write > figure:has(> table):not(:has(> table tr > :nth-child(7))) {
+  box-sizing: border-box;
+  max-width: min(100%, var(--hk-reading-measure));
+  margin-left: auto;
+  margin-right: auto;
+}
+/* 单元格至少留出可读宽度。窄窗中由 Typora 的 figure 自身滚动，
+   避免长中文、代码和 URL 被挤成一两个字一行。 */
+@media screen {
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) {
+    overflow-x: auto;
+  }
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table {
+    max-width: none;
+  }
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table th,
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table td {
+    min-width: 7rem;
+  }
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table td:has(code) {
+    min-width: 12rem;
+  }
+}
+#write > table:not(:has(tr > :nth-child(7))) {
+  width: min(100%, var(--hk-reading-measure));
+  max-width: min(100%, var(--hk-reading-measure));
+  margin-left: auto;
+  margin-right: auto;
+}
+#write table th,
+#write table td {
+  overflow-wrap: anywhere;
 }
 #write table th {
   font-weight: 650;
@@ -639,7 +794,7 @@ ${craft_extra}
 }
 #write table tbody tr:last-child td { border-bottom: none; }
 #write table tbody tr:hover { background: ${code_bg}; }
-#write table code { font-size: 0.9em; }
+#write table code { font-size: 1em; }
 
 /* --------------------------------------------------------------------------
    其他块
@@ -660,11 +815,23 @@ ${craft_extra}
   border-radius: var(--hk-r);
   max-width: 100%;
   height: auto;
-  display: block;
   background: transparent;
   background-color: transparent;
   box-shadow: none;
 }
+/* :only-child 不计文本节点，句内图片也可能被 Typora 误排成整行。 */
+#write p > .md-image,
+#write p > .md-image:only-child {
+  display: inline;
+  width: auto;
+}
+#write p > .md-image img,
+#write p > .md-image:only-child img,
+#write p > img:only-child {
+  display: inline-block;
+  vertical-align: middle;
+}
+#write figure img { display: block; }
 #write figure,
 #write .md-image,
 #write p > .md-image,
@@ -693,10 +860,10 @@ ${craft_extra}
   margin-top: 0.4rem;
 }
 
-/* 数学公式：强制正文色；块级只加细边框，不铺沉底 */
-#write .md-math, #write .md-mathblock,
-#write .md-inline-math, mjx-container, .katex { color: var(--text-color); }
-#write .md-mathblock {
+/* Typora 1.14 的可见块级公式使用 .md-math-block；.md-mathblock-panel 是编辑控件。 */
+#write .md-math-block, #write .md-inline-math,
+#write mjx-container, #write .katex { color: var(--text-color); }
+#write .md-math-block {
   background: transparent;
   border: 1px solid var(--hk-hairline);
   border-radius: var(--hk-r);
@@ -704,9 +871,13 @@ ${craft_extra}
   margin: ${type_block_gap} 0;
   overflow-x: auto;
 }
+/* Typora 编辑时会加 .md-rawblock-on-edit，让内部公式工具条完整露出。 */
+#write .md-math-block.md-rawblock-on-edit {
+  overflow: visible;
+  border-color: var(--hk-control-border);
+}
 
-/* 图表 / mermaid 容器 —— 不加背景（之前加了背景泄漏到图片上）
-   图表本身有自带样式，不需要主题包一层 */
+/* Mermaid 的深浅配色由 Typora 的 --mermaid-theme 决定，不直接改 SVG 节点色。 */
 .md-diagram-panel { padding: 0.3rem 0; }
 .md-diagram-panel-preview { background: transparent; }
 
@@ -726,7 +897,7 @@ ${craft_extra}
 #write .md-def-footnote { color: var(--hk-muted); font-size: ${type_small}; }
 #write sup.md-footnote {
   background: ${code_bg};
-  color: var(--hk-accent);
+  color: var(--hk-accent-text);
   border-radius: var(--hk-pill);
   padding: 1px 5px;
   font-size: 0.72em;
@@ -757,6 +928,16 @@ ${craft_extra}
 #write .md-alert-text-tip       { color: ${alert_tip_fg}; }
 #write .md-alert-text-caution   { color: ${alert_caution_fg}; }
 
+/* 宽纸面中的阅读列：连续文字居中，代码、表格、图表保留整幅空间。 */
+#write > :is(p, h1, h2, h3, h4, h5, h6,
+             ul, ol, blockquote, hr, .md-alert, .md-toc,
+             .md-def-footnote, .footnotes) {
+  box-sizing: border-box;
+  max-width: min(100%, var(--hk-reading-measure));
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Markdown 语法符号（未展开时的灰度） */
 #write .md-meta { color: var(--md-char-color); font-family: var(--monospace); font-size: 0.9em; }
 
@@ -768,6 +949,30 @@ ${craft_extra}
   color: var(--blur-text-color);
   transition: color .2s ease;
 }
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) :is(img, input[type="checkbox"], .md-diagram-panel),
+.on-focus-mode .md-math-block:not(.md-focus):not(.md-focus-container):not(.md-rawblock-on-edit) {
+  opacity: 0.42;
+  transition: opacity .2s ease;
+}
+.on-focus-mode pre.md-fences:not(.md-focus):not(.md-focus-container) .cm-s-inner span {
+  color: var(--blur-text-color);
+}
+
+/* 键盘焦点要与装饰强调色分开：焦点环至少有 3:1 的边界对比。 */
+#write a:focus-visible,
+#write .md-task-list-item > input:focus-visible,
+.btn:focus-visible,
+.file-node-content:focus-visible,
+.file-list-item:focus-visible,
+#outline-content .outline-item:focus-visible,
+#file-library-search-input:focus-visible,
+#md-searchpanel input:focus-visible,
+.ty-editor-toolbar-btn:focus-visible,
+.ty-editor-toolbar-hint-close:focus-visible,
+.ty-editor-toolbar-menu-item:focus-visible {
+  outline: 2px solid var(--hk-accent-text);
+  outline-offset: 2px;
+}
 
 /* --------------------------------------------------------------------------
    无障碍：尊重系统"减少动效"偏好
@@ -775,7 +980,13 @@ ${craft_extra}
 @media (prefers-reduced-motion: reduce) {
   #write a, #write .md-task-list-item > input,
   .btn, .file-node-content:hover,
-  .file-list-item:hover { transition: none; }
+  .file-list-item:hover,
+  .on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container),
+  .on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) *,
+  .on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) :is(img, input[type="checkbox"], .md-diagram-panel),
+  .on-focus-mode .md-math-block:not(.md-focus):not(.md-focus-container):not(.md-rawblock-on-edit) {
+    transition: none;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -847,7 +1058,7 @@ ${craft_extra}
 
 #outline-content .outline-item { color: var(--hk-soft); font-size: ${type_small}; border-radius: var(--hk-r-sm); }
 #outline-content .outline-item:hover { background: var(--item-hover-bg-color); }
-#outline-content .outline-active > .outline-item { color: var(--hk-accent); font-weight: 650; }
+#outline-content .outline-active > .outline-item { color: var(--hk-accent-text); font-weight: 650; }
 
 .sidebar-tabs, .sidebar-footer, #ty-sidebar-footer {
   border-color: var(--hk-hairline);
@@ -871,8 +1082,39 @@ ${craft_extra}
 .btn-primary {
   background: var(--hk-accent);
   border-color: var(--hk-accent);
-  color: #fff;
+  color: var(--hk-on-accent);
 }
+
+/* Typora 1.14 的浮动工具栏：保留原生位置和收起逻辑，只修正灰化文字与焦点。 */
+.ty-editor-toolbar,
+.ty-editor-toolbar-menu {
+  background-color: var(--hk-raised);
+  color: var(--text-color);
+  border-color: var(--hk-control-border);
+  font-family: var(--hk-sans);
+}
+.ty-editor-toolbar-btn,
+.ty-editor-toolbar-hint-close,
+.ty-editor-toolbar-hint-text,
+.ty-editor-toolbar-menu-item .tmi-extra,
+.ty-editor-toolbar-menu-item .tmi-icon,
+.ty-editor-toolbar-select .fa {
+  color: var(--hk-muted);
+  opacity: 1;
+}
+.ty-editor-toolbar-btn,
+.ty-editor-toolbar-hint-close { background-color: transparent; }
+.ty-editor-toolbar-btn:is(:hover, .hover, .active, :focus-visible),
+.ty-editor-toolbar-hint-close:is(:hover, :focus-visible),
+.ty-editor-toolbar-menu-item:is(:hover, .active, :focus-visible) {
+  color: var(--text-color);
+}
+.ty-editor-toolbar-btn:is(:hover, .hover, .active),
+.ty-editor-toolbar-menu-item:is(:hover, .active) {
+  background-color: var(--item-hover-bg-color);
+}
+.ty-editor-toolbar-divider,
+.ty-editor-toolbar-menu-divider { background-color: var(--hk-control-border); }
 
 /* 滚动条 */
 .typora-node ::-webkit-scrollbar,
@@ -933,11 +1175,6 @@ titlebar {
    !important 仅本段；check() 豁免。⛔ 不用左边彩色竖条。
    -------------------------------------------------------------------------- */
 
-@page {
-  margin: 0;
-  background: ${paper_canvas_bg};
-}
-
 html {
   background: ${paper_canvas_bg} !important;
   background-color: ${paper_canvas_bg} !important;
@@ -956,7 +1193,7 @@ body.typora-export #write {
   max-width: none !important;
   width: 100% !important;
   margin: 0 !important;
-  /* 页内呼吸：Typora 已给 body 左右 mm 边距，这里补上下与微调 */
+  /* 页内呼吸：保留 Typora 导出设置的左右留白，这里只补内边距。 */
   padding: 1.35rem 0.15rem 2.4rem !important;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -1020,6 +1257,19 @@ body.typora-export #write pre.md-fences {
     0 8px 22px ${shadow_soft} !important;
   padding: 1rem 1.2rem !important;
   margin: 0.85rem 0 1.15rem !important;
+  /* 编辑区仍保留语言选择器；导出的静态代码允许长行在页内折行。 */
+  white-space: pre-wrap !important;
+  overflow-wrap: break-word !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  overflow: visible !important;
+}
+body.typora-export #write pre.md-fences code,
+body.typora-export #write pre.md-fences .CodeMirror-line {
+  white-space: pre-wrap !important;
+  overflow-wrap: break-word !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
 }
 body.typora-export #write pre.md-fences + pre.md-fences {
   margin-top: 1.35rem !important;
@@ -1082,7 +1332,7 @@ body.typora-export #write tt {
 @media print {
   .typora-export * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page {
-    margin: 0;
+    /* 纸张尺寸、页边距和页眉页脚交给 Typora 的导出设置。 */
     background: ${paper_canvas_bg};
   }
   html, body, #write {
@@ -1096,15 +1346,27 @@ body.typora-export #write tt {
     max-width: none !important;
     width: 100% !important;
     margin: 0 !important;
-    padding: 1.35rem 0.15rem 2.4rem !important;
+    padding: 0 0.15rem !important;
   }
   #typora-sidebar { display: none; }
   #write pre.md-fences, #write blockquote,
-  #write figure, #write img, #write .md-alert,
-  #write .md-mathblock { break-inside: avoid; }
-  #write table tr { break-inside: avoid; }
+  #write figure:not(:has(> table)), #write img, #write .md-alert,
+  #write .md-math-block { break-inside: avoid; }
+  /* Typora base.css 在 macOS 对整表设 page-break-inside:avoid。
+     表格 figure 和 table 都要恢复按行分页，否则长表会留下大块空白。 */
+  #write figure.table-figure, #write figure.md-table-fig,
+  #write table {
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+  #write figure.table-figure, #write figure.md-table-fig,
+  #write table { overflow: visible !important; }
+  #write table tr { break-inside: avoid; page-break-inside: avoid; }
   #write p, #write li { orphans: 2; widows: 2; }
 }
+
+/* 付费工艺必须压在共享编辑区与导出规则之后，避免同权重规则被覆盖。 */
+${craft_extra}
 """)
 
 
@@ -1310,8 +1572,66 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
     shadow_soft = hexa(shadow, "0.05" if not dark else "0.30")
     fl = flavor or t.get("_meta", {}).get("theme_id", "")
 
+    # 品牌色继续用于装饰；承载文字或状态信息时，按各套色板的真实底色
+    # 自动做最小明度校正。付费变体也走同一规则，无需另写一份猜测色值。
+    paper_shades = paper_colors(t, dark)
+    footnote_surfaces = [composite_color(border, bg, "0.045") for bg in paper_shades]
+    surfaces = list(dict.fromkeys([
+        *paper_shades, *footnote_surfaces, c["bg"], c["bg_raised"],
+        c["sidebar_bg"], c["hover"], c["sunken"],
+    ]))
+    inline_surfaces = [
+        composite_color(c["code_bg_base"], bg, c["code_bg_alpha"])
+        for bg in surfaces
+    ]
+    accent_ui = readable_color(accent, surfaces, 4.55, dark)
+    semantic = {
+        "color_link_readable": readable_color(c.get("link", accent), surfaces, 4.55, dark),
+        "color_link_hover": accent_ui,
+        "color_accent_text": accent_ui,
+        "color_muted_readable": readable_color(c["text_muted"], surfaces, 5.5, dark),
+        "color_faint_readable": readable_color(c["text_faint"], surfaces, 4.55, dark),
+        "color_control_border": readable_color(c["text_faint"], surfaces, 3.05, dark),
+        "color_code_text_readable": readable_color(c["code_text"], inline_surfaces, 4.55, dark),
+        "color_on_accent": on_accent_color(accent_ui),
+    }
+    syntax_base = {
+        "syn_comment": "#8f8e86" if not dark else "#7f7e74",
+        "syn_keyword": "#8b5cb8" if not dark else "#c9a0e8",
+        "syn_string":  "#3f7d54" if not dark else "#8fc9a0",
+        "syn_number":  "#b06c2c" if not dark else "#e0a76a",
+        "syn_def":     "#2f6f9f" if not dark else "#8ab8dd",
+        "syn_error":   "#b80a18" if not dark else "#ff8b8b",
+    }
+    # 付费色板可给语法色定义各自的冷暖语气；可读性仍走统一校正。
+    syntax_base.update((t.get("syntax") or {}).get("dark" if dark else "light", {}))
+    syntax = {name: readable_color(value, [c["sunken"], c["bg"], paper_shades[0]], 4.55, dark)
+              for name, value in syntax_base.items()}
+    alert_base = {
+        "note": "#0969da", "important": "#8250df", "warning": "#9a6700",
+        "tip": "#1f883d", "caution": "#cf222e",
+    } if not dark else {
+        "note": "#6cb6ff", "important": "#c8a4ff", "warning": "#e3b341",
+        "tip": "#56d364", "caution": "#ff7b72",
+    }
+    alert_alpha = {"note": "0.04", "important": "0.04", "warning": "0.05",
+                   "tip": "0.04", "caution": "0.04"} if not dark else {
+                       "note": "0.10", "important": "0.10", "warning": "0.12",
+                       "tip": "0.10", "caution": "0.10",
+                   }
+    alerts = {}
+    for kind, base_color in alert_base.items():
+        tint = alert_alpha[kind]
+        alert_surfaces = [composite_color(base_color, bg, tint) for bg in paper_shades]
+        alerts[f"alert_{kind}_fg"] = readable_color(base_color, alert_surfaces, 4.55, dark)
+        alerts[f"alert_{kind}_bg"] = hexa(base_color, tint)
+
     v.update({
+        **semantic,
+        **syntax,
+        **alerts,
         "color_scheme":   "dark" if dark else "light",
+        "mermaid_theme":  "night" if dark else "default",
         "hairline":       hexa(border, a["hairline"]),
         "line":           hexa(border, a["line"]),
         "divider":        hexa(border, a["divider"]),
@@ -1324,24 +1644,8 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
         "accent_wash":    hexa(accent, "0.16" if not dark else "0.24"),
         "accent_soft":    hexa(accent, "0.26" if not dark else "0.34"),
         "accent_border":  hexa(accent, "0.45"),
-        "link_underline": hexa(c.get("link", accent), "0.42"),
+        "link_underline": hexa(semantic["color_link_readable"], "0.42"),
         "inline_code_bg": hexa(c["code_bg_base"], c["code_bg_alpha"]),
-        "syn_comment": "#8f8e86" if not dark else "#7f7e74",
-        "syn_keyword": "#8b5cb8" if not dark else "#c9a0e8",
-        "syn_string":  "#3f7d54" if not dark else "#8fc9a0",
-        "syn_number":  "#b06c2c" if not dark else "#e0a76a",
-        "syn_def":     "#2f6f9f" if not dark else "#8ab8dd",
-        "syn_error":   "#b80a18" if not dark else "#ff8b8b",
-        "alert_note_fg":     "#0969da" if not dark else "#6cb6ff",
-        "alert_important_fg":"#8250df" if not dark else "#c8a4ff",
-        "alert_warning_fg":  "#9a6700" if not dark else "#e3b341",
-        "alert_tip_fg":      "#1f883d" if not dark else "#56d364",
-        "alert_caution_fg":  "#cf222e" if not dark else "#ff7b72",
-        "alert_note_bg":     hexa("#0969da", "0.04" if not dark else "0.10"),
-        "alert_important_bg":hexa("#8250df", "0.04" if not dark else "0.10"),
-        "alert_warning_bg":  hexa("#9a6700", "0.05" if not dark else "0.12"),
-        "alert_tip_bg":      hexa("#1f883d", "0.04" if not dark else "0.10"),
-        "alert_caution_bg":  hexa("#cf222e", "0.04" if not dark else "0.10"),
         "craft_extra": (
             craft_extra_css(accent, accent2, accent3, shadow_soft, dark, flavor=fl)
             if premium else "/* free tier: no paid craft overlay */\n"
@@ -1349,7 +1653,7 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
     })
     v.update(paper_surfaces(t, dark))
 
-    css = CSS.substitute(v).lstrip("\n")
+    css = CSS.substitute(v).strip("\n") + "\n"
     label = banner_name or ("hekouwang-dark — a Typora theme (dark variant)"
                             if dark else "hekouwang — a Typora theme")
     css = css.replace("hekouwang — a Typora theme", label, 1)
@@ -1381,8 +1685,8 @@ def load_themes(tier: str):
     by_id = {t["id"]: t for t in themes}
     for t in paid_themes:
         by_id[t["id"]] = t
-    # 稳定顺序：v2 免费默认先，再 v1/v3–v6
-    order = ["v2", "v1", "v3", "v4", "v5", "v6"]
+    # 免费 V2 先生成；V2 Pro 使用独立 id/文件名，不覆盖免费默认。
+    order = ["v2", "v1", "v2pro", "v3", "v4", "v5", "v6"]
     out = [by_id[i] for i in order if i in by_id]
     for tid, t in by_id.items():
         if tid not in order:
@@ -1397,7 +1701,7 @@ def main():
         "--tier",
         choices=("free", "paid", "all"),
         default="all",
-        help="free=公开默认 V2；paid=仅付费肤；all=有 paid 文件则六套，否则只出免费",
+        help="free=公开默认 V2；paid=六套独立高级主题；all=免费与本机付费档一起构建",
     )
     args = ap.parse_args()
     tier = args.tier
@@ -1431,6 +1735,8 @@ def main():
                 elif k != "_note":
                     paper[k] = v
             base["paper"] = paper
+        if theme.get("syntax"):
+            base["syntax"] = theme["syntax"]
         if theme.get("dark"):
             dark_blk = dict(base.get("dark") or {})
             if "color" in theme["dark"]:
@@ -1442,7 +1748,7 @@ def main():
         suffix = theme.get("slug_suffix", "")
         menu = theme.get("menu", f"hekouwang{suffix}")
         label = theme.get("label", theme.get("id", ""))
-        tier = theme.get("tier", "paid")
+        theme_tier = theme.get("tier", "paid")
 
         for preset_name in built:
             t, preset = apply_reading_preset(base, preset_name)
@@ -1461,14 +1767,14 @@ def main():
                 name = f"{slug}{suffix}{'-dark' if dark else ''}.css"
                 banner = (
                     f"{menu}{'-dark' if dark else ''} — Typora theme"
-                    f" ({label}{', dark' if dark else ''} · {tier}"
+                    f" ({label}{', dark' if dark else ''} · {theme_tier}"
                     f" · skill {theme.get('id', '').upper()})"
                 )
                 css = build(
                     t,
                     dark=dark,
                     banner_name=banner,
-                    premium=(tier == "paid"),
+                    premium=(theme_tier == "paid"),
                     flavor=theme.get("id", ""),
                 )
                 # 模板首行仍是 hekouwang — …，build() 只 replace 一次；再标套名
@@ -1477,13 +1783,13 @@ def main():
                     f.write(css)
                 written.append(name)
 
-                problems = check(css)
                 tag = f"{theme['id']}/{preset_name}/{'dark' if dark else 'light'}"
+                problems = check(css) + audit_css(css, tag)
                 print(f"✅ [{tag}] {name}  ({len(css):,} 字节)")
-                if tier == "paid" and "Paid craft" not in css:
+                if theme_tier == "paid" and "Paid craft" not in css:
                     any_fail = True
                     print("   ⚠️  付费档应含 Paid craft 工艺段")
-                if tier == "free" and "Paid craft" in css:
+                if theme_tier == "free" and "Paid craft" in css:
                     any_fail = True
                     print("   ⚠️  免费档不应含 Paid craft")
                 if problems:
@@ -1507,8 +1813,30 @@ def main():
         if "line-height: 1.65" not in work_css:
             print("⚠️  分辨力失败：默认 CSS 未含 work 行高 1.65")
             any_fail = True
-        if "max-width: min(52em," not in work_css:
-            print("⚠️  分辨力失败：默认 CSS 未含流体行宽 min(52em, …)")
+        work_preset = (tokens.get("_presets") or {}).get("work") or {}
+        work_type = work_preset.get("type") or tokens["type"]
+        work_layout = work_preset.get("layout") or tokens["layout"]
+        gutter = work_layout["measure_gutter"]
+        normal_width = f"max-width: min({work_type['measure']}, calc(100% - {gutter}));"
+        wide_width = (
+            f"max-width: min({work_layout['wide_measure']}, "
+            f"calc({work_type['measure']} + 100vw - {work_layout['wide_breakpoint']}), "
+            f"calc(100% - {gutter}));"
+        )
+        wide_query = f"@media (min-width: {work_layout['wide_breakpoint']})"
+        if normal_width not in work_css:
+            print("⚠️  分辨力失败：默认 CSS 未含普通窗口流体栏宽")
+            any_fail = True
+        if wide_query not in work_css or wide_width not in work_css:
+            print("⚠️  分辨力失败：默认 CSS 未含宽窗口扩展栏宽")
+            any_fail = True
+        reading_default = f"--hk-reading-measure: {work_type['reading_measure']};"
+        reading_width = "max-width: min(100%, var(--hk-reading-measure));"
+        if reading_default not in work_css or reading_width not in work_css:
+            print("⚠️  分辨力失败：宽纸面内的正文阅读列未限宽")
+            any_fail = True
+        if f"margin-top: {work_layout['write_margin_top']};" not in work_css:
+            print("⚠️  分辨力失败：纸面顶部缺少与工具栏的间距")
             any_fail = True
         if "radial-gradient" not in work_css:
             print("⚠️  分辨力失败：浅色应含纸感径向渐变")

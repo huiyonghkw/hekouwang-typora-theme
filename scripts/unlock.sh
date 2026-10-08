@@ -4,11 +4,11 @@
 #
 # 两种用法：
 #   1) 公开仓里（推荐）：
-#        ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-YYYYMMDD.zip
+#        ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.2.0-YYYYMMDD.zip
 #   2) 付费 zip 解压后自带同款脚本：
 #        ./unlock.sh
 #
-# 不回连服务器、不搞解锁码。校验 zip 完整性后，把 V1/V3–V6 浅深 CSS
+# 不回连服务器、不搞解锁码。校验 zip 完整性后，把 V1/V2 Pro/V3–V6 浅深 CSS
 # 拷进 Typora 主题目录。免费 V2 请先用 ./scripts/install.sh。
 #
 set -uo pipefail
@@ -38,6 +38,7 @@ STAMP="$(date +%Y%m%d-%H%M%S)"
 MARKER="theme/hekouwang-v1.css"
 PAID_VARIANTS=(
   hekouwang-v1 hekouwang-v1-dark
+  hekouwang-v2-pro hekouwang-v2-pro-dark
   hekouwang-v3 hekouwang-v3-dark
   hekouwang-v4 hekouwang-v4-dark
   hekouwang-v5 hekouwang-v5-dark
@@ -117,7 +118,7 @@ elif [ -n "$PACK_ROOT" ] && [ -f "$PACK_ROOT/${MARKER}" ]; then
   ok "使用已解压目录：$PACK_ROOT"
 else
   echo "用法："
-  echo "  ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-YYYYMMDD.zip"
+  echo "  ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.2.0-YYYYMMDD.zip"
   echo "  # 或在付费包解压目录里：./unlock.sh"
   echo
   dim "购买：${HKW_URL_BUY}"
@@ -140,7 +141,7 @@ if [ "$missing" -eq 1 ]; then
   [ -n "$CLEANUP" ] && rm -rf "$CLEANUP"
   exit 1
 fi
-ok "付费 CSS 10 份齐全（V1/V3–V6 × 浅深）"
+ok "付费 CSS ${#PAID_VARIANTS[@]} 份齐全（V1/V2 Pro/V3–V6 × 浅深）"
 
 if [ "$DRY" -eq 1 ]; then
   echo
@@ -153,18 +154,26 @@ if [ "$DRY" -eq 1 ]; then
 fi
 
 mkdir -p "$BACKUP_DIR" 2>/dev/null || true
+install_failed=0
 for v in "${PAID_VARIANTS[@]}"; do
   if [ -f "$THEME_DIR/$v.css" ]; then
     cp "$THEME_DIR/$v.css" "$BACKUP_DIR/$v-$STAMP.css" 2>/dev/null \
       && ok "backed up $v.css" \
       || warn "backup $v failed, continuing"
   fi
-  if cp "$PACK_ROOT/theme/$v.css" "$THEME_DIR/$v.css" 2>/dev/null; then
+  if cp "$PACK_ROOT/theme/$v.css" "$THEME_DIR/$v.css" 2>/dev/null \
+      && cmp -s "$PACK_ROOT/theme/$v.css" "$THEME_DIR/$v.css"; then
     ok "installed $v.css"
   else
     bad "failed to copy $v.css"
+    install_failed=1
   fi
 done
+if [ "$install_failed" -ne 0 ]; then
+  [ -n "$CLEANUP" ] && rm -rf "$CLEANUP"
+  bad "安装未完成，请检查主题目录权限后重试"
+  exit 1
+fi
 
 # 若在公开仓开发树里跑，顺带把 CSS / paid palette 落回 theme/ 方便 rebuild
 REPO_THEME=""
@@ -188,7 +197,7 @@ fi
 echo "────────────────────────────────────────"
 echo "  Done. Quit Typora completely (Cmd+Q) and reopen."
 echo "  Themes menu · Pack："
-echo "    • Hekouwang V1 … V6  (+ Dark)"
+echo "    • Hekouwang V1 / V2 Pro / V3–V6  (+ Dark)"
 echo "  Free V2（若还没装）：clone 公开仓后 ./scripts/install.sh"
 echo "  图文安装手册：${HKW_URL_BUY%/\#buy}/#unlock"
 echo "  更新 / 答疑：微信 hekouwang · ${HKW_URL_BUY}"

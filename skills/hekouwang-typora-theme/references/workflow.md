@@ -51,7 +51,7 @@ git diff --quiet theme/hekouwang.css && echo "零差异，重构安全"
 
 ## C. 加一个新变体
 
-`tokens.json` 里加一个与 `dark` 平级的段，只写要覆盖的 `color` / `alpha`：
+公开主题的新实验变体可在 `tokens.json` 里加一个与 `dark` 平级的段，只写要覆盖的 `color` / `alpha`：
 
 ```json
 "sepia": {
@@ -63,6 +63,8 @@ git diff --quiet theme/hekouwang.css && echo "零差异，重构安全"
 
 然后在 `build.py` 的 `main()` 里加一行输出。派生值会自动按新的 `border_base` /
 `shadow_base` 重算，不需要改模板。
+
+付费主题走独立的 `scripts/palettes.paid.json`，不要把色板写回公开的 `tokens.json` 或 `palettes.json`。现有付费清单为 V1 / V2 Pro / V3–V6，`python3 scripts/build.py --tier paid` 会生成各自浅色与深色共 12 个 CSS；免费 V2 的 `hekouwang.css` / `hekouwang-dark.css` 独立保留。增删付费主题时同步 `pack.sh`、`unlock.sh`、`.gitignore` 与包内授权清单，并验收每个文件的 Typora 菜单名。
 
 ## D. 发布到 theme.typora.io
 
