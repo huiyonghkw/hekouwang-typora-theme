@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.4.0 — 2026-10-12
+
+同步主题 1.2.0（主题画廊与升级指南）。
+
+- 付费清单改为 V1 / V2 Pro / V3–V6（各含浅/深，共 12 个 CSS），V2 Pro 与免费 V2 分立
+- 新增 `verify_layout.py`（多窗口宽度、窄屏、表格、源码模式几何预检）与 `verify_export_pdf.py`（A4/A5、长代码、长表）
+- 构建内置 `contrast_check.py`，对文字、链接、代码、按钮、任务框做最小对比度校正与审计
+- 排版：响应式正文阅读列 `--hk-reading-measure`、宽屏技术画布、小字/表格/代码块字号 token
+- `!important` 规则收窄为「编辑区零」，导出段可用于覆盖 Typora 打印基础样式
+- 截图验收改为 `demo/主题展示样张.md` → `docs/previews/`
+
 ## 1.3.3 — 2026-08-12
 
 ClawHub 分类：`creative`；误建 slug `hekouwang-typora-theme` 已合并进本 skill。
