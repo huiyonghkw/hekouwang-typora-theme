@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.1 — 2026-10-12
+
+skill-doctor 体检修复。
+
+- SKILL.md 补说明：从 ClawHub / SkillHub 安装需先 clone 开源仓库，命令在仓库根目录执行
+- 目录说明补 `verify_export_pdf.py`
+- skill-card 版本号与许可证说明对齐 frontmatter
+
 ## 1.4.0 — 2026-10-12
 
 同步主题 1.2.0（主题画廊与升级指南）。

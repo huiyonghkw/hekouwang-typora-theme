@@ -10,7 +10,7 @@ This skill is ready for commercial/non-commercial use.
 
 ### License/Terms of Use:
 
-MIT-0
+MIT (repository license; ClawHub lists registry copies as MIT-0)
 
 ## Use Case:
 
@@ -52,7 +52,7 @@ Mitigation: Follow the documented build, install, full Typora restart, color ver
 
 ## Skill Version(s):
 
-1.3.0 (source: server release evidence and frontmatter)
+1.4.1 (source: frontmatter)
 
 ## Ethical Considerations:
 

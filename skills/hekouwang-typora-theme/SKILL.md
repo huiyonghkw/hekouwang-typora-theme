@@ -5,7 +5,7 @@ displayName: Typora 主题工程（hekouwang）
 summary: Typora theme engineering / CJK long-form markdown — tokens.json CSS build, color sampling, contrast/layout audits, font probe. Free V2 light+dark; paid V1/V2 Pro/V3–V6.
 license: MIT
 homepage: https://github.com/huiyonghkw/hekouwang-typora-theme
-version: 1.4.0
+version: 1.4.1
 description: >
   会勇禾口王 · Typora 主题工程 Skill。维护「hekouwang」主题（中文长文浅色 + 深色），
   并提供一套可复用的主题工程方法：CSS 由 tokens.json
@@ -27,6 +27,9 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 是指向本目录的符号链接，方便各端自动发现。
 **放在 `skills/` 即表示可当项目 skill 安装 / 使用**：clone 打开本仓即可加载，不必再 clone 单独 skill 仓库。
 工作区是仓库根的 `scripts/`、`theme/`、`demo/`。
+
+> **从 ClawHub / SkillHub 安装的**：平台包只含本 skill 目录，不含 `scripts/` 等工作区。
+> 先 `git clone https://github.com/huiyonghkw/hekouwang-typora-theme.git`，下文所有命令都在该仓库根目录执行。
 
 ## 30 秒速览
 
@@ -112,6 +115,7 @@ scripts/install.sh       装进 Typora（--use-local-anthropic 可选，默认�
 scripts/sample_colors.py 从截图采样真实色值
 scripts/contrast_check.py 生成 CSS 的文字/控件对比度审计（构建时调用）
 scripts/verify_layout.py 宽度、行内图片、表格、源码模式的浏览器几何预检
+scripts/verify_export_pdf.py A4/A5、长代码与长表的 PDF 导出预检
 scripts/verify_render.py 渲染/字体验证探针
 theme/                   成品 CSS 与随包字体（Inter, OFL）
 demo/                    验收样张、字体诊断样张
