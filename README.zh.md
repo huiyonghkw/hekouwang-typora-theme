@@ -12,7 +12,7 @@
 
 | 档 | 主题菜单 | 说明 |
 |---|---|---|
-| **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（米白 / 米黑）。Gallery 入口也是这一档。公开仓只发这一档。 |
+| **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（近白纸面、暖灰外框、陶土红点缀；深色炭灰）。Gallery 入口也是这一档。公开仓只发这一档。 |
 | **付费包 · ¥9.9** | **Hekouwang V1 / V2 Pro / V3–V6**（各含 Dark） | 石墨青绿 / 典藏编辑 / 海军蓝财经 / 冰蓝玻璃 / 紫晶电青 HUD / 李紫焰彩，六套浅深共 12 个 CSS；**色板与工艺不进公开仓**，只随 zip 私发 |
 
 **怎么买：** 落地页购买区（微信/支付宝 · 微信 `hekouwang`，备注「Typora主题」）→ 我私发 zip → 按落地页 [装付费包](https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock) 一键装进 Typora。
@@ -37,7 +37,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 ## 免费档 · V2 编辑
 
-公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，暖米白纸感。
+公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，近白纸面配暖灰外框，陶土红点缀；深色版为炭灰。
 
 以下是 1.3.1 最新浅色与深色外观，均为 macOS Typora 真机截图，包含正文、标题与主题外壳。
 
@@ -115,7 +115,7 @@ Typora PDF = 独立 HTML（`body.typora-export`）再 `printToPDF`。本主题�
 | Skill 格 | Typora 菜单 | 辨识 |
 |---|---|---|
 | V1 石墨青绿 | Hekouwang V1 / V1 Dark | 冷蓝灰 / 薄荷青 / 紫色链接 |
-| V2 编辑（免费） | Hekouwang / Hekouwang Dark | 暖米白 / 米黑 |
+| V2 编辑（免费） | Hekouwang / Hekouwang Dark | 近白纸面 / 暖灰外框 / 陶土红；深色炭灰 |
 | V2 Pro 典藏编辑 | Hekouwang V2 Pro / V2 Pro Dark | 胡桃墨 / 古铜 / 双线装饰与无衬线标题层级 |
 | V3 财经 | Hekouwang V3 / V3 Dark | 海军蓝 / 黄铜 |
 | V4 玻璃 | Hekouwang V4 / V4 Dark | 冰蓝 / 雾面叠片 |
