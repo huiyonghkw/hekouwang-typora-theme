@@ -2,7 +2,7 @@
 
 **体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)
 
-[1.3.0 升级说明](UPGRADE.md) · [English](README.en.md)
+[1.3.1 升级说明](UPGRADE.md) · [English](README.en.md)
 
 给「一天要盯着 Markdown 好几个小时」的人用的 Typora 主题——按**中文长文**来排，不是按聊天气泡来排。
 
@@ -73,7 +73,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 - **纸感画在 `#write` 上**（浅 / 深都有）：径向、大圆角、外阴影；侧栏 / gutter / 顶栏是更深一档的壳层。
 - **排版照顾编辑细节。** 常规窗口纸面顶部留 `1rem`；表格与小字 `14px`、代码块 `15px`。句中图片随文字排版；源码模式单独限宽，专注模式处理图片、任务框和代码，并尊重减少动效设置。
 - **配色逐套核查。** 构建时审计纸面、链接、代码、侧栏、按钮和任务框的对比度；公开仓检查免费浅 / 深两套，本机有付费色板时检查 12 套付费 CSS，共 14 套。
-- **导出 PDF 整页一色 + 分套细节。** 画布跟 gutter 同色（免费浅色 `#eeedec` / 深色跟正文底），避免内容区出现突兀的纯白柱。免费与付费主题共用分页和页面底色处理；标题、代码、表格和分隔线则按各套视觉呈现。
+- **导出 PDF 整页一色 + 分套细节。** 整页跟纸面同色（免费浅色 `#fdfdfc` / 深色 `#1f1f1e`，付费各套跟各自纸面），PDF 与编辑区看到的底色一致，也不会出现外圈底色配中间白柱。免费与付费主题共用分页和页面底色处理；标题、代码、表格和分隔线则按各套视觉呈现。
 - **付费六套 = V1 / V2 Pro / V3–V6**（每套浅/深两极）；公开仓 / Gallery 只发免费 V2。
 
 ### 导出 PDF
@@ -177,7 +177,7 @@ cd hekouwang-typora-theme
 收到 zip 后：
 
 ```bash
-./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.0-YYYYMMDD.zip
+./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.1-YYYYMMDD.zip
 # 或解压后在包内：./unlock.sh
 ```
 

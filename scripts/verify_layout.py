@@ -252,12 +252,13 @@ def validate(data: dict, css_name: str, requested_width: int,
              f"{label} width {data[label]['width']:.0f}px exceeds "
              f"{max_reading_rem}rem ({prose_limit:.0f}px)")
 
-    need(data["code"]["width"] >= content_width - 4,
-         f"code is not using the wide canvas ({data['code']['width']:.0f}/{content_width:.0f}px)")
+    for label in ("code", "longCode"):
+        need(abs(data[label]["width"] - data["prose"]["width"]) <= 3
+             and abs(data[label]["left"] - data["prose"]["left"]) <= 3,
+             f"{label} is not aligned with the reading column "
+             f"({data[label]['width']:.0f}/{data['prose']['width']:.0f}px)")
     need(data["code"]["scrollWidth"] <= data["code"]["clientWidth"] + 2,
          "bare pre > code extends outside its paper box")
-    need(data["longCode"]["width"] >= content_width - 4,
-         "long code fence is not using the wide canvas")
     need(data["codeScroll"]["overflowX"] in ("auto", "scroll")
          and data["codeScroll"]["scrollWidth"] >= data["codeScroll"]["clientWidth"] + 100,
          "long code does not scroll inside its CodeMirror container")
@@ -319,8 +320,6 @@ def validate(data: dict, css_name: str, requested_width: int,
              f"17-column numeric table scrolls on a wide screen "
              f"({tier['scrollWidth']:.0f}/{tier['clientWidth']:.0f}px)")
     if requested_width == 1800:
-        need(data["code"]["width"] >= data["prose"]["width"] + 80,
-             "wide code has not gained meaningful width beyond prose")
         need(data["sparseTable"]["width"] <= data["prose"]["width"] + 3,
              f"sparse table exceeds the reading column "
              f"({data['sparseTable']['width']:.0f}/{data['prose']['width']:.0f}px)")

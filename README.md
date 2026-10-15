@@ -4,7 +4,7 @@
 
 这是为中文长文设计的 Typora 主题：一篇文章从开头读到结尾，标题、段落、代码、表格和图片应该保持同一种安静而清晰的节奏，而不是每个组件都在抢注意力。
 
-**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)　·　[1.3.0 升级说明](UPGRADE.md)　·　[English](README.en.md)　·　[详细中文技术说明](README.zh.md)
+**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)　·　[1.3.1 升级说明](UPGRADE.md)　·　[English](README.en.md)　·　[详细中文技术说明](README.zh.md)
 
 ![Hekouwang 免费 V2 · 1.3.0 浅色](docs/previews/v2-light.webp)
 
@@ -78,7 +78,7 @@ Windows 安装器默认写入 `%APPDATA%\Typora\themes`，更新前会把同名 
 :root { --hk-reading-measure: 40rem; }
 ```
 
-深色版对应 `hekouwang-dark.user.css`；要让全部 Hekouwang 配色共用这项设置，可写在 `base.user.css` 中。修改后完全退出并重开 Typora。标题、正文、常规表格和源码模式会一起调整，代码块与宽数据表仍使用较宽的技术画布。
+深色版对应 `hekouwang-dark.user.css`；要让全部 Hekouwang 配色共用这项设置，可写在 `base.user.css` 中。修改后完全退出并重开 Typora。标题、正文、代码块、常规表格和源码模式会一起调整，宽数据表仍使用较宽的技术画布。
 
 ## Windows 兼容承诺
 

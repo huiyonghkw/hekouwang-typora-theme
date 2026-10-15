@@ -288,7 +288,7 @@ CSS = Template(r"""
    -------------------------------------------------------------------------- */
 html {
   font-size: ${type_root_px};          /* 规范：唯一允许用 px 的地方 */
-  /* 画布跟 PDF 外圈同色（gutter）。导出无 <content>，html 即整页底；
+  /* 画布 = 纸面色。导出无 <content>，html 即整页底；
      若 html 与 #write 一深一浅，就会「外面有底色、中间白柱」。 */
   background-color: ${paper_canvas_bg};
 }
@@ -943,8 +943,9 @@ content {
 #write .md-alert-text-tip       { color: ${alert_tip_fg}; }
 #write .md-alert-text-caution   { color: ${alert_caution_fg}; }
 
-/* 宽纸面中的阅读列：连续文字居中，代码、表格、图表保留整幅空间。 */
-#write > :is(p, h1, h2, h3, h4, h5, h6,
+/* 宽纸面中的阅读列：连续文字和代码块居中对齐；宽表格、图表保留整幅空间。
+   代码块不跟纸面同宽：收起侧边栏后会比正文两侧各宽出一截。 */
+#write > :is(p, h1, h2, h3, h4, h5, h6, pre.md-fences,
              ul, ol, blockquote, hr, .md-alert, .md-toc,
              .md-def-footnote, .footnotes) {
   box-sizing: border-box;
@@ -1275,7 +1276,7 @@ body.typora-export #write pre.md-fences {
     0 1px 0 ${export_shine},
     0 8px 22px ${shadow_soft} !important;
   padding: 1rem 1.2rem !important;
-  margin: 0.85rem 0 1.15rem !important;
+  margin: 0.85rem auto 1.15rem !important;
   /* 编辑区仍保留语言选择器；导出的静态代码允许长行在页内折行。 */
   white-space: pre-wrap !important;
   overflow-wrap: break-word !important;
@@ -1330,7 +1331,7 @@ body.typora-export #write table tbody tr:hover {
 body.typora-export #write hr {
   height: 1px !important;
   border: 0 !important;
-  margin: 1.85rem 0 !important;
+  margin: 1.85rem auto !important;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -1520,9 +1521,10 @@ def paper_surfaces(t, dark):
         bg = radial
     return {
         "paper_gutter_bg": gutter,
-        # 画布 = gutter 同色。导出抬升面用 highlight 系，禁止 #ffffff 白柱。
-        "paper_canvas_bg": gutter if not dark else mid,
-        "export_surface": highlight if not dark else highlight,
+        # 导出整页 = 纸面色（mid），PDF 与编辑区纸面一致，不用窗口外圈 gutter。
+        # 纸面已是白色时，抬升面退到 shade，否则代码块和表格会融进页面。
+        "paper_canvas_bg": mid,
+        "export_surface": shade if (not dark and highlight.lower() == mid.lower()) else highlight,
         "export_shine": (
             "rgba(255, 255, 255, 0.55)" if not dark else "rgba(255, 255, 255, 0.06)"
         ),
@@ -1871,10 +1873,10 @@ def main():
         if "Paid craft" in work_css:
             print("⚠️  分辨力失败：免费默认不该含 Paid craft")
             any_fail = True
-        # html 画布 = gutter 同色（浅色 #ebe8df），禁止再单独铺纯白
+        # html 画布（即 PDF 整页底）= 纸面 mid #fdfdfc，不能退回 gutter #ebe8df
         html_rule = re.search(r"^html\s*\{([^}]*)\}", work_css, re.M)
-        if not html_rule or "background-color: #ebe8df" not in html_rule.group(1):
-            print("⚠️  分辨力失败：浅色 html 画布须为 gutter #ebe8df（与 PDF 外圈同色）")
+        if not html_rule or "background-color: #fdfdfc" not in html_rule.group(1):
+            print("⚠️  分辨力失败：浅色 html 画布须为纸面色 #fdfdfc（PDF 与纸面同色）")
             any_fail = True
         # gutter 仍应在 content 上（编辑器两侧）
         if not content_block or "#ebe8df" not in content_block.group(1):

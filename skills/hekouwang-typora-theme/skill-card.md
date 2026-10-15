@@ -52,7 +52,7 @@ Mitigation: Follow the documented build, install, full Typora restart, color ver
 
 ## Skill Version(s):
 
-1.5.0 (source: frontmatter)
+1.5.1 (source: frontmatter)
 
 ## Ethical Considerations:
 

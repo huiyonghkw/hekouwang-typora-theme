@@ -154,9 +154,9 @@
    -------------------------------------------------------------------------- */
 html {
   font-size: 16px;          /* 规范：唯一允许用 px 的地方 */
-  /* 画布跟 PDF 外圈同色（gutter）。导出无 <content>，html 即整页底；
+  /* 画布 = 纸面色。导出无 <content>，html 即整页底；
      若 html 与 #write 一深一浅，就会「外面有底色、中间白柱」。 */
-  background-color: #ebe8df;
+  background-color: #fdfdfc;
 }
 
 html, body {
@@ -809,8 +809,9 @@ content {
 #write .md-alert-text-tip       { color: #1b7434; }
 #write .md-alert-text-caution   { color: #c2202b; }
 
-/* 宽纸面中的阅读列：连续文字居中，代码、表格、图表保留整幅空间。 */
-#write > :is(p, h1, h2, h3, h4, h5, h6,
+/* 宽纸面中的阅读列：连续文字和代码块居中对齐；宽表格、图表保留整幅空间。
+   代码块不跟纸面同宽：收起侧边栏后会比正文两侧各宽出一截。 */
+#write > :is(p, h1, h2, h3, h4, h5, h6, pre.md-fences,
              ul, ol, blockquote, hr, .md-alert, .md-toc,
              .md-def-footnote, .footnotes) {
   box-sizing: border-box;
@@ -1057,15 +1058,15 @@ titlebar {
    -------------------------------------------------------------------------- */
 
 html {
-  background: #ebe8df !important;
-  background-color: #ebe8df !important;
+  background: #fdfdfc !important;
+  background-color: #fdfdfc !important;
 }
 
 body.typora-export,
 body.typora-export .typora-export-content,
 body.typora-export #write {
-  background: #ebe8df !important;
-  background-color: #ebe8df !important;
+  background: #fdfdfc !important;
+  background-color: #fdfdfc !important;
   background-image: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
@@ -1141,7 +1142,7 @@ body.typora-export #write pre.md-fences {
     0 1px 0 rgba(255, 255, 255, 0.55),
     0 8px 22px rgba(31,30,29,0.05) !important;
   padding: 1rem 1.2rem !important;
-  margin: 0.85rem 0 1.15rem !important;
+  margin: 0.85rem auto 1.15rem !important;
   /* 编辑区仍保留语言选择器；导出的静态代码允许长行在页内折行。 */
   white-space: pre-wrap !important;
   overflow-wrap: break-word !important;
@@ -1196,7 +1197,7 @@ body.typora-export #write table tbody tr:hover {
 body.typora-export #write hr {
   height: 1px !important;
   border: 0 !important;
-  margin: 1.85rem 0 !important;
+  margin: 1.85rem auto !important;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -1218,11 +1219,11 @@ body.typora-export #write tt {
   .typora-export * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page {
     /* 纸张尺寸、页边距和页眉页脚交给 Typora 的导出设置。 */
-    background: #ebe8df;
+    background: #fdfdfc;
   }
   html, body, #write {
-    background: #ebe8df !important;
-    background-color: #ebe8df !important;
+    background: #fdfdfc !important;
+    background-color: #fdfdfc !important;
     background-image: none !important;
     box-shadow: none !important;
     border-radius: 0 !important;

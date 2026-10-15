@@ -56,8 +56,8 @@
 `#outline-content .outline-item` `#md-searchpanel` `.md-search-hit` `.modal-content`
 `.context-menu` `.btn` `::-webkit-scrollbar`
 
-**导出 / PDF**：整页与画布（gutter `#eeedec`）同色；`#write` 禁纯白底。导出精装：H2 签名线、
-抬升 fence（纸面 highlight `#ffffff`）、圆角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
+**导出 / PDF**：整页 = 纸面 mid 色（不是窗口外圈 gutter，否则 PDF 底色和编辑区纸面对不上）；`#write` 同色不浮卡片。导出精装：H2 签名线、
+抬升 fence（纸面 highlight；highlight 与 mid 同为白时退到 shade）、圆角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
 （改 `tr`）。
 
 ## 六个静默失败的坑
