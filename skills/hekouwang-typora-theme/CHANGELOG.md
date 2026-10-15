@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.2 — 2026-10-15
+
+发布维护，内容同 1.5.1。
+
+- ClawHub 的 css / design-tokens / fonts / markdown / theme / typora 标签随版本更新到最新
+
 ## 1.5.1 — 2026-10-15
 
 同步主题 1.3.1（代码块对齐、PDF 底色）。
