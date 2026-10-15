@@ -39,7 +39,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，暖米白纸感。
 
-以下是 1.3.0 最新浅色与深色外观，均为 macOS Typora 真机截图，包含正文、标题与主题外壳。
+以下是 1.3.1 最新浅色与深色外观，均为 macOS Typora 真机截图，包含正文、标题与主题外壳。
 
 | 浅色 | 深色 |
 |---|---|
@@ -47,11 +47,11 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 ---
 
-## 付费包 · 六套新视觉（1.3.0）
+## 付费包 · 六套新视觉（1.3.1）
 
 **阅读指标与免费档相同**：正文 `1rem`、行高 `1.65`、居中的 `48–96rem` 响应式阅读列，以及随窗口伸缩、两侧各留约 `3rem` 的纸面。六套付费主题分别设计底色、强调色、标题、引用、代码块和表格。V2 Pro 是独立于免费 V2 的典藏编辑版，标题使用统一的中英文无衬线字体。
 
-以下全部是 **1.3.0 最新 CSS 在 macOS Typora 中的真机截图**；点击图片可查看原图。[体验站可并排对比](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
+以下全部是 **1.3.1 最新 CSS 在 macOS Typora 中的真机截图**；点击图片可查看原图。[体验站可并排对比](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
 
 | 付费主题 | 浅色 | 深色 |
 |---|---|---|

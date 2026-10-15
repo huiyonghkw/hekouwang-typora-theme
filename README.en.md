@@ -16,7 +16,7 @@ Each generated theme runs a static text and control contrast audit during the bu
 
 ### Free V2 · light and dark
 
-These images were captured in Typora on macOS with the 1.3.0 CSS.
+These images were captured in Typora on macOS with the 1.3.1 CSS.
 
 | Light | Dark |
 |---|---|
@@ -57,7 +57,7 @@ Paid V2 Pro is a walnut and bronze editorial design with warm paper, double-line
 
 ### All six paid themes
 
-These are **Typora screenshots on macOS using the latest 1.3.0 CSS**. Open an image for the full-size view. You can also [compare all light/dark pairs on the live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots).
+These are **Typora screenshots on macOS using the latest 1.3.1 CSS**. Open an image for the full-size view. You can also [compare all light/dark pairs on the live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots).
 
 | Paid theme | Light | Dark |
 |---|---|---|

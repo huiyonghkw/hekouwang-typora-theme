@@ -6,9 +6,9 @@
 
 **体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)　·　[1.3.1 升级说明](UPGRADE.md)　·　[English](README.en.md)　·　[详细中文技术说明](README.zh.md)
 
-![Hekouwang 免费 V2 · 1.3.0 浅色](docs/previews/v2-light.webp)
+![Hekouwang 免费 V2 · 1.3.1 浅色](docs/previews/v2-light.webp)
 
-*免费 V2 · 1.3.0 浅色，macOS Typora 真机截图。*
+*免费 V2 · 1.3.1 浅色，macOS Typora 真机截图。*
 
 ## 这套主题解决什么
 
@@ -21,9 +21,9 @@
 - **中英混排不将就。** 西文使用随包 Inter，中文使用系统字体；不打包庞大的中文字体，也不碰授权边界。
 - **Windows 有独立适配。** Windows 上通过 Typora 的 `body.os-windows` 切换到“微软雅黑 UI / 微软雅黑”与 Cascadia Mono 优先的字栈，并保留 ClearType 渲染。
 
-![Hekouwang 免费 V2 · 1.3.0 深色](docs/previews/v2-dark.webp)
+![Hekouwang 免费 V2 · 1.3.1 深色](docs/previews/v2-dark.webp)
 
-*免费 V2 · 1.3.0 深色，macOS Typora 真机截图。*
+*免费 V2 · 1.3.1 深色，macOS Typora 真机截图。*
 
 ## 选择你的版本
 
@@ -102,7 +102,7 @@ python3 scripts/verify_render.py \
 
 ## 六套付费视觉
 
-1.3.0 付费包包含六套真正独立的视觉系统，每套各有浅色与深色。它们共享免费版的长文排版指标，但纸面、外壳、标题、引用、代码块和表格都有自己的处理。
+1.3.1 付费包包含六套真正独立的视觉系统，每套各有浅色与深色。它们共享免费版的长文排版指标，但纸面、外壳、标题、引用、代码块和表格都有自己的处理。
 
 | 主题 | 视觉方向 | 适用场景 |
 |---|---|---|
@@ -113,7 +113,7 @@ python3 scripts/verify_render.py \
 | **V5 · HUD** | 紫晶与冷靛紫外壳，青色信号 | 技术方案、演示笔记 |
 | **V6 · 焰彩** | 李紫、珊瑚橙与粉色 | 创作手稿、发布稿 |
 
-下面展示 **1.3.0 最新 CSS 在 macOS Typora 中的真机截图**，点击图片可查看原图。免费 V2 仍以 **Hekouwang / Hekouwang Dark** 单独提供。也可以在[体验站对比全部主题](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
+下面展示 **1.3.1 最新 CSS 在 macOS Typora 中的真机截图**，点击图片可查看原图。免费 V2 仍以 **Hekouwang / Hekouwang Dark** 单独提供。也可以在[体验站对比全部主题](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
 
 ### V1 · 石墨青绿
 
