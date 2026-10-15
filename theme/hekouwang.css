@@ -146,7 +146,7 @@
   --hk-sans:      "Hekouwang Sans", "Anthropic Sans", "Hekouwang Sans Fb", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
   --hk-serif:     "Hekouwang Serif", "Anthropic Serif", Georgia, "Times New Roman", "Songti SC", serif;
   /* 用户可在 hekouwang.user.css 中覆盖，不必重建整套配色。 */
-  --hk-reading-measure: clamp(48rem, calc(50vw + 3rem), 60rem);
+  --hk-reading-measure: clamp(48rem, calc(100vw - 16rem), 96rem);
 }
 
 /* --------------------------------------------------------------------------
@@ -205,7 +205,7 @@ content {
 
 #write {
   width: 100%;
-  max-width: min(52em, calc(100% - 4rem));
+  max-width: min(120em, calc(var(--hk-reading-measure) + 2 * 2rem + 6rem), calc(100% - 4rem));
   box-sizing: border-box;
   margin: 0 auto;
   margin-top: 1rem;
@@ -224,13 +224,14 @@ content {
   font-feature-settings: "dlig" 0;
   /* Anthropic Sans opsz：正文用 Text 光学尺寸（轴默认 16） */
   font-variation-settings: "opsz" 16;
-  background: radial-gradient(140% 95% at 50% -8%, #fffef8 0%, #fdfdfc 48%, #ebe8df 100%); border-radius: var(--hk-r-lg); box-shadow: inset 0 1px 0 rgba(31,30,29,0.04), inset 0 0 4.5rem rgba(31,30,29,0.05), 0 1px 2px rgba(31,30,29,0.04), 0 10px 28px rgba(31,30,29,0.06);
+  background: radial-gradient(140% 95% at 50% -8%, #fffef8 0%, #fdfdfc 48%, #ebe8df 100%); border-radius: var(--hk-r-lg); box-shadow: 0 0 0 1px rgba(31,30,29,0.05), 0 1px 2px rgba(31,30,29,0.04), 0 8px 24px -8px rgba(31,30,29,0.07);
 }
 
-/* 宽窗口保留技术画布；正文阅读列在下方单独限宽。 */
+/* 宽窗口保留技术画布；正文阅读列在下方单独限宽。
+   纸面只比阅读列多出 wide_canvas_extra，避免正文两侧留出大片空纸。 */
 @media (min-width: 1440px) {
   #write {
-    max-width: min(80em, calc(52em + 100vw - 1440px), calc(100% - 4rem));
+    max-width: min(120em, calc(var(--hk-reading-measure) + 2 * 2rem + 6rem), calc(100% - 4rem));
   }
 }
 
@@ -602,14 +603,28 @@ content {
   font-size: 0.875rem;
   border-collapse: collapse;
 }
-/* 宽数据表至少填满技术画布，内容更宽时只在自身滚动容器中展开。 */
+/* 七列起的宽数据表：内容放得下时与阅读列对齐，放不下才向技术画布展开，
+   再宽则在自身滚动容器中滚动。 */
 @media screen {
   #write figure > table:has(tr > :nth-child(7)) {
     min-width: max-content;
     max-width: none;
   }
+  #write > figure:has(> table tr > :nth-child(7)) {
+    box-sizing: border-box;
+    width: fit-content;
+    min-width: min(100%, var(--hk-reading-measure));
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* 多列表多为短数值，收窄单元格左右留白，免得只因留白就横向滚动。 */
+  #write table:has(tr > :nth-child(7)) :is(th, td) {
+    padding-left: 0.55rem;
+    padding-right: 0.55rem;
+  }
 }
-/* 常规六列及以下表格填满响应式阅读列；七列起使用技术画布。 */
+/* 常规六列及以下表格填满响应式阅读列。 */
 #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) {
   box-sizing: border-box;
   max-width: min(100%, var(--hk-reading-measure));
@@ -1072,13 +1087,17 @@ body.typora-export #write h1 {
   margin-bottom: 0.85rem !important;
 }
 body.typora-export #write h2 {
+  width: fit-content;
+  max-width: min(100%, var(--hk-reading-measure));
+  margin-left: max(0px, calc((100% - var(--hk-reading-measure)) / 2));
+  margin-right: auto;
   letter-spacing: -0.014em;
   padding-bottom: 0.55rem;
   margin-top: 2rem !important;
   background-image: linear-gradient(90deg, #d97757 0%, transparent 100%);
   background-repeat: no-repeat;
   background-position: left bottom;
-  background-size: min(11rem, 40%) 2px;
+  background-size: 100% 2px;
 }
 body.typora-export #write h3 {
   letter-spacing: -0.006em;

@@ -56,11 +56,11 @@
 `#outline-content .outline-item` `#md-searchpanel` `.md-search-hit` `.modal-content`
 `.context-menu` `.btn` `::-webkit-scrollbar`
 
-**导出 / PDF**：整页与画布（gutter `#ebe8df`）同色；`#write` 禁纯白底。导出精装：H2 签名线、
-抬升 fence（`#fffef8`）、圆角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
+**导出 / PDF**：整页与画布（gutter `#eeedec`）同色；`#write` 禁纯白底。导出精装：H2 签名线、
+抬升 fence（纸面 highlight `#ffffff`）、圆角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
 （改 `tr`）。
 
-## 五个静默失败的坑
+## 六个静默失败的坑
 
 全部踩过，共同点是**不报错、页面照常渲染**：
 
@@ -73,6 +73,9 @@
 4. **改名要全链路**：`@font-face` 族名、字体栈族名、字体源目录名、install 的 SLUG。
    任一处没跟上就静默失败，而 ttf 兜底还会掩盖问题（只装上 3/8 个文件也照常显示）。
 5. **px 字号**让偏好面板的字号调节失效，但页面看起来完全正常。
+6. **`var(--bg-color)` 会沿用上一个主题的底色**。Typora 把上一个主题的窗口底色缓存在偏好
+   `backgroundColor`，启动时写进 `--bg-color`；纸面若用 `var(--bg-color)`，headless Chrome
+   全对，Typora 里却是上个主题的颜色（深色主题出现浅纸配浅字）。→ 纸面一律写实色。
 
 ## 提交到 theme.typora.io
 

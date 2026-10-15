@@ -6,7 +6,7 @@ Hekouwang turns Markdown into a calm, coherent reading surface for long-form wri
 
 ## What it is
 
-- CJK-oriented reading metrics: `1rem` body size and `1.65` leading. Prose, headings, and lists sit in a centered reading column that expands from `48rem` to at most `60rem` on wide screens. The paper is capped at `52em` in regular windows; from a `1440px` viewport it grows toward an `80em` technical canvas for code and wide tables, with at least `4rem` reserved for side gutters.
+- CJK-oriented reading metrics: `1rem` body size and `1.65` leading. The paper follows the window with about `3rem` of gutter on each side; prose, headings, and lists sit in a centered reading column of `100vw − 16rem`, clamped to `48–96rem`. The paper is `6rem` wider than the reading column, leaving room for code and wide tables.
 - Quiet hierarchy through size, weight, and space—not colored left bars or heavy chrome.
 - A `1rem` top gap above the paper in regular windows; source and focus mode styles; inline images stay in the text flow. Tables and small text use `14px`, code fences `15px`; PDF paper size, margins, and headers follow Typora’s export settings.
 - Inter for bundled Latin glyphs; system CJK fonts for small distribution size and clear licensing.
@@ -16,7 +16,7 @@ Each generated theme runs a static text and control contrast audit during the bu
 
 ### Free V2 · light and dark
 
-These images were captured in Typora on macOS with the 1.2.0 CSS.
+These images were captured in Typora on macOS with the 1.3.0 CSS.
 
 | Light | Dark |
 |---|---|
@@ -57,7 +57,7 @@ Paid V2 Pro is a walnut and bronze editorial design with warm paper, double-line
 
 ### All six paid themes
 
-These are **Typora screenshots on macOS using the latest 1.2.0 CSS**. Open an image for the full-size view. You can also [compare all light/dark pairs on the live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots).
+These are **Typora screenshots on macOS using the latest 1.3.0 CSS**. Open an image for the full-size view. You can also [compare all light/dark pairs on the live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots).
 
 | Paid theme | Light | Dark |
 |---|---|---|
@@ -68,7 +68,7 @@ These are **Typora screenshots on macOS using the latest 1.2.0 CSS**. Open an im
 | **V5 · HUD** | ![V5 light preview](docs/previews/v5-light.webp) | ![V5 dark preview](docs/previews/v5-dark.webp) |
 | **V6 · Ember** | ![V6 light preview](docs/previews/v6-light.webp) | ![V6 dark preview](docs/previews/v6-dark.webp) |
 
-See the [live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) for the paid pack and the [1.2.0 upgrade guide](UPGRADE.md) for installation steps. The Chinese README is the canonical product page; see [README.zh.md](README.zh.md) for engineering detail.
+See the [live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) for the paid pack and the [1.3.0 upgrade guide](UPGRADE.md) for installation steps. The Chinese README is the canonical product page; see [README.zh.md](README.zh.md) for engineering detail.
 
 ## License
 

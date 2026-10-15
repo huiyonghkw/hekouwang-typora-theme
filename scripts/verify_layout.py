@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 WIDTHS = (320, 480, 760, 900, 1440, 1800, 2048)
 # The reading column may grow on desktop, but it should remain a reading
 # column rather than stretching across the full technical canvas.
-MAX_READING_REM = 60
+MAX_READING_REM = 96
 MIN_DESKTOP_GROWTH_PX = 96
 CHROME_CANDIDATES = (
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -92,7 +92,8 @@ PROBE_JS = """
     wideFigure:box('wide-figure'), wideTable:box('wide-table'),
     sparseTable:box('sparse-table'), fourFigure:box('four-figure'),
     fourTable:box('four-table'), sixFigure:box('six-figure'),
-    sixTable:box('six-table'), directFourTable:box('direct-four-table'),
+    sixTable:box('six-table'), sevenFigure:box('seven-figure'),
+    sevenTable:box('seven-table'), tierFigure:box('tier-figure'), directFourTable:box('direct-four-table'),
     denseFigure:box('dense-figure'),
     denseTable:box('dense-table'), mixed:box('mixed'),
     denseFourFigure:box('dense-four-figure'),
@@ -119,9 +120,9 @@ def fixture(css: Path, extra_css: str = "") -> str:
         return f"<thead><tr>{head}</tr></thead><tbody><tr>{row}</tr></tbody>"
 
     dense_header = "".join(
-        f'<th style="min-width:8rem">Technical {i}</th>' for i in range(1, 13)
+        f'<th style="min-width:8rem">Technical {i}</th>' for i in range(1, 21)
     )
-    dense_row = "".join(f"<td>value_{i:02d}</td>" for i in range(1, 13))
+    dense_row = "".join(f"<td>value_{i:02d}</td>" for i in range(1, 21))
     return f"""<!doctype html><html><head><meta charset="utf-8">
 <style>{TYPORA_BASE}</style>
 <link rel="stylesheet" href="{css.as_uri()}">
@@ -139,6 +140,10 @@ def fixture(css: Path, extra_css: str = "") -> str:
 <tbody><tr><td>A</td><td>完成</td></tr></tbody></table></figure>
 <figure class="md-table-fig table-figure" id="four-figure"><table class="md-table" id="four-table">{short_table(4)}</table></figure>
 <figure class="md-table-fig table-figure" id="six-figure"><table class="md-table" id="six-table">{short_table(6)}</table></figure>
+<figure class="md-table-fig table-figure" id="tier-figure"><table class="md-table" id="tier-table">
+<thead><tr><th>档次</th>{''.join(f'<th>{v}</th>' for v in (200, 300, 400, 500, 600, 700, 800, 900, 1000, 1500, 2000, 3000, 4000, 5000, 6000, 6400, 10190))}</tr></thead>
+<tbody><tr><td>政府补贴</td>{''.join(f'<td>{v}</td>' for v in (40, 45, 50, 60, 60, 65, 70, 75, 80, 100, 120, 160, 200, 240, 280, 280, 280))}</tr></tbody></table></figure>
+<figure class="md-table-fig table-figure" id="seven-figure"><table class="md-table" id="seven-table">{short_table(7)}</table></figure>
 <table class="md-table" id="direct-four-table">{short_table(4)}</table>
 <figure id="dense-figure"><table id="dense-table"><thead><tr>{dense_header}</tr></thead>
 <tbody><tr>{dense_row}</tr></tbody></table></figure>
@@ -256,21 +261,29 @@ def validate(data: dict, css_name: str, requested_width: int,
     need(data["codeScroll"]["overflowX"] in ("auto", "scroll")
          and data["codeScroll"]["scrollWidth"] >= data["codeScroll"]["clientWidth"] + 100,
          "long code does not scroll inside its CodeMirror container")
-    need(data["wideTable"]["width"] >= content_width * 0.85 - 4,
-         f"eight-column table is not using the wide canvas "
-         f"({data['wideTable']['width']:.0f}/{content_width:.0f}px)")
+    # Wide tables start at the reading column and grow toward the canvas
+    # only as far as their content requires.
+    need(data["wideTable"]["width"] >= min(data["prose"]["width"], content_width) - 3,
+         f"eight-column table is narrower than the reading column "
+         f"({data['wideTable']['width']:.0f}/{data['prose']['width']:.0f}px)")
+    need(data["wideTable"]["width"] > data["prose"]["width"] + 3
+         or data["wideTable"]["width"] >= content_width - 4
+         or abs(data["wideFigure"]["left"] - data["prose"]["left"]) <= 3,
+         "wide table is not centered on the reading column")
     need(data["wideFigure"]["width"] <= content_width + 17,
          "table figure escapes the paper content box")
-    need(data["sourceLines"]["width"] <= data["prose"]["width"] + data["rootSize"] * 6 + 3,
+    need(data["sourceLines"]["width"] <= data["prose"]["width"] + data["rootSize"] * 7 + 3,
          f"source mode is too wide ({data['sourceLines']['width']:.0f}px)")
     if requested_width == 2048:
-        need(data["prose"]["width"] >= data["rootSize"] * 58,
+        need(data["prose"]["width"] >= data["rootSize"] * 64,
              f"prose does not use the wide desktop ({data['prose']['width']:.0f}px)")
 
     # Typora wraps edited tables in figure.md-table-fig. Four and six column
     # tables should use the same responsive reading width as adjacent prose.
     # The direct table checks the exported/plain HTML fallback.
-    for label in ("fourFigure", "sixFigure", "denseFourFigure",
+    # A short seven-column table fits the reading column, so it must align
+    # with prose instead of jumping to the wide canvas.
+    for label in ("fourFigure", "sixFigure", "sevenFigure", "denseFourFigure",
                   "directFourTable"):
         need(abs(data[label]["left"] - data["prose"]["left"]) <= 3,
              f"{label} starts at {data[label]['left']:.0f}px, "
@@ -280,6 +293,7 @@ def validate(data: dict, css_name: str, requested_width: int,
              f"prose width {data['prose']['width']:.0f}px")
     for table_name, figure_name in (("fourTable", "fourFigure"),
                                     ("sixTable", "sixFigure"),
+                                    ("sevenTable", "sevenFigure"),
                                     ("denseFourTable", "denseFourFigure")):
         table, figure = data[table_name], data[figure_name]
         need(abs(table["left"] - figure["left"]) <= 3,
@@ -299,6 +313,11 @@ def validate(data: dict, css_name: str, requested_width: int,
              > data["denseFourFigure"]["clientWidth"] + 10,
              "dense four-column table should scroll locally in a narrow window")
 
+    if requested_width >= 1800 and max_reading_rem == MAX_READING_REM:
+        tier = data["tierFigure"]
+        need(tier["scrollWidth"] <= tier["clientWidth"] + 2,
+             f"17-column numeric table scrolls on a wide screen "
+             f"({tier['scrollWidth']:.0f}/{tier['clientWidth']:.0f}px)")
     if requested_width == 1800:
         need(data["code"]["width"] >= data["prose"]["width"] + 80,
              "wide code has not gained meaningful width beyond prose")

@@ -2,11 +2,11 @@
 
 **体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)
 
-[1.2.0 升级说明](UPGRADE.md) · [English](README.en.md)
+[1.3.0 升级说明](UPGRADE.md) · [English](README.en.md)
 
 给「一天要盯着 Markdown 好几个小时」的人用的 Typora 主题——按**中文长文**来排，不是按聊天气泡来排。
 
-付费包升级为 **六套独立视觉（V1 / V2 Pro / V3–V6）**，免费 V2 继续单独提供；阅读指标全套共用：正文 `1rem` · 行高 `1.65` · 居中的 `48–60rem` 响应式正文阅读列 · 普通窗口 `52em` 纸面，宽屏渐进至最多 `80em` 技术画布 · 纸感卡片。
+付费包升级为 **六套独立视觉（V1 / V2 Pro / V3–V6）**，免费 V2 继续单独提供；阅读指标全套共用：正文 `1rem` · 行高 `1.65` · 纸面随窗口伸缩、两侧各留约 `3rem` · 居中的 `48–96rem` 响应式正文阅读列 · 纸感卡片。
 
 ## 免费 / 付费
 
@@ -39,7 +39,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，暖米白纸感。
 
-以下是 1.2.0 最新浅色与深色外观，均为 macOS Typora 真机截图，包含正文、标题与主题外壳。
+以下是 1.3.0 最新浅色与深色外观，均为 macOS Typora 真机截图，包含正文、标题与主题外壳。
 
 | 浅色 | 深色 |
 |---|---|
@@ -47,11 +47,11 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 ---
 
-## 付费包 · 六套新视觉（1.2.0）
+## 付费包 · 六套新视觉（1.3.0）
 
-**阅读指标与免费档相同**：正文 `1rem`、行高 `1.65`、居中的 `48–60rem` 响应式阅读列，以及从普通窗口 `52em` 纸面渐进到宽屏 `80em` 的技术画布。六套付费主题分别设计底色、强调色、标题、引用、代码块和表格。V2 Pro 是独立于免费 V2 的典藏编辑版，标题使用统一的中英文无衬线字体。
+**阅读指标与免费档相同**：正文 `1rem`、行高 `1.65`、居中的 `48–96rem` 响应式阅读列，以及随窗口伸缩、两侧各留约 `3rem` 的纸面。六套付费主题分别设计底色、强调色、标题、引用、代码块和表格。V2 Pro 是独立于免费 V2 的典藏编辑版，标题使用统一的中英文无衬线字体。
 
-以下全部是 **1.2.0 最新 CSS 在 macOS Typora 中的真机截图**；点击图片可查看原图。[体验站可并排对比](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
+以下全部是 **1.3.0 最新 CSS 在 macOS Typora 中的真机截图**；点击图片可查看原图。[体验站可并排对比](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
 
 | 付费主题 | 浅色 | 深色 |
 |---|---|---|
@@ -66,14 +66,14 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 ## 设计取向
 
-- **默认服务中文长文。** 正文阅读列居中，在宽屏下由 `48rem` 逐步扩至最多 `60rem`；普通窗口纸面上限 `52em`，宽屏从 `1440px` 起逐步扩至最多 `80em`，给代码和宽表格更多横向空间。
+- **默认服务中文长文。** 正文阅读列居中，宽度为「窗口宽度 − 16rem」（介于 `48–96rem`）；纸面比阅读列多出 `6rem`、两侧各留约 `3rem`，给代码和宽表格更多横向空间。
 - **正文保持克制。** V5、V6 的高彩度留给少量标题和信息标记；行内代码仍用低饱和色，一段里七八个 `` `code` `` 也应读得像文字。
 - **层级靠字号、字重、间距，不靠彩色竖条。**
 - **边框用墨色叠透明度**，不用平铺灰。
 - **纸感画在 `#write` 上**（浅 / 深都有）：径向、大圆角、外阴影；侧栏 / gutter / 顶栏是更深一档的壳层。
 - **排版照顾编辑细节。** 常规窗口纸面顶部留 `1rem`；表格与小字 `14px`、代码块 `15px`。句中图片随文字排版；源码模式单独限宽，专注模式处理图片、任务框和代码，并尊重减少动效设置。
 - **配色逐套核查。** 构建时审计纸面、链接、代码、侧栏、按钮和任务框的对比度；公开仓检查免费浅 / 深两套，本机有付费色板时检查 12 套付费 CSS，共 14 套。
-- **导出 PDF 整页一色 + 分套细节。** 画布跟 gutter 同色（免费浅色 `#ebe8df` / 深色跟正文底），避免内容区出现突兀的纯白柱。免费与付费主题共用分页和页面底色处理；标题、代码、表格和分隔线则按各套视觉呈现。
+- **导出 PDF 整页一色 + 分套细节。** 画布跟 gutter 同色（免费浅色 `#eeedec` / 深色跟正文底），避免内容区出现突兀的纯白柱。免费与付费主题共用分页和页面底色处理；标题、代码、表格和分隔线则按各套视觉呈现。
 - **付费六套 = V1 / V2 Pro / V3–V6**（每套浅/深两极）；公开仓 / Gallery 只发免费 V2。
 
 ### 导出 PDF
@@ -87,7 +87,7 @@ Typora PDF = 独立 HTML（`body.typora-export`）再 `printToPDF`。本主题�
 
 | 套 | 浅色画布 | 深色画布 |
 |---|---|---|
-| V2 免费 | `#ebe8df` | `#1f1f1e` |
+| V2 免费 | `#eeedec` | `#1c1917` |
 | V1 / V2 Pro / V3–V6 | 各皮肤 gutter | 各皮肤正文底 |
 
 ![免费 V2 浅色 A4 导出预览](docs/previews/v2-export-a4.webp)
@@ -102,8 +102,8 @@ Typora PDF = 独立 HTML（`body.typora-export`）再 `printToPDF`。本主题�
 |---|---|---|
 | `body_size` | `1rem` | 长时间写作不累 |
 | `body_lh` | `1.65` | 中文密度需要更大行高 |
-| `type.reading_measure` | `clamp(48rem, calc(50vw + 3rem), 60rem)` | 正文阅读列随宽屏从 `48rem` 渐进至最多 `60rem`；窄窗仍受可用宽度限制 |
-| `type.measure` / `layout.wide_measure` | `52em` / `80em` | 普通纸面逐步扩为宽屏技术画布；两侧至少共留 `4rem` |
+| `type.reading_measure` | `clamp(48rem, calc(100vw - 16rem), 96rem)` | 正文阅读列随窗口伸缩，最宽 `96rem`；窄窗仍受可用宽度限制 |
+| `type.measure` / `layout.wide_measure` | `120em` / `120em` | 纸面绝对上限；实际宽度 = 阅读列 + 内边距 + `layout.wide_canvas_extra`（`6rem`），两侧至少共留 `4rem` |
 | `type.small` / `type.table_size` / `type.fences_size` | `14px` / `14px` / `15px` | 小字、表格与代码块的阅读尺寸（配置采用 rem） |
 | `layout.write_margin_top` | `1rem` | 常规窗口纸面与顶栏的间距；窄窗口缩至 `0.75rem` |
 | `para_gap` | `0.78rem` | 段距紧凑但不糊成墙 |
@@ -177,7 +177,7 @@ cd hekouwang-typora-theme
 收到 zip 后：
 
 ```bash
-./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.2.0-YYYYMMDD.zip
+./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.0-YYYYMMDD.zip
 # 或解压后在包内：./unlock.sh
 ```
 

@@ -339,7 +339,7 @@ content {
 
 #write {
   width: 100%;
-  max-width: min(${type_measure}, calc(100% - ${layout_measure_gutter}));
+  max-width: min(${type_measure}, calc(var(--hk-reading-measure) + 2 * ${layout_write_pad_x} + ${layout_wide_canvas_extra}), calc(100% - ${layout_measure_gutter}));
   box-sizing: border-box;
   margin: 0 auto;
   margin-top: ${layout_write_margin_top};
@@ -361,10 +361,11 @@ content {
   ${paper_write_extra}
 }
 
-/* 宽窗口保留技术画布；正文阅读列在下方单独限宽。 */
+/* 宽窗口保留技术画布；正文阅读列在下方单独限宽。
+   纸面只比阅读列多出 wide_canvas_extra，避免正文两侧留出大片空纸。 */
 @media (min-width: ${layout_wide_breakpoint}) {
   #write {
-    max-width: min(${layout_wide_measure}, calc(${type_measure} + 100vw - ${layout_wide_breakpoint}), calc(100% - ${layout_measure_gutter}));
+    max-width: min(${layout_wide_measure}, calc(var(--hk-reading-measure) + 2 * ${layout_write_pad_x} + ${layout_wide_canvas_extra}), calc(100% - ${layout_measure_gutter}));
   }
 }
 
@@ -736,14 +737,28 @@ content {
   font-size: ${type_table_size};
   border-collapse: collapse;
 }
-/* 宽数据表至少填满技术画布，内容更宽时只在自身滚动容器中展开。 */
+/* 七列起的宽数据表：内容放得下时与阅读列对齐，放不下才向技术画布展开，
+   再宽则在自身滚动容器中滚动。 */
 @media screen {
   #write figure > table:has(tr > :nth-child(7)) {
     min-width: max-content;
     max-width: none;
   }
+  #write > figure:has(> table tr > :nth-child(7)) {
+    box-sizing: border-box;
+    width: fit-content;
+    min-width: min(100%, var(--hk-reading-measure));
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* 多列表多为短数值，收窄单元格左右留白，免得只因留白就横向滚动。 */
+  #write table:has(tr > :nth-child(7)) :is(th, td) {
+    padding-left: 0.55rem;
+    padding-right: 0.55rem;
+  }
 }
-/* 常规六列及以下表格填满响应式阅读列；七列起使用技术画布。 */
+/* 常规六列及以下表格填满响应式阅读列。 */
 #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) {
   box-sizing: border-box;
   max-width: min(100%, var(--hk-reading-measure));
@@ -1206,13 +1221,17 @@ body.typora-export #write h1 {
   margin-bottom: 0.85rem !important;
 }
 body.typora-export #write h2 {
+  width: fit-content;
+  max-width: min(100%, var(--hk-reading-measure));
+  margin-left: max(0px, calc((100% - var(--hk-reading-measure)) / 2));
+  margin-right: auto;
   letter-spacing: -0.014em;
   padding-bottom: 0.55rem;
   margin-top: 2rem !important;
   background-image: linear-gradient(90deg, ${color_accent} 0%, transparent 100%);
   background-repeat: no-repeat;
   background-position: left bottom;
-  background-size: min(11rem, 40%) 2px;
+  background-size: 100% 2px;
 }
 body.typora-export #write h3 {
   letter-spacing: -0.006em;
@@ -1475,31 +1494,23 @@ def paper_surfaces(t, dark):
 
     use_grain = str(grain).strip() not in ("0", "0.0", "false", "")
     craft = bool((t.get("_craft") or {}).get("premium"))
-    if craft:
-        radial = (
-            f"radial-gradient(150% 110% at 50% -12%, {highlight} 0%, "
-            f"{mid} 42%, {shade} 100%)"
-        )
-        if dark:
-            outer_soft, outer_mid, outer_far = "0.40", "0.62", "0.45"
-            inset_top, inset_wash = "0.08", inset_a
-        else:
-            outer_soft, outer_mid, outer_far = "0.055", "0.11", "0.07"
-            inset_top, inset_wash = "0.055", inset_a
-        far = f", 0 28px 64px {hexa(shadow, outer_far)}"
-        inset = (
-            f"inset 0 1px 0 {hexa(ink, inset_top)}, "
-            f"inset 0 0 5.5rem {hexa(ink, inset_wash)}"
+    radial = (
+        f"radial-gradient(140% 95% at 50% -8%, {highlight} 0%, "
+        f"{mid} 48%, {shade} 100%)"
+    )
+    # 细边 + 轻阴影（Tailwind ring-1 / shadow-sm 的做法），不再用内阴影压暗纸边。
+    if dark:
+        shadow_css = (
+            f"inset 0 1px 0 {hexa(ink, '0.04')}, "
+            f"0 0 0 1px {hexa(ink, '0.06')}, "
+            f"0 1px 2px {hexa(shadow, '0.30')}, "
+            f"0 {'10px 30px -8px' if craft else '8px 24px -8px'} {hexa(shadow, '0.50')}"
         )
     else:
-        radial = (
-            f"radial-gradient(140% 95% at 50% -8%, {highlight} 0%, "
-            f"{mid} 48%, {shade} 100%)"
-        )
-        far = ""
-        inset = (
-            f"inset 0 1px 0 {hexa(ink, '0.06' if dark else '0.04')}, "
-            f"inset 0 0 4.5rem {hexa(ink, inset_a)}"
+        shadow_css = (
+            f"0 0 0 1px {hexa(ink, '0.05')}, "
+            f"0 1px 2px {hexa(shadow, '0.04')}, "
+            f"0 {'10px 30px -8px' if craft else '8px 24px -8px'} {hexa(shadow, '0.08' if craft else '0.07')}"
         )
 
     if use_grain and float(grain) > 0:
@@ -1518,9 +1529,7 @@ def paper_surfaces(t, dark):
         "paper_write_extra": (
             f"background: {bg}; "
             f"border-radius: var(--hk-r-lg); "
-            f"box-shadow: {inset}, "
-            f"0 1px 2px {hexa(shadow, outer_soft)}, "
-            f"0 {'12px 32px' if craft else '10px 28px'} {hexa(shadow, outer_mid)}{far};"
+            f"box-shadow: {shadow_css};"
         ),
     }
 
@@ -1647,7 +1656,7 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
         "link_underline": hexa(semantic["color_link_readable"], "0.42"),
         "inline_code_bg": hexa(c["code_bg_base"], c["code_bg_alpha"]),
         "craft_extra": (
-            craft_extra_css(accent, accent2, accent3, shadow_soft, dark, flavor=fl)
+            craft_extra_css(accent, accent2, accent3, shadow_soft, dark, flavor=fl, paper=c["bg"])
             if premium else "/* free tier: no paid craft overlay */\n"
         ),
     })
@@ -1817,12 +1826,14 @@ def main():
         work_type = work_preset.get("type") or tokens["type"]
         work_layout = work_preset.get("layout") or tokens["layout"]
         gutter = work_layout["measure_gutter"]
-        normal_width = f"max-width: min({work_type['measure']}, calc(100% - {gutter}));"
-        wide_width = (
-            f"max-width: min({work_layout['wide_measure']}, "
-            f"calc({work_type['measure']} + 100vw - {work_layout['wide_breakpoint']}), "
-            f"calc(100% - {gutter}));"
+        paper_term = (
+            f"calc(var(--hk-reading-measure) + 2 * {work_layout['write_pad_x']} + "
+            f"{work_layout['wide_canvas_extra']})"
         )
+        normal_width = (f"max-width: min({work_type['measure']}, {paper_term}, "
+                        f"calc(100% - {gutter}));")
+        wide_width = (f"max-width: min({work_layout['wide_measure']}, {paper_term}, "
+                      f"calc(100% - {gutter}));")
         wide_query = f"@media (min-width: {work_layout['wide_breakpoint']})"
         if normal_width not in work_css:
             print("⚠️  分辨力失败：默认 CSS 未含普通窗口流体栏宽")
@@ -1841,8 +1852,8 @@ def main():
         if "radial-gradient" not in work_css:
             print("⚠️  分辨力失败：浅色应含纸感径向渐变")
             any_fail = True
-        if "radial-gradient" not in work_dark_css or "10px 28px" not in work_dark_css:
-            # 免费档仍是 10px 28px；付费 craft 会变成 12px 32px
+        if "radial-gradient" not in work_dark_css or "8px 24px -8px" not in work_dark_css:
+            # 免费档阴影是 8px 24px -8px；付费 craft 会变成 10px 30px -8px
             print("⚠️  分辨力失败：深色应同步纸面卡片（径向 + 外阴影）")
             any_fail = True
         import re
@@ -1878,7 +1889,7 @@ def main():
         if re.search(r"background(?:-color)?:\s*#ffffff\b", export_chunk):
             print("⚠️  分辨力失败：导出段勿再使用纯白底（会与外圈底色打架出白柱）")
             any_fail = True
-        if "background-size: min(11rem, 40%) 2px" not in export_chunk:
+        if "background-size: 100% 2px" not in export_chunk:
             print("⚠️  分辨力失败：导出精装须含 H2 签名线")
             any_fail = True
         if "export_surface" in work_css and "${export_surface}" in work_css:

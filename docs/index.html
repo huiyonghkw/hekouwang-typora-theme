@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>hekouwang · Typora 主题 — 写中文长文时的阅读指标</title>
-<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 居中 48–60rem 响应式阅读列 · 52em 纸面渐进至最多 80em 技术画布 · PDF 多页导出。附主题工程 Skill。">
+<meta name="description" content="给一天盯着 Markdown 好几个小时的人用的 Typora 主题。正文 1rem · 行高 1.65 · 居中 48–96rem 响应式阅读列 · 纸面随窗口铺满、两侧各留 3rem · PDF 多页导出。附主题工程 Skill。">
 <meta property="og:title" content="hekouwang · Typora 主题">
-<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 48–60rem 响应式阅读列 / 52em 纸面至 80em 技术画布 · 纸感卡片 · PDF 导出 · 主题工程 Skill">
+<meta property="og:description" content="写中文长文时的阅读指标：1rem / 1.65 / 48–96rem 响应式阅读列 / 纸面随窗口铺满 · 纸感卡片 · PDF 导出 · 主题工程 Skill">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://huiyonghkw.github.io/hekouwang-typora-theme/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f1320'/%3E%3Cpath d='M8 22l4-8 3 4 5-9 4 6' fill='none' stroke='%2306a88c' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -118,20 +118,20 @@ a{color:inherit}
   color:var(--text3);padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:600}
 .tog button.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
 .chrome{padding:18px 16px 28px;transition:background .35s ease}
-.chrome[data-mode="light"]{background:#ebe8df}
-.chrome[data-mode="dark"]{background:#262626}
+.chrome[data-mode="light"]{background:#eeedec}
+.chrome[data-mode="dark"]{background:#0c0a09}
 .paper{margin:0 auto;max-width:min(52em,calc(100% - 1.5rem));box-sizing:border-box;
   padding:2rem 1.75rem 2.75rem;border-radius:14px;font-size:1rem;line-height:1.65;
   font-family:-apple-system,BlinkMacSystemFont,'HKW Sans SC','PingFang SC','Hiragino Sans GB',system-ui,sans-serif;
   overflow-wrap:break-word;transition:background .35s ease,color .35s ease,box-shadow .35s ease}
 .chrome[data-mode="light"] .paper{
   color:#141413;
-  background:radial-gradient(140% 95% at 50% -8%,#fffef8 0%,#fdfdfc 48%,#ebe8df 100%);
+  background:radial-gradient(140% 95% at 50% -8%,#ffffff 0%,#fafaf9 48%,#f5f5f4 100%);
   box-shadow:inset 0 1px 0 rgba(31,30,29,.04),inset 0 0 4.5rem rgba(31,30,29,.05),
              0 1px 2px rgba(31,30,29,.04),0 10px 28px rgba(31,30,29,.06)}
 .chrome[data-mode="dark"] .paper{
   color:#eae8e0;
-  background:radial-gradient(140% 95% at 50% -8%,#2c2c2a 0%,#1f1f1e 48%,#151514 100%);
+  background:radial-gradient(140% 95% at 50% -8%,#211d1c 0%,#1c1917 48%,#141210 100%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 4.5rem rgba(255,255,255,.14),
              0 1px 2px rgba(0,0,0,.35),0 10px 28px rgba(0,0,0,.55)}
 .paper h2{font-size:1.35rem;line-height:1.3;font-weight:600;letter-spacing:-.012em;margin:0 0 .85rem}
@@ -382,7 +382,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 <header class="hero">
   <div class="eyebrow"><i></i> Typora theme · CJK long-form · Skill included</div>
   <h1>写中文长文时的<br><span class="hl">阅读指标</span></h1>
-  <p class="sub">不是聊天气泡密度。正文 <b>1rem</b> · 行高 <b>1.65</b> · 居中的 <b>48–60rem</b> 响应式阅读列 · <b>52em</b> 纸面在宽屏渐进至最多 <b>80em</b> 技术画布——再附一套主题工程 Skill。</p>
+  <p class="sub">不是聊天气泡密度。正文 <b>1rem</b> · 行高 <b>1.65</b> · 居中的 <b>48–96rem</b> 响应式阅读列 · 纸面随窗口铺满、两侧各留 <b>3rem</b>——再附一套主题工程 Skill。</p>
   <div class="actions">
     <a class="btn btn-primary" href="#install">安装免费 V2</a>
     <a class="btn btn-ghost" href="#buy">六套皮肤 · ¥9.9</a>
@@ -390,7 +390,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   <div class="hero-meta">
     <span>Free · V2 编辑</span>
     <span>Pack · V1 / V2 Pro / V3–V6 · ¥9.9</span>
-    <span>1rem · 1.65 · 48–60rem 阅读列</span>
+    <span>1rem · 1.65 · 48–96rem 阅读列</span>
     <span>MIT · V2</span>
   </div>
 </header>
@@ -410,7 +410,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <h2>hekouwang 主题验收样张</h2>
         <p class="lede">——用来验收排版，也适合直接截进 README（浅色 / 深色各一张）</p>
         <p>这一份把 Typora 常渲染的块基本铺满。中英混排是重点：西文走 Anthropic Sans / Inter，中文 fallback 到苹方——<strong>这不是妥协，桌面端本身就是这个机制</strong>。我自己验收时会把本文件开着，浅深各盯三分钟。</p>
-        <p><strong>阅读指标（Hekouwang）</strong>：正文 <code>1rem</code> · 行高 <code>1.65</code> · 居中的 <code>48–60rem</code> 响应式阅读列；<code>52em</code> 纸面在视口 ≥<code>1440px</code> 时渐进至最多 <code>80em</code> 技术画布 · <code>#write</code> 纸感卡片。</p>
+        <p><strong>阅读指标（Hekouwang）</strong>：正文 <code>1rem</code> · 行高 <code>1.65</code> · 居中的 <code>48–96rem</code> 响应式阅读列；纸面随窗口铺满、两侧各留 <code>3rem</code>，比阅读列宽 <code>6rem</code> 供代码与宽表 · <code>#write</code> 纸感卡片。</p>
         <h3>一、正文与中英混排</h3>
         <p>我写这段是为了看长段落的呼吸感。并排对照时，西文字形应接近 Anthropic Sans / Inter，中文走苹方；行距要像在读文章，不是在扫聊天气泡。</p>
         <p>比如这句里混着 <code>variable font</code>、opsz 轴、以及 300→800 的字重范围，看看西文和苹方交接得顺不顺。数字也要对齐：2026 年、1,247 次、99.8% 的占比、测得 <code>font-size: 16px</code> 根字号。</p>
@@ -422,7 +422,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   <div class="metrics-chip" aria-hidden="true">
     <span>body 1rem</span>
     <span>leading 1.65</span>
-    <span>read 48 → 60rem · canvas 52em → 80em</span>
+    <span>read 48 → 96rem · gutter 3rem</span>
   </div>
 </div>
 
@@ -435,8 +435,8 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">Metrics</div>
         <h3>中文长文阅读指标</h3>
-        <div class="num">1rem · 1.65 · 48–60rem</div>
-        <p>浅色 / 深色共用随宽屏增长的居中阅读列；代码和宽表可用最多 80em 画布。构建逐套审计对比度：公开仓 2 套，付费包另有 12 套，共 14 套。</p>
+        <div class="num">1rem · 1.65 · 48–96rem</div>
+        <p>浅色 / 深色共用随窗口伸缩的居中阅读列；纸面铺满窗口，代码和宽表比正文多出 6rem。构建逐套审计对比度：公开仓 2 套，付费包另有 12 套，共 14 套。</p>
       </div>
       <div class="hl-card">
         <div class="tag">Tokens</div>
@@ -480,7 +480,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">1 · Flatten</div>
         <h3>整页画布同色</h3>
-        <p>浅色默认 <b>#ebe8df</b>；深色跟正文底。拆掉 <code>#write</code> 圆角与外阴影；纸张尺寸、页边距和页眉页脚由 Typora 导出设置决定。</p>
+        <p>浅色默认 <b>#eeedec</b>；深色跟正文底。拆掉 <code>#write</code> 圆角与外阴影；纸张尺寸、页边距和页眉页脚由 Typora 导出设置决定。</p>
       </div>
       <div class="hl-card">
         <div class="tag">2 · Craft</div>
@@ -503,7 +503,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   </section>
 
   <section id="shots">
-    <div class="sec-label">Free V2 · 1.2.0</div>
+    <div class="sec-label">Free V2 · 1.3.0</div>
     <h2 class="sec">免费 V2 · 浅色与深色实机截图</h2>
     <p class="prose">下图使用定稿 CSS 在 macOS Typora 中拍摄，展示标题、中英混排、引用、代码和表格。点击图片可查看原图；六套付费主题的浅深截图见<a href="#compare-shots">下方图库</a>。</p>
     <div class="premium-gallery">
@@ -534,8 +534,8 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       </div>
       <div class="gauge">
         <div class="gl">Measure</div>
-        <div class="gv">48–60rem / ≤80em</div>
-        <div class="gu">正文阅读列居中，从 48rem 随宽屏渐进至最多 60rem；纸面普通窗口 52em，从 1440px 视口起扩为最多 80em 的技术画布。</div>
+        <div class="gv">48–96rem / 3rem</div>
+        <div class="gu">正文阅读列居中，宽度为窗口宽度 − 16rem（48–96rem）；纸面随窗口铺满、两侧各留约 3rem，比阅读列宽 6rem 供代码与宽表使用。</div>
       </div>
     </div>
   </section>
@@ -715,7 +715,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       </a>
       <a class="ref" href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/references/typora-spec.md" target="_blank" rel="noopener">
         <div class="k">typora-spec.md</div>
-        <h3>选择器地图 · 五个静默坑</h3>
+        <h3>选择器地图 · 六个静默坑</h3>
         <p>官方规范与 Typora 特有行为</p>
       </a>
       <a class="ref" href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/skills/hekouwang-typora-theme/references/fonts.md" target="_blank" rel="noopener">
@@ -773,7 +773,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 <span class="ok">✓</span> <span class="cm">Cmd+Q 退出再开 · 主题菜单选 Hekouwang / Hekouwang Dark</span></pre>
     </div>
     <p class="install-note">也可只拷 <code>theme/hekouwang.css</code>、<code>theme/hekouwang-dark.css</code> 和 <code>theme/hekouwang/</code> 到 Typora 主题文件夹（Preferences → Open Theme Folder）。</p>
-    <p class="install-note">从旧版升级？先看 <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/UPGRADE.md">1.2.0 升级说明</a>，其中列出免费版、付费包的安装与重启步骤。</p>
+    <p class="install-note">从旧版升级？先看 <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/UPGRADE.md">1.3.0 升级说明</a>，其中列出免费版、付费包的安装与重启步骤。</p>
   </section>
 
   <section id="buy">
@@ -786,14 +786,14 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <tbody>
         <tr><td>Hekouwang / Dark（免费 V2）</td><td class="y">✓</td><td>从公开仓单独安装</td></tr>
         <tr><td>Hekouwang V1 / V2 Pro / V3–V6（+ Dark）</td><td class="n">—</td><td class="y">12 个 CSS</td></tr>
-        <tr><td>同一套 1rem · 1.65 · 48–60rem 响应式阅读列 / ≤80em 技术画布 · 纸感</td><td class="y">✓</td><td class="y">✓</td></tr>
+        <tr><td>同一套 1rem · 1.65 · 48–96rem 响应式阅读列 / 纸面铺满窗口 · 纸感</td><td class="y">✓</td><td class="y">✓</td></tr>
         <tr><td>付费阅读工艺（更深纸影 · 标题点缀 · 引用/代码块）</td><td class="n">—</td><td class="y">✓</td></tr>
         <tr><td>一年更新 + 微信答疑</td><td class="n">—</td><td class="y">✓</td></tr>
       </tbody>
     </table>
 
     <div class="ask" id="compare-shots" style="margin-top:28px">
-      <span class="lb">six visual systems · 1.2.0</span>
+      <span class="lb">six visual systems · 1.3.0</span>
       <b>六套付费主题 · 浅深实机截图</b>。以下图片使用定稿 CSS 在 macOS Typora 中拍摄，点击可查看原图。每套都展示标题、正文、引用、代码和表格；<a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/UPGRADE.md">升级说明</a>列出从旧版切换的步骤。
     </div>
     <div class="premium-gallery">
@@ -909,7 +909,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
     <div class="buy-steps">
       <div class="buy-step"><div class="sq">01</div><div>
         <div class="tt">确认 zip 能解压</div>
-        <div class="ds">文件名类似 <code>hekouwang-typora-theme-pack-v1.2.0-YYYYMMDD.zip</code>。解压后应有 <code>unlock.sh</code>、<code>theme/</code>（12 个 CSS）、<code>LICENSE-PRO.txt</code>、<code>VERSION</code>。<br>
+        <div class="ds">文件名类似 <code>hekouwang-typora-theme-pack-v1.3.0-YYYYMMDD.zip</code>。解压后应有 <code>unlock.sh</code>、<code>theme/</code>（12 个 CSS）、<code>LICENSE-PRO.txt</code>、<code>VERSION</code>。<br>
         若打不开或提示损坏：多半是微信传输截断——让我重发，或改用文件传输助手 / 网盘再下一次。</div>
       </div></div>
       <div class="buy-step"><div class="sq">02</div><div>

@@ -5,7 +5,7 @@ displayName: Typora 主题工程（hekouwang）
 summary: Typora theme engineering / CJK long-form markdown — tokens.json CSS build, color sampling, contrast/layout audits, font probe. Free V2 light+dark; paid V1/V2 Pro/V3–V6.
 license: MIT
 homepage: https://github.com/huiyonghkw/hekouwang-typora-theme
-version: 1.4.1
+version: 1.5.0
 description: >
   会勇禾口王 · Typora 主题工程 Skill。维护「hekouwang」主题（中文长文浅色 + 深色），
   并提供一套可复用的主题工程方法：CSS 由 tokens.json
@@ -98,7 +98,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css \
 | 要做什么 | 读哪份 |
 |---|---|
 | 改配色、字号、行高、紧凑度 | [references/tokens.md](references/tokens.md) |
-| Typora 选择器地图、官方规范、五个静默坑 | [references/typora-spec.md](references/typora-spec.md) |
+| Typora 选择器地图、官方规范、六个静默坑 | [references/typora-spec.md](references/typora-spec.md) |
 | 字体策略、授权红线、三级降级 | [references/fonts.md](references/fonts.md) |
 | 做一套全新主题 / 加变体 / 发布到主题库 | [references/workflow.md](references/workflow.md) |
 

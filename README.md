@@ -4,26 +4,26 @@
 
 这是为中文长文设计的 Typora 主题：一篇文章从开头读到结尾，标题、段落、代码、表格和图片应该保持同一种安静而清晰的节奏，而不是每个组件都在抢注意力。
 
-**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)　·　[1.2.0 升级说明](UPGRADE.md)　·　[English](README.en.md)　·　[详细中文技术说明](README.zh.md)
+**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)　·　[1.3.0 升级说明](UPGRADE.md)　·　[English](README.en.md)　·　[详细中文技术说明](README.zh.md)
 
-![Hekouwang 免费 V2 · 1.2.0 浅色](docs/previews/v2-light.webp)
+![Hekouwang 免费 V2 · 1.3.0 浅色](docs/previews/v2-light.webp)
 
-*免费 V2 · 1.2.0 浅色，macOS Typora 真机截图。*
+*免费 V2 · 1.3.0 浅色，macOS Typora 真机截图。*
 
 ## 这套主题解决什么
 
 它不追求“像一张海报”，而是把精力放在长期使用时真正影响体验的地方：
 
-- **中文长文读起来松而不散。** 正文 `1rem`、行高 `1.65`，段落、标题和列表居中排在随宽屏从 `48rem` 扩至最多 `60rem` 的阅读列内；普通窗口纸面上限 `52em`，视口从 `1440px` 起逐步扩为最多 `80em` 的技术画布，供代码和宽表格使用。
+- **中文长文读起来松而不散。** 正文 `1rem`、行高 `1.65`，纸面随窗口伸缩、两侧各留约 `3rem`；段落、标题和列表居中排在「窗口宽度 − 16rem」的阅读列内（介于 `48–96rem`），纸面比阅读列多出 `6rem`，供代码和宽表格使用。
 - **层级清楚，但不用彩色竖条和重装饰。** 标题靠字号、字重与留白建立秩序；代码、引用和表格各有边界，却不会把文章切成一堆卡片。
 - **编辑、专注与导出是一套体验。** 常规窗口纸面顶部留 `1rem` 壳层；源码模式独立限宽，专注模式照顾图片、任务框与代码。导出 PDF 会压平浮层，纸张、页边距和页眉页脚遵循 Typora 的导出设置。
 - **技术内容清楚且不挤正文。** 表格与小字以 `14px` 为基准、代码块 `15px`；句中图片保持行内流动。构建时逐套检查文字与控件的颜色对比度。
 - **中英混排不将就。** 西文使用随包 Inter，中文使用系统字体；不打包庞大的中文字体，也不碰授权边界。
 - **Windows 有独立适配。** Windows 上通过 Typora 的 `body.os-windows` 切换到“微软雅黑 UI / 微软雅黑”与 Cascadia Mono 优先的字栈，并保留 ClearType 渲染。
 
-![Hekouwang 免费 V2 · 1.2.0 深色](docs/previews/v2-dark.webp)
+![Hekouwang 免费 V2 · 1.3.0 深色](docs/previews/v2-dark.webp)
 
-*免费 V2 · 1.2.0 深色，macOS Typora 真机截图。*
+*免费 V2 · 1.3.0 深色，macOS Typora 真机截图。*
 
 ## 选择你的版本
 
@@ -72,7 +72,7 @@ Windows 安装器默认写入 `%APPDATA%\Typora\themes`，更新前会把同名 
 
 ### 可选：紧凑阅读宽度
 
-宽屏正文默认随窗口从 `48rem` 增至最多 `60rem`。如果更喜欢约 40 字宽的中文长文阅读列，在 Typora 主题目录新建 `hekouwang.user.css`，写入：
+正文默认随窗口伸缩，最宽 `96rem`。如果更喜欢约 40 字宽的中文长文阅读列，在 Typora 主题目录新建 `hekouwang.user.css`，写入：
 
 ```css
 :root { --hk-reading-measure: 40rem; }
@@ -102,7 +102,7 @@ python3 scripts/verify_render.py \
 
 ## 六套付费视觉
 
-1.2.0 付费包包含六套真正独立的视觉系统，每套各有浅色与深色。它们共享免费版的长文排版指标，但纸面、外壳、标题、引用、代码块和表格都有自己的处理。
+1.3.0 付费包包含六套真正独立的视觉系统，每套各有浅色与深色。它们共享免费版的长文排版指标，但纸面、外壳、标题、引用、代码块和表格都有自己的处理。
 
 | 主题 | 视觉方向 | 适用场景 |
 |---|---|---|
@@ -113,7 +113,7 @@ python3 scripts/verify_render.py \
 | **V5 · HUD** | 紫晶与冷靛紫外壳，青色信号 | 技术方案、演示笔记 |
 | **V6 · 焰彩** | 李紫、珊瑚橙与粉色 | 创作手稿、发布稿 |
 
-下面展示 **1.2.0 最新 CSS 在 macOS Typora 中的真机截图**，点击图片可查看原图。免费 V2 仍以 **Hekouwang / Hekouwang Dark** 单独提供。也可以在[体验站对比全部主题](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
+下面展示 **1.3.0 最新 CSS 在 macOS Typora 中的真机截图**，点击图片可查看原图。免费 V2 仍以 **Hekouwang / Hekouwang Dark** 单独提供。也可以在[体验站对比全部主题](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
 
 ### V1 · 石墨青绿
 
