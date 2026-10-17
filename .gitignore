@@ -25,3 +25,6 @@ theme/hekouwang-v6-dark.css
 dist/
 *.zip
 hekouwang-typora-theme-pack-*.zip
+
+# 首发/推广文案草稿：只留本机，不进公开仓
+launch/
