@@ -127,7 +127,7 @@ def fixture(css: Path, extra_css: str = "") -> str:
 <style>{TYPORA_BASE}</style>
 <link rel="stylesheet" href="{css.as_uri()}">
 <style>{extra_css}</style>
-</head><body><div id="qa-topbar" style="height:40px"></div><content><div id="write">
+</head><body class="pin-outline"><div id="qa-topbar" style="height:40px"></div><content><div id="write">
 <h2 id="heading">主题宽屏布局验收</h2>
 <p id="prose">{'中文长文需要稳定的阅读行宽，技术内容则可以使用更宽的画布。' * 5}</p>
 <ul id="list"><li>列表保持在阅读列，序号和内容都应清晰。</li></ul>
@@ -275,6 +275,10 @@ def validate(data: dict, css_name: str, requested_width: int,
          "table figure escapes the paper content box")
     need(data["sourceLines"]["width"] <= data["prose"]["width"] + data["rootSize"] * 7 + 3,
          f"source mode is too wide ({data['sourceLines']['width']:.0f}px)")
+    if requested_width >= 1440:
+        need(data["sparseTable"]["width"] <= data["rootSize"] * 48 + 2,
+             f"small table exceeded the 48rem cap "
+             f"({data['sparseTable']['width']:.0f}px)")
     if requested_width == 2048:
         need(data["prose"]["width"] >= data["rootSize"] * 64,
              f"prose does not use the wide desktop ({data['prose']['width']:.0f}px)")
@@ -386,7 +390,7 @@ def main() -> None:
                 # A wider paper alone is insufficient: the actual prose and
                 # normal tables must use some of the extra desktop space.
                 for label in ("prose", "fourTable", "sixTable",
-                              "directFourTable", "sparseTable"):
+                              "directFourTable"):
                     growth = data[label]["width"] - previous[label]["width"]
                     if growth < MIN_DESKTOP_GROWTH_PX:
                         failures.append(

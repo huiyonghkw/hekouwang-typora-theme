@@ -134,7 +134,7 @@ _PAPER_NOISE_TMPL = (
 CSS = Template(r"""
 /* ==========================================================================
    hekouwang — a Typora theme
-   默认：中文长文阅读档（work）· 骨白底 + 克制纸感 + Anthropic Sans/Inter 西文与系统中文混排。
+   默认：中文长文阅读档（work）· 素白纸面 + 墨绿强调 + Anthropic Sans/Inter 西文与系统中文混排。
    浅色 / 深色各一份：hekouwang.css · hekouwang-dark.css。
 
    本文件由 scripts/build.py 从 scripts/tokens.json 生成，请勿手改。
@@ -236,7 +236,7 @@ CSS = Template(r"""
   --item-hover-bg-color:      ${color_hover};
   --item-hover-text-color:    ${color_text};
   --active-file-bg-color:     ${color_hover};
-  --active-file-text-color:   ${color_text};
+  --active-file-text-color:   ${color_ink};
   --active-file-border-color: ${color_accent_text};
   --primary-color:            ${color_accent_text};
   --primary-btn-border-color: ${color_accent_text};
@@ -248,7 +248,7 @@ CSS = Template(r"""
   --control-text-hover-color: ${color_text};
   --select-text-bg-color:     ${accent_wash};
   --search-select-bg-color:   ${accent_soft};
-  --blur-text-color:          ${color_text_faint};
+  --blur-text-color:          ${color_muted_readable};
   --monospace:                ${font_mono_stack};
   --rawblock-edit-panel-bd:   ${line};
   --mermaid-theme:            ${mermaid_theme};
@@ -378,6 +378,21 @@ content {
     border-radius: var(--hk-r);
   }
 }
+/* 侧栏收起时：纸面直接铺满内容区，不再出现纸边 / gutter / 投影；
+   正文仍由 --hk-reading-measure 限宽居中。检测 Typora 的 body.pin-outline：
+   侧栏打开时 Typora 会加这个类，收起时移除。 */
+body:not(.pin-outline) content {
+  background: var(--bg-color);
+}
+body:not(.pin-outline) #write {
+  max-width: none;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  background: var(--bg-color);
+  box-shadow: none;
+}
+
 /* 裸 pre > code 用于预览/HTML 片段；Typora 编辑器的 CodeMirror 仍自行滚动。
    pre 保留 overflow:visible 以让语言工具浮层可见，因此在 code 子节点折行。 */
 @media screen {
@@ -439,7 +454,7 @@ content {
 #write h3 { font-size: ${type_h3_size}; line-height: ${type_h3_lh}; font-weight: ${type_h3_weight}; letter-spacing: ${type_h3_ls}; margin: ${type_h3_mt} 0 ${type_h3_mb}; font-variation-settings: "opsz" 20; }
 #write h4 { font-size: ${type_h4_size}; line-height: ${type_h4_lh}; font-weight: ${type_h4_weight}; letter-spacing: ${type_h4_ls}; margin: ${type_h4_mt} 0 ${type_h4_mb}; }
 #write h5 { font-size: ${type_h5_size}; line-height: ${type_h5_lh}; font-weight: ${type_h5_weight}; margin: ${type_h5_mt} 0 ${type_h5_mb}; }
-#write h6 { font-size: ${type_h6_size}; line-height: ${type_h6_lh}; font-weight: ${type_h6_weight}; margin: ${type_h6_mt} 0 ${type_h6_mb}; color: var(--hk-soft); }
+#write h6 { font-size: ${type_h6_size}; line-height: ${type_h6_lh}; font-weight: ${type_h6_weight}; margin: ${type_h6_mt} 0 ${type_h6_mb}; color: var(--hk-muted); }
 
 #write h1:first-child, #write h2:first-child,
 #write h3:first-child, #write h4:first-child { margin-top: 0; }
@@ -491,11 +506,11 @@ content {
 #write mark {
   background: ${accent_wash};
   color: inherit;
-  border-radius: 3px;
+  border-radius: var(--hk-r-sm);
   padding: 0.05em 0.2em;
 }
 
-/* 行内代码：桌面端那种极轻的浅底 + 暖红字，不抢正文 */
+/* 行内代码：极轻的中性浅底 + 深灰字，不抢正文 */
 #write code,
 #write tt {
   font-family: var(--monospace);
@@ -504,7 +519,7 @@ content {
   background: ${inline_code_bg};
   border: none;
   border-radius: var(--hk-r-sm);
-  padding: 0.14em 0.4em;
+  padding: 0.12em 0.34em;
   word-break: break-word;
 }
 
@@ -515,15 +530,15 @@ content {
 
 /* --------------------------------------------------------------------------
    引用
-   只用墨色细竖线，不加沉底——沉底会让 `> ![](...)` 截图变成灰画框，
-   也会让长文引用变成色块墙。层级靠左边线 + 字色即可。
+   V2 的粗浅灰竖线 + 弱化字色，不加沉底——沉底会让 `> ![](...)` 截图变成灰画框，
+   也会让长文引用变成色块墙。
    -------------------------------------------------------------------------- */
 #write blockquote {
   margin: ${type_block_gap} 0;
-  padding: 0.15rem 0 0.15rem 1rem;
-  border-left: 2px solid var(--hk-divider);
+  padding: 0.1rem 0 0.1rem 1.1rem;
+  border-left: 0.5rem solid var(--hk-line);
   background: transparent;
-  color: var(--hk-soft);
+  color: var(--hk-muted);
 }
 #write blockquote blockquote {
   margin: 0.5rem 0;
@@ -533,14 +548,20 @@ content {
 #write h1 + blockquote {
   border-left: none;
   padding: 0;
-  margin: -0.25rem 0 ${type_block_gap};
+  margin: 1.35rem 0 1.2rem;
   color: var(--hk-muted);
   font-size: ${type_small};
-  line-height: 1.5;
+  line-height: 1.55;
 }
 #write h1 + blockquote > p {
   margin: 0;
   color: inherit;
+}
+/* 题头元数据里的 code 不再铺灰底：一行八个小按钮会把 H1 压下去 */
+#write h1 + blockquote code {
+  background: transparent;
+  padding: 0;
+  color: var(--hk-soft);
 }
 /* 纯图片引用：去掉左边线与内边距，截图贴正文栏宽 */
 #write blockquote:has(.md-image, img):not(:has(> p:not(:has(.md-image, img)))) {
@@ -554,12 +575,12 @@ content {
 }
 
 /* --------------------------------------------------------------------------
-   列表 —— 对齐 Claude：disc/decimal + outside + padding-left≈20px，
-   项间距≈6px（--p5）。圆点用正文软色，不抢 【标签】/加粗。
+   列表 —— disc/decimal + outside + padding-left≈18px，
+   项间距由 type.list_gap 控制。圆点用正文软色，不抢 【标签】/加粗。
    -------------------------------------------------------------------------- */
 #write ul, #write ol {
   margin: 0 0 ${type_para_gap};
-  padding-left: 1.25rem;
+  padding-left: 1.1rem;
 }
 #write li { margin: ${type_list_gap} 0; }
 #write li > p { margin: ${type_list_gap} 0; }
@@ -583,10 +604,10 @@ content {
 #write li > ol {
   margin-top: 0.15rem;
   margin-bottom: 0.15rem;
-  padding-left: 1.25rem;
+  padding-left: 1.1rem;
 }
 
-#write ul.task-list { padding-left: 1.35rem; }
+#write ul.task-list { padding-left: 1.25rem; }
 #write ul.task-list li.task-list-item { list-style: none; }
 #write .md-task-list-item > input {
   -webkit-appearance: none;
@@ -596,14 +617,14 @@ content {
   margin-left: -1.45em;
   margin-top: 0.28em;
   border: 1.5px solid var(--hk-control-border);
-  border-radius: 4px;
+  border-radius: var(--hk-r-sm);
   background: var(--hk-raised);
   transition: background .15s ease, border-color .15s ease;
 }
 #write .md-task-list-item > input:hover { border-color: var(--hk-accent-text); }
 #write .md-task-list-item > input:checked {
-  background: var(--hk-accent);
-  border-color: var(--hk-accent);
+  background: var(--hk-ink);
+  border-color: var(--hk-ink);
 }
 #write .md-task-list-item > input:checked::after {
   content: "";
@@ -680,7 +701,7 @@ content {
   min-width: 8em;
 }
 
-/* 语法高亮：低饱和语义色，跟骨白底同一个色温 */
+/* 语法高亮：低饱和语义色，跟白纸同一个色温 */
 .cm-s-inner .CodeMirror-gutters   { background: transparent; border: none; }
 .cm-s-inner .CodeMirror-linenumber{ color: var(--hk-faint); }
 .cm-s-inner .CodeMirror-cursor    { border-left: 1.5px solid var(--hk-accent); }
@@ -736,6 +757,7 @@ content {
   max-width: 100%;
   font-size: ${type_table_size};
   border-collapse: collapse;
+  border: 1px solid var(--hk-hairline);
 }
 /* 七列起的宽数据表：内容放得下时与阅读列对齐，放不下才向技术画布展开，
    再宽则在自身滚动容器中滚动。 */
@@ -765,9 +787,17 @@ content {
   margin-left: auto;
   margin-right: auto;
 }
+/* 一至三列的小表不拉满宽栏：48rem 左对齐正文，避免三列各占 500px。 */
+#write > figure:has(> table):not(:has(> table tr > :nth-child(4))) {
+  max-width: min(100%, var(--hk-reading-measure), 48rem);
+  margin-left: max(0px, calc((100% - var(--hk-reading-measure)) / 2));
+  margin-right: auto;
+}
 /* 单元格至少留出可读宽度。窄窗中由 Typora 的 figure 自身滚动，
    避免长中文、代码和 URL 被挤成一两个字一行。 */
-@media screen {
+/* 只有窄窗才给表格 figure 加滚动；桌面上的 overflow 会裁掉 Typora
+   的列拖拽 overlay，列边界就不出现 ew-resize 把手。 */
+@media screen and (max-width: 1100px) {
   body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) {
     overflow-x: auto;
   }
@@ -788,26 +818,39 @@ content {
   margin-left: auto;
   margin-right: auto;
 }
+#write > table:not(:has(tr > :nth-child(4))) {
+  width: min(100%, var(--hk-reading-measure), 48rem);
+  max-width: min(100%, var(--hk-reading-measure), 48rem);
+  margin-left: max(0px, calc((100% - var(--hk-reading-measure)) / 2));
+  margin-right: auto;
+}
 #write table th,
 #write table td {
   overflow-wrap: anywhere;
 }
 #write table th {
-  font-weight: 650;
+  font-weight: 700;
   text-align: left;
   color: var(--hk-ink);
   background: ${table_th_bg};
-  border-bottom: 1.5px solid var(--hk-divider);
+  border: 1px solid var(--hk-hairline);
   padding: ${type_cell_pad};
   font-variant-numeric: tabular-nums;
 }
 #write table td {
-  border-bottom: 1px solid var(--hk-hairline);
+  border: 1px solid var(--hk-hairline);
   padding: ${type_cell_pad};
   vertical-align: top;
   font-variant-numeric: tabular-nums;
 }
-#write table tbody tr:last-child td { border-bottom: none; }
+/* 七列起只留横向分隔，避免宽表变成 Excel 网格。 */
+#write figure:has(> table tr > :nth-child(7)) th,
+#write figure:has(> table tr > :nth-child(7)) td,
+#write > table:has(tr > :nth-child(7)) th,
+#write > table:has(tr > :nth-child(7)) td {
+  border-left: 0;
+  border-right: 0;
+}
 #write table tbody tr:hover { background: ${code_bg}; }
 #write table code { font-size: 1em; }
 
@@ -815,10 +858,19 @@ content {
    其他块
    -------------------------------------------------------------------------- */
 #write hr {
+  width: 100%;
   height: 1px;
   border: none;
+  margin: 2.4rem auto;
   background: var(--hk-line);
-  margin: ${type_rule_gap} 0;
+}
+/* Typora 给可聚焦的 .md-hr 加 5px 自动外框；点中 HR 时会像多出一条线 */
+#write .md-hr:focus {
+  outline: none;
+}
+#write .md-hr {
+  padding: 0;
+  border: 0;
 }
 
 /* 图片：只圆角，绝对不加任何背景/边框/阴影
@@ -892,9 +944,16 @@ content {
   border-color: var(--hk-control-border);
 }
 
-/* Mermaid 的深浅配色由 Typora 的 --mermaid-theme 决定，不直接改 SVG 节点色。 */
-.md-diagram-panel { padding: 0.3rem 0; }
+/* Mermaid：浅色用 neutral 灰阶，避免默认主题的淡紫节点；
+   图表块不铺代码块灰底，让图直接落在纸面上。 */
+.md-diagram-panel { padding: 0.3rem 0; background: transparent; }
 .md-diagram-panel-preview { background: transparent; }
+#write pre.md-fences[lang="mermaid"],
+#write pre.md-fences[lang="sequence"] {
+  background: transparent;
+  border-color: transparent;
+}
+#write .md-diagram-panel svg { background: transparent; }
 
 /* YAML front matter */
 #write pre.md-meta-block {
@@ -946,7 +1005,7 @@ content {
 /* 宽纸面中的阅读列：连续文字和代码块居中对齐；宽表格、图表保留整幅空间。
    代码块不跟纸面同宽：收起侧边栏后会比正文两侧各宽出一截。 */
 #write > :is(p, h1, h2, h3, h4, h5, h6, pre.md-fences,
-             ul, ol, blockquote, hr, .md-alert, .md-toc,
+             ul, ol, blockquote, hr, .md-hr, .md-alert, .md-toc,
              .md-def-footnote, .footnotes) {
   box-sizing: border-box;
   max-width: min(100%, var(--hk-reading-measure));
@@ -1014,7 +1073,7 @@ content {
   border-right: 1px solid var(--hk-hairline);
   font-family: var(--hk-sans);
 }
-/* 树：加大左边距 + 每层缩进，深层级不再贴纸边；给 4px 橙条留空 */
+/* 树：加大左边距 + 每层缩进，深层级不再贴纸边；给 4px 强调色条留空 */
 #file-library-tree {
   padding-left: 14px;
   padding-right: 8px;
@@ -1026,6 +1085,7 @@ content {
   padding-left: 2px;
 }
 .file-tree-node.active > .file-node-background {
+  background: var(--active-file-bg-color);
   border-left-width: 3px;
   border-left-style: solid;
   border-left-color: var(--active-file-border-color);
@@ -1069,7 +1129,7 @@ content {
   border-radius: var(--hk-r);
   box-shadow: 0 12px 32px ${shadow_mid};
 }
-.md-search-hit    { background: ${accent_wash}; border-radius: 3px; }
+.md-search-hit    { background: ${accent_wash}; border-radius: var(--hk-r-sm); }
 .md-search-select { background: ${accent_soft}; }
 
 #outline-content .outline-item { color: var(--hk-soft); font-size: ${type_small}; border-radius: var(--hk-r-sm); }
@@ -1185,7 +1245,7 @@ titlebar {
 
 /* --------------------------------------------------------------------------
    导出 / 打印
-   1) 整页画布同色（gutter），拆掉 #write 浮卡片 —— 禁纯白底白柱
+   1) 整页画布同色（纸面），拆掉 #write 浮卡片 —— 不许画布与纸面一深一浅
    2) 精装层：呼吸边距、H2 签名线、抬升 fence、表格圆角、渐变 HR
    导出 DOM：body.typora-export > .typora-export-content > #write
    !important 仅本段；check() 豁免。⛔ 不用左边彩色竖条。
@@ -1210,7 +1270,7 @@ body.typora-export #write {
   width: 100% !important;
   margin: 0 !important;
   /* 页内呼吸：保留 Typora 导出设置的左右留白，这里只补内边距。 */
-  padding: 1.35rem 0.15rem 2.4rem !important;
+  padding: 2rem 0.15rem 2.4rem !important;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -1259,19 +1319,19 @@ body.typora-export #write h1 + blockquote + blockquote + blockquote + blockquote
   margin-bottom: 1.25rem !important;
 }
 
-/* 普通引用：浅铺 + 细线，圆角只在右侧 */
+/* 普通引用：V2 的粗浅灰竖线 + 弱化字色，不加底 */
 body.typora-export #write blockquote {
-  background: ${accent_wash} !important;
-  border-left: 2.5px solid ${accent_border} !important;
-  border-radius: 0 var(--hk-r) var(--hk-r) 0;
-  padding: 0.55rem 1.05rem !important;
+  background: transparent !important;
+  border-left: 0.5rem solid ${line} !important;
+  border-radius: 0 !important;
+  padding: 0.1rem 0 0.1rem 1.1rem !important;
 }
 
 /* 标题 fence（发布文案灰盒）→ 纸面抬升，略亮于画布、绝不用纯白 */
 body.typora-export #write pre.md-fences {
   background: ${export_surface} !important;
   border: 1px solid ${hairline} !important;
-  border-radius: 12px !important;
+  border-radius: var(--hk-r-lg) !important;
   box-shadow:
     0 1px 0 ${export_shine},
     0 8px 22px ${shadow_soft} !important;
@@ -1301,16 +1361,16 @@ body.typora-export #write table {
   border-spacing: 0;
   width: 100%;
   border: 1px solid ${hairline} !important;
-  border-radius: 12px;
+  border-radius: var(--hk-r-lg);
   overflow: hidden;
   margin: 1rem 0 1.35rem !important;
   background: ${export_surface} !important;
 }
 body.typora-export #write table th {
-  background: ${accent_wash} !important;
-  border-bottom: 1.5px solid ${divider} !important;
+  background: ${table_th_bg} !important;
+  border-bottom: 1px solid ${hairline} !important;
   padding: 0.72rem 0.9rem !important;
-  font-weight: 650;
+  font-weight: 700;
 }
 body.typora-export #write table td {
   padding: 0.62rem 0.9rem !important;
@@ -1329,23 +1389,19 @@ body.typora-export #write table tbody tr:hover {
 
 /* 分隔线：中间淡入的品牌色 */
 body.typora-export #write hr {
+  width: 100% !important;
+  max-width: var(--hk-reading-measure);
   height: 1px !important;
   border: 0 !important;
   margin: 1.85rem auto !important;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    ${accent_border} 35%,
-    ${accent_border} 65%,
-    transparent 100%
-  ) !important;
+  background: ${line} !important;
 }
 
-/* 行内代码：在米色页上更清晰一点 */
+/* 行内代码：在白纸上更清晰一点 */
 body.typora-export #write code,
 body.typora-export #write tt {
   background: ${inline_code_bg} !important;
-  border-radius: 5px;
+  border-radius: var(--hk-r-sm);
   padding: 0.12em 0.38em;
 }
 
@@ -1505,14 +1561,15 @@ def paper_surfaces(t, dark):
             f"inset 0 1px 0 {hexa(ink, '0.04')}, "
             f"0 0 0 1px {hexa(ink, '0.06')}, "
             f"0 1px 2px {hexa(shadow, '0.30')}, "
-            f"0 {'10px 30px -8px' if craft else '8px 24px -8px'} {hexa(shadow, '0.50')}"
+            f"0 {'10px 30px -8px' if craft else '4px 14px -10px'} {hexa(shadow, '0.50' if craft else '0.40')}"
         )
     else:
         shadow_css = (
-            f"0 0 0 1px {hexa(ink, '0.05')}, "
-            f"0 1px 2px {hexa(shadow, '0.04')}, "
-            f"0 {'10px 30px -8px' if craft else '8px 24px -8px'} {hexa(shadow, '0.08' if craft else '0.07')}"
+            f"0 0 0 1px {hexa(ink, '0.06')}, "
+            f"0 1px 2px {hexa(shadow, '0.04')}"
         )
+        if craft:
+            shadow_css += f", 0 10px 30px -8px {hexa(shadow, '0.08')}"
 
     if use_grain and float(grain) > 0:
         noise = _PAPER_NOISE_TMPL.format(op=grain)
@@ -1522,9 +1579,9 @@ def paper_surfaces(t, dark):
     return {
         "paper_gutter_bg": gutter,
         # 导出整页 = 纸面色（mid），PDF 与编辑区纸面一致，不用窗口外圈 gutter。
-        # 纸面已是白色时，抬升面退到 shade，否则代码块和表格会融进页面。
+        # 纸面已是白色时，抬升面退到 sunken，否则代码块和表格会融进页面。
         "paper_canvas_bg": mid,
-        "export_surface": shade if (not dark and highlight.lower() == mid.lower()) else highlight,
+        "export_surface": (t["color"].get("sunken") or shade) if (not dark and highlight.lower() == mid.lower()) else highlight,
         "export_shine": (
             "rgba(255, 255, 255, 0.55)" if not dark else "rgba(255, 255, 255, 0.06)"
         ),
@@ -1642,12 +1699,12 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
         **syntax,
         **alerts,
         "color_scheme":   "dark" if dark else "light",
-        "mermaid_theme":  "night" if dark else "default",
+        "mermaid_theme":  "night" if dark else "neutral",
         "hairline":       hexa(border, a["hairline"]),
         "line":           hexa(border, a["line"]),
         "divider":        hexa(border, a["divider"]),
         "code_bg":        hexa(border, "0.045"),
-        "table_th_bg":    hexa(border, "0.04" if not dark else "0.05"),
+        "table_th_bg":    hexa(border, "0.03" if not dark else "0.05"),
         "shadow_soft":    shadow_soft,
         "shadow_mid":     hexa(shadow, "0.14" if not dark else "0.50"),
         "scrollbar":      hexa(border, "0.22"),
@@ -1748,6 +1805,9 @@ def main():
             base["paper"] = paper
         if theme.get("syntax"):
             base["syntax"] = theme["syntax"]
+        # 单套主题可覆盖形状（免费 V2 直角，付费档仍用全局圆角）
+        if theme.get("shape"):
+            base["shape"] = {**(base.get("shape") or {}), **theme["shape"]}
         if theme.get("dark"):
             dark_blk = dict(base.get("dark") or {})
             if "color" in theme["dark"]:
@@ -1854,8 +1914,8 @@ def main():
         if "radial-gradient" not in work_css:
             print("⚠️  分辨力失败：浅色应含纸感径向渐变")
             any_fail = True
-        if "radial-gradient" not in work_dark_css or "8px 24px -8px" not in work_dark_css:
-            # 免费档阴影是 8px 24px -8px；付费 craft 会变成 10px 30px -8px
+        if "radial-gradient" not in work_dark_css or "4px 14px -10px" not in work_dark_css:
+            # 免费档深色阴影是 4px 14px -10px；付费 craft 会变成 10px 30px -8px
             print("⚠️  分辨力失败：深色应同步纸面卡片（径向 + 外阴影）")
             any_fail = True
         import re
@@ -1875,12 +1935,12 @@ def main():
             any_fail = True
         # html 画布（即 PDF 整页底）= 纸面 mid #fdfdfc，不能退回 gutter #ebe8df
         html_rule = re.search(r"^html\s*\{([^}]*)\}", work_css, re.M)
-        if not html_rule or "background-color: #fdfdfc" not in html_rule.group(1):
-            print("⚠️  分辨力失败：浅色 html 画布须为纸面色 #fdfdfc（PDF 与纸面同色）")
+        if not html_rule or "background-color: #ffffff" not in html_rule.group(1):
+            print("⚠️  分辨力失败：浅色 html 画布须为纸面色 #ffffff（PDF 与纸面同色）")
             any_fail = True
         # gutter 仍应在 content 上（编辑器两侧）
-        if not content_block or "#ebe8df" not in content_block.group(1):
-            print("⚠️  分辨力失败：content 仍应铺 gutter（编辑器两侧米色）")
+        if not content_block or "#f8f8f9" not in content_block.group(1):
+            print("⚠️  分辨力失败：content 仍应铺 gutter（编辑器两侧冷灰）")
             any_fail = True
         # 导出：#write 也压成同色，禁止导出段再写 #ffffff
         export_at = work_css.find("导出 / 打印")
@@ -1888,8 +1948,9 @@ def main():
         if export_at < 0 or "box-shadow: none !important" not in export_chunk:
             print("⚠️  分辨力失败：导出段须用 !important 拆掉 #write 纸感阴影")
             any_fail = True
-        if re.search(r"background(?:-color)?:\s*#ffffff\b", export_chunk):
-            print("⚠️  分辨力失败：导出段勿再使用纯白底（会与外圈底色打架出白柱）")
+        canvas_is_white = bool(html_rule and "background-color: #ffffff" in html_rule.group(1))
+        if re.search(r"background(?:-color)?:\s*#ffffff\b", export_chunk) and not canvas_is_white:
+            print("⚠️  分辨力失败：导出段用纯白但画布不是纯白（会与外圈底色打架出白柱）")
             any_fail = True
         if "background-size: 100% 2px" not in export_chunk:
             print("⚠️  分辨力失败：导出精装须含 H2 签名线")
@@ -1897,7 +1958,7 @@ def main():
         if "export_surface" in work_css and "${export_surface}" in work_css:
             print("⚠️  分辨力失败：export_surface 未被替换")
             any_fail = True
-        if "border-radius: 12px !important" not in export_chunk:
+        if "border-radius: var(--hk-r-lg) !important" not in export_chunk:
             print("⚠️  分辨力失败：导出 fence/表格应有抬升圆角")
             any_fail = True
         print_at = work_css.find("\n@media print")

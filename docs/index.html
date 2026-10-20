@@ -118,37 +118,39 @@ a{color:inherit}
   color:var(--text3);padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:600}
 .tog button.on{background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
 .chrome{padding:18px 16px 28px;transition:background .35s ease}
-.chrome[data-mode="light"]{background:#eeedec}
-.chrome[data-mode="dark"]{background:#0c0a09}
+.chrome[data-mode="light"]{background:#f8f8f9}
+.chrome[data-mode="dark"]{background:#0d1117}
 .paper{margin:0 auto;max-width:min(52em,calc(100% - 1.5rem));box-sizing:border-box;
-  padding:2rem 1.75rem 2.75rem;border-radius:14px;font-size:1rem;line-height:1.65;
+  padding:2rem 1.75rem 2.75rem;border-radius:0;font-size:1rem;line-height:1.65;
   font-family:-apple-system,BlinkMacSystemFont,'HKW Sans SC','PingFang SC','Hiragino Sans GB',system-ui,sans-serif;
   overflow-wrap:break-word;transition:background .35s ease,color .35s ease,box-shadow .35s ease}
 .chrome[data-mode="light"] .paper{
-  color:#141413;
-  background:radial-gradient(140% 95% at 50% -8%,#ffffff 0%,#fafaf9 48%,#f5f5f4 100%);
-  box-shadow:inset 0 1px 0 rgba(31,30,29,.04),inset 0 0 4.5rem rgba(31,30,29,.05),
-             0 1px 2px rgba(31,30,29,.04),0 10px 28px rgba(31,30,29,.06)}
+  color:#374151;
+  background:radial-gradient(140% 95% at 50% -8%,#ffffff 0%,#ffffff 48%,#fbfbfc 100%);
+  box-shadow:0 0 0 1px rgba(17,24,39,.06),0 1px 2px rgba(17,24,39,.04)}
 .chrome[data-mode="dark"] .paper{
-  color:#eae8e0;
-  background:radial-gradient(140% 95% at 50% -8%,#211d1c 0%,#1c1917 48%,#141210 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),inset 0 0 4.5rem rgba(255,255,255,.14),
-             0 1px 2px rgba(0,0,0,.35),0 10px 28px rgba(0,0,0,.55)}
-.paper h2{font-size:1.35rem;line-height:1.3;font-weight:600;letter-spacing:-.012em;margin:0 0 .85rem}
+  color:#c9d1d9;
+  background:radial-gradient(140% 95% at 50% -8%,#1f242b 0%,#161b22 48%,#10141a 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 0 0 1px rgba(255,255,255,.06),
+             0 1px 2px rgba(0,0,0,.30),0 4px 14px -10px rgba(0,0,0,.40)}
+.paper h2{font-size:2.125rem;line-height:1.2;font-weight:700;letter-spacing:-.025em;margin:0 0 1rem;color:#111827}
+.chrome[data-mode="dark"] .paper h2{color:#f0f6fc}
 .paper .lede{margin:0 0 1.15rem;padding:0;border:0;font-size:.95rem;line-height:1.6}
-.chrome[data-mode="light"] .lede{color:#3d3d3a}
-.chrome[data-mode="dark"] .lede{color:#d8d6ca}
-.paper p{margin:0 0 .78rem}
+.chrome[data-mode="light"] .lede{color:#6b7280}
+.chrome[data-mode="dark"] .lede{color:#8b949e}
+.paper p{margin:0 0 .85rem}
 .paper p:last-child{margin-bottom:0}
 .paper strong{font-weight:600}
-.chrome[data-mode="light"] .paper strong{color:#3d3d3a}
-.chrome[data-mode="dark"] .paper strong{color:#d8d6ca}
+.chrome[data-mode="light"] .paper strong{color:#111827}
+.chrome[data-mode="dark"] .paper strong{color:#f0f6fc}
 .paper code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.875em;
-  padding:.12em .38em;border-radius:6px}
-.chrome[data-mode="light"] .paper code{color:#8a5a3c;background:rgba(138,90,60,.08)}
-.chrome[data-mode="dark"] .paper code{color:#ffb0af;background:rgba(255,176,175,.1)}
-.paper h3{font-size:1.1rem;line-height:1.35;font-weight:600;margin:1.35rem 0 .45rem;letter-spacing:-.008em}
-.paper h4{font-size:1rem;line-height:1.4;font-weight:600;margin:1.1rem 0 .35rem}
+  padding:.12em .34em;border-radius:0}
+.chrome[data-mode="light"] .paper code{color:#374151;background:#f3f4f6}
+.chrome[data-mode="dark"] .paper code{color:#c9d1d9;background:rgba(255,255,255,.07)}
+.paper h3{font-size:1.25rem;line-height:1.35;font-weight:650;margin:1.4rem 0 .5rem;letter-spacing:-.01em;color:#111827}
+.chrome[data-mode="dark"] .paper h3{color:#f0f6fc}
+.paper h4{font-size:1.0625rem;line-height:1.4;font-weight:700;margin:1.15rem 0 .35rem;color:#111827}
+.chrome[data-mode="dark"] .paper h4{color:#f0f6fc}
 .metrics-chip{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;padding:0 4px}
 .metrics-chip span{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;
   padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--surface);color:var(--text2)}
@@ -415,7 +417,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <p>我写这段是为了看长段落的呼吸感。并排对照时，西文字形应接近 Anthropic Sans / Inter，中文走苹方；行距要像在读文章，不是在扫聊天气泡。</p>
         <p>比如这句里混着 <code>variable font</code>、opsz 轴、以及 300→800 的字重范围，看看西文和苹方交接得顺不顺。数字也要对齐：2026 年、1,247 次、99.8% 的占比、测得 <code>font-size: 16px</code> 根字号。</p>
         <h4>四级标题：接近正文字号</h4>
-        <p>到这一级应该已经接近正文字号，靠字重和间距区分，而不是继续放大。行内代码用低饱和暖褐，一段里七八个 <code>code</code> 仍读得像文字。</p>
+        <p>到这一级应该已经接近正文字号，靠字重和间距区分，而不是继续放大。行内代码用中性浅灰底 + 深灰字，一段里七八个 <code>code</code> 仍读得像文字。</p>
       </article>
     </div>
   </div>
@@ -457,12 +459,12 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">Sample</div>
         <h3>配色采样，不许猜</h3>
-        <p>我曾笃定底色是 <b>#faf9f5</b>，采样后发现那是窗口色；编辑区更接近 <b>#fdfdfc</b>。深色侧栏比正文更亮——取反必错。</p>
+        <p>V2 纸面采到 <b>#ffffff</b>，正文 <b>#374151</b>，壳层 <b>#f8f8f9</b>，强调绿 <b>#2e6f5e</b> 取自功能建议板。深色不是浅色取反——取反必错。</p>
       </div>
       <div class="hl-card">
         <div class="tag">Paper</div>
         <h3>纸感画在 #write 上</h3>
-        <p>暖径向 + 大圆角 + 外阴影；常规窗口纸面与顶栏留 <b>1rem</b> 间距，壳层更深一档。层级靠字重间距，<b>不靠左边竖条</b>。</p>
+        <p>纯白纸面 + 直角 + 1px 细边；常规窗口纸面与顶栏留 <b>1rem</b> 间距，壳层是冷灰。侧栏收起时 <code>body.pin-outline</code> 消失，纸边与 gutter 一并收起，白纸全幅铺满。层级靠字重间距，<b>不靠左边竖条</b>。</p>
       </div>
       <div class="hl-card">
         <div class="tag">PDF</div>
@@ -480,12 +482,12 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">1 · Flatten</div>
         <h3>整页画布同色</h3>
-        <p>浅色默认 <b>#eeedec</b>；深色跟正文底。拆掉 <code>#write</code> 圆角与外阴影；纸张尺寸、页边距和页眉页脚由 Typora 导出设置决定。</p>
+        <p>浅色默认 <b>#f8f8f9</b>（gutter）；深色跟正文底。拆掉 <code>#write</code> 浮卡片；纸张尺寸、页边距和页眉页脚由 Typora 导出设置决定。</p>
       </div>
       <div class="hl-card">
         <div class="tag">2 · Craft</div>
         <h3>块级精装</h3>
-        <p>H2 底部品牌色签名线（⛔ 无左边竖条）；标题 fence 抬升为略亮于画布的纸面卡；表格圆角 + 浅表头 + 斑马纹；分隔线中间淡入。</p>
+        <p>H2 底部品牌色签名线（⛔ 无左边竖条）；标题 fence 抬升为略亮于画布的纸面卡；表格细边（付费档圆角）+ 浅表头 + 斑马纹；分隔线 1px 细线，上下留足呼吸。</p>
       </div>
       <div class="hl-card">
         <div class="tag">3 · Reload</div>
@@ -503,7 +505,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
   </section>
 
   <section id="shots">
-    <div class="sec-label">Free V2 · 1.3.1</div>
+    <div class="sec-label">Free V2 · 2.0.0</div>
     <h2 class="sec">免费 V2 · 浅色与深色实机截图</h2>
     <p class="prose">下图使用定稿 CSS 在 macOS Typora 中拍摄，展示标题、中英混排、引用、代码和表格。点击图片可查看原图；六套付费主题的浅深截图见<a href="#compare-shots">下方图库</a>。</p>
     <div class="premium-gallery">
@@ -773,7 +775,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
 <span class="ok">✓</span> <span class="cm">Cmd+Q 退出再开 · 主题菜单选 Hekouwang / Hekouwang Dark</span></pre>
     </div>
     <p class="install-note">也可只拷 <code>theme/hekouwang.css</code>、<code>theme/hekouwang-dark.css</code> 和 <code>theme/hekouwang/</code> 到 Typora 主题文件夹（Preferences → Open Theme Folder）。</p>
-    <p class="install-note">从旧版升级？先看 <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/UPGRADE.md">1.3.1 升级说明</a>，其中列出免费版、付费包的安装与重启步骤。</p>
+    <p class="install-note">从旧版升级？先看 <a href="https://github.com/huiyonghkw/hekouwang-typora-theme/blob/main/UPGRADE.md">2.0.0 升级说明</a>，其中列出免费版、付费包的安装与重启步骤。</p>
   </section>
 
   <section id="buy">

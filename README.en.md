@@ -16,7 +16,7 @@ Each generated theme runs a static text and control contrast audit during the bu
 
 ### Free V2 · light and dark
 
-These images were captured in Typora on macOS with the 1.3.1 CSS.
+These images were captured in Typora on macOS with the 1.3.1 CSS. The 2.0.0 CSS is already in this repository; 2.0.0 screenshots are pending.
 
 | Light | Dark |
 |---|---|
@@ -68,7 +68,7 @@ These are **Typora screenshots on macOS using the latest 1.3.1 CSS**. Open an im
 | **V5 · HUD** | ![V5 light preview](docs/previews/v5-light.webp) | ![V5 dark preview](docs/previews/v5-dark.webp) |
 | **V6 · Ember** | ![V6 light preview](docs/previews/v6-light.webp) | ![V6 dark preview](docs/previews/v6-dark.webp) |
 
-See the [live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) for the paid pack and the [1.3.1 upgrade guide](UPGRADE.md) for installation steps. The Chinese README is the canonical product page; see [README.zh.md](README.zh.md) for engineering detail.
+See the [live site](https://huiyonghkw.github.io/hekouwang-typora-theme/#buy) for the paid pack and the [2.0.0 upgrade guide](UPGRADE.md) for installation steps. The Chinese README is the canonical product page; see [README.zh.md](README.zh.md) for engineering detail.
 
 ## License
 

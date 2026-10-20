@@ -2,7 +2,7 @@
 
 **体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)
 
-[1.3.1 升级说明](UPGRADE.md) · [English](README.en.md)
+[2.0.0 升级说明](UPGRADE.md) · [English](README.en.md)
 
 给「一天要盯着 Markdown 好几个小时」的人用的 Typora 主题——按**中文长文**来排，不是按聊天气泡来排。
 
@@ -12,7 +12,7 @@
 
 | 档 | 主题菜单 | 说明 |
 |---|---|---|
-| **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（近白纸面、暖灰外框、陶土红点缀；深色炭灰）。Gallery 入口也是这一档。公开仓只发这一档。 |
+| **免费 · MIT** | **Hekouwang** / **Hekouwang Dark** | = skill **V2 编辑**（纯白纸面、冷灰外框、近黑标题、墨绿点缀、直角纸卡；深色冷灰黑）。Gallery 入口也是这一档。公开仓只发这一档。 |
 | **付费包 · ¥9.9** | **Hekouwang V1 / V2 Pro / V3–V6**（各含 Dark） | 石墨青绿 / 典藏编辑 / 海军蓝财经 / 冰蓝玻璃 / 紫晶电青 HUD / 李紫焰彩，六套浅深共 12 个 CSS；**色板与工艺不进公开仓**，只随 zip 私发 |
 
 **怎么买：** 落地页购买区（微信/支付宝 · 微信 `hekouwang`，备注「Typora主题」）→ 我私发 zip → 按落地页 [装付费包](https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock) 一键装进 Typora。
@@ -37,9 +37,9 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 ## 免费档 · V2 编辑
 
-公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，近白纸面配暖灰外框，陶土红点缀；深色版为炭灰。
+公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，纯白纸面配冷灰外框，近黑标题与正文，墨绿只用于链接和按钮，直角纸卡；深色版为冷灰黑。
 
-以下是 1.3.1 最新浅色与深色外观，均为 macOS Typora 真机截图，包含正文、标题与主题外壳。
+2.0.0 的 CSS 已更新；下面两张仍是 1.3.1 真机截图，2.0.0 浅色 / 深色截图待重拍。
 
 | 浅色 | 深色 |
 |---|---|
@@ -70,10 +70,11 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 - **正文保持克制。** V5、V6 的高彩度留给少量标题和信息标记；行内代码仍用低饱和色，一段里七八个 `` `code` `` 也应读得像文字。
 - **层级靠字号、字重、间距，不靠彩色竖条。**
 - **边框用墨色叠透明度**，不用平铺灰。
-- **纸感画在 `#write` 上**（浅 / 深都有）：径向、大圆角、外阴影；侧栏 / gutter / 顶栏是更深一档的壳层。
+- **小表与宽表分开处理。** 1–3 列的小表最多 `48rem`，4–6 列填满阅读列，7+ 列使用技术画布并只留横向分隔线。
+- **纸感画在 `#write` 上**（浅 / 深都有）：径向、细边、外阴影；免费 V2 直角，付费档保留圆角；侧栏 / gutter / 顶栏是更深一档的冷灰壳层。
 - **排版照顾编辑细节。** 常规窗口纸面顶部留 `1rem`；表格与小字 `14px`、代码块 `15px`。句中图片随文字排版；源码模式单独限宽，专注模式处理图片、任务框和代码，并尊重减少动效设置。
 - **配色逐套核查。** 构建时审计纸面、链接、代码、侧栏、按钮和任务框的对比度；公开仓检查免费浅 / 深两套，本机有付费色板时检查 12 套付费 CSS，共 14 套。
-- **导出 PDF 整页一色 + 分套细节。** 整页跟纸面同色（免费浅色 `#fdfdfc` / 深色 `#1f1f1e`，付费各套跟各自纸面），PDF 与编辑区看到的底色一致，也不会出现外圈底色配中间白柱。免费与付费主题共用分页和页面底色处理；标题、代码、表格和分隔线则按各套视觉呈现。
+- **导出 PDF 整页一色 + 分套细节。** 整页跟纸面同色（免费浅色 `#ffffff` / 深色 `#161b22`，付费各套跟各自纸面），PDF 与编辑区看到的底色一致，也不会出现外圈底色配中间白柱。免费与付费主题共用分页和页面底色处理；标题、代码、表格和分隔线则按各套视觉呈现。
 - **付费六套 = V1 / V2 Pro / V3–V6**（每套浅/深两极）；公开仓 / Gallery 只发免费 V2。
 
 ### 导出 PDF
@@ -87,7 +88,7 @@ Typora PDF = 独立 HTML（`body.typora-export`）再 `printToPDF`。本主题�
 
 | 套 | 浅色画布 | 深色画布 |
 |---|---|---|
-| V2 免费 | `#eeedec` | `#1c1917` |
+| V2 免费 | `#f8f8f9` | `#0d1117` |
 | V1 / V2 Pro / V3–V6 | 各皮肤 gutter | 各皮肤正文底 |
 
 ![免费 V2 浅色 A4 导出预览](docs/previews/v2-export-a4.webp)
@@ -106,7 +107,7 @@ Typora PDF = 独立 HTML（`body.typora-export`）再 `printToPDF`。本主题�
 | `type.measure` / `layout.wide_measure` | `120em` / `120em` | 纸面绝对上限；实际宽度 = 阅读列 + 内边距 + `layout.wide_canvas_extra`（`6rem`），两侧至少共留 `4rem` |
 | `type.small` / `type.table_size` / `type.fences_size` | `14px` / `14px` / `15px` | 小字、表格与代码块的阅读尺寸（配置采用 rem） |
 | `layout.write_margin_top` | `1rem` | 常规窗口纸面与顶栏的间距；窄窗口缩至 `0.75rem` |
-| `para_gap` | `0.78rem` | 段距紧凑但不糊成墙 |
+| `para_gap` | `0.85rem` | 段距有呼吸但不糊成墙 |
 
 阅读列使用 CSS 变量 `--hk-reading-measure`。在主题目录的 `hekouwang.user.css`（深色为 `hekouwang-dark.user.css`）中写入 `:root { --hk-reading-measure: 40rem; }`，即可选用更紧凑的长文阅读宽度；`base.user.css` 可让全部配色共用。Typora 会在主题 CSS 之后加载这些用户覆盖文件，更新后须完全重启。
 
@@ -115,7 +116,7 @@ Typora PDF = 独立 HTML（`body.typora-export`）再 `printToPDF`。本主题�
 | Skill 格 | Typora 菜单 | 辨识 |
 |---|---|---|
 | V1 石墨青绿 | Hekouwang V1 / V1 Dark | 冷蓝灰 / 薄荷青 / 紫色链接 |
-| V2 编辑（免费） | Hekouwang / Hekouwang Dark | 近白纸面 / 暖灰外框 / 陶土红；深色炭灰 |
+| V2 编辑（免费） | Hekouwang / Hekouwang Dark | 纯白纸面 / 冷灰外框 / 近黑标题 / 墨绿点缀 / 直角 |
 | V2 Pro 典藏编辑 | Hekouwang V2 Pro / V2 Pro Dark | 胡桃墨 / 古铜 / 双线装饰与无衬线标题层级 |
 | V3 财经 | Hekouwang V3 / V3 Dark | 海军蓝 / 黄铜 |
 | V4 玻璃 | Hekouwang V4 / V4 Dark | 冰蓝 / 雾面叠片 |
@@ -221,7 +222,7 @@ Gallery 里已有 [Claude Theme](https://theme.typora.io/theme/Claude-Theme/)，
 
 **中文。** 桌面端没有 CJK 字形时，正确做法是**不打包**中文衬线。
 
-**底色。** `#faf9f5` 常常是窗口色；编辑区更接近 `#fdfdfc`，壳层比纸面略深一档。
+**底色。** 免费 V2 的纸面是 `#ffffff`，正文 `#374151`，标题 `#111827`，壳层 `#f8f8f9`；强调色 `#2e6f5e` 取自 Typora V2 功能建议板，只用于链接与按钮。
 
 ## 字体与授权
 
