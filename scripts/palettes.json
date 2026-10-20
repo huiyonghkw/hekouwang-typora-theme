@@ -40,12 +40,12 @@
           "syn_error": "#dc2626"
         },
         "dark": {
-          "syn_comment": "#8b949e",
-          "syn_keyword": "#b392f0",
-          "syn_string": "#7ee787",
-          "syn_number": "#ffa657",
-          "syn_def": "#79c0ff",
-          "syn_error": "#ff7b72"
+          "syn_comment": "#8a938c",
+          "syn_keyword": "#b9a3d6",
+          "syn_string": "#8fc9a0",
+          "syn_number": "#d9b07a",
+          "syn_def": "#8fb8d9",
+          "syn_error": "#e08f86"
         }
       },
       "shape": {
@@ -64,34 +64,34 @@
         "inset_alpha": "0.04",
         "dark": {
           "enabled": true,
-          "highlight": "#1f242b",
-          "mid": "#161b22",
-          "shade": "#10141a",
-          "gutter": "#0d1117",
-          "grain_opacity": "0",
+          "highlight": "#1a1e1a",
+          "mid": "#151816",
+          "shade": "#111411",
+          "gutter": "#0c0e0d",
+          "grain_opacity": "0.015",
           "inset_alpha": "0.14"
         }
       },
       "dark": {
         "color": {
-          "bg": "#161b22",
-          "bg_raised": "#21262d",
-          "sidebar_bg": "#0d1117",
-          "hover": "#21262d",
-          "sunken": "#0f141a",
-          "ink": "#f0f6fc",
-          "text": "#c9d1d9",
-          "text_soft": "#b1bac4",
-          "text_muted": "#8b949e",
-          "text_faint": "#6e7681",
-          "accent": "#56b49a",
-          "accent_deep": "#7ac7b2",
-          "code_text": "#c9d1d9",
-          "link": "#6cc3aa",
+          "bg": "#151816",
+          "bg_raised": "#1b1f1c",
+          "sidebar_bg": "#0c0e0d",
+          "hover": "#1e221e",
+          "sunken": "#101311",
+          "ink": "#eef2ee",
+          "text": "#c2c8c2",
+          "text_soft": "#98a09a",
+          "text_muted": "#98a09a",
+          "text_faint": "#7f8781",
+          "accent": "#74b7a2",
+          "accent_deep": "#9ad2bd",
+          "code_text": "#c2c8c2",
+          "link": "#86c7b2",
           "border_base": "#ffffff",
           "shadow_base": "#000000",
           "code_bg_base": "#ffffff",
-          "code_bg_alpha": "0.07"
+          "code_bg_alpha": "0.06"
         },
         "alpha": {
           "hairline": "0.09",

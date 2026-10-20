@@ -96,46 +96,46 @@
 :root {
   color-scheme: dark;   /* 原生控件/滚动条跟浅色或深色变体一致 */
   /* —— Typora 官方变量（优先覆盖这些，而不是硬写规则）—— */
-  --bg-color:                 #161b22;
-  --text-color:               #c9d1d9;
-  --side-bar-bg-color:        #0d1117;
-  --item-hover-bg-color:      #21262d;
-  --item-hover-text-color:    #c9d1d9;
-  --active-file-bg-color:     #21262d;
-  --active-file-text-color:   #f0f6fc;
-  --active-file-border-color: #56b49a;
-  --primary-color:            #56b49a;
-  --primary-btn-border-color: #56b49a;
+  --bg-color:                 #151816;
+  --text-color:               #c2c8c2;
+  --side-bar-bg-color:        #0c0e0d;
+  --item-hover-bg-color:      #1e221e;
+  --item-hover-text-color:    #c2c8c2;
+  --active-file-bg-color:     #1e221e;
+  --active-file-text-color:   #eef2ee;
+  --active-file-border-color: #74b7a2;
+  --primary-color:            #74b7a2;
+  --primary-btn-border-color: #74b7a2;
   --primary-btn-text-color:   #141413;
   --window-border:            rgba(255,255,255,0.13);
-  --md-char-color:            #8f969e;
-  --meta-content-color:       #9ea6ae;
-  --control-text-color:       #b1bac4;
-  --control-text-hover-color: #c9d1d9;
-  --select-text-bg-color:     rgba(86,180,154,0.24);
-  --search-select-bg-color:   rgba(86,180,154,0.34);
-  --blur-text-color:          #9ea6ae;
+  --md-char-color:            #88908a;
+  --meta-content-color:       #98a09a;
+  --control-text-color:       #98a09a;
+  --control-text-hover-color: #c2c8c2;
+  --select-text-bg-color:     rgba(116,183,162,0.24);
+  --search-select-bg-color:   rgba(116,183,162,0.34);
+  --blur-text-color:          #98a09a;
   --monospace:                "Hekouwang Mono", "Anthropic Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
   --rawblock-edit-panel-bd:   rgba(255,255,255,0.13);
   --mermaid-theme:            night;
 
   /* —— Bone 私有 —— */
-  --hk-raised:    #21262d;
-  --hk-sunken:    #0f141a;
-  --hk-ink:       #f0f6fc;
-  --hk-soft:      #b1bac4;
-  --hk-muted:     #9ea6ae;
-  --hk-faint:     #8f969e;
-  --hk-accent:    #56b49a;
-  --hk-accent-decor: #56b49a;
-  --hk-accent-text: #56b49a;
+  --hk-raised:    #1b1f1c;
+  --hk-sunken:    #101311;
+  --hk-ink:       #eef2ee;
+  --hk-soft:      #98a09a;
+  --hk-muted:     #98a09a;
+  --hk-faint:     #88908a;
+  --hk-accent:    #74b7a2;
+  --hk-accent-decor: #74b7a2;
+  --hk-accent-text: #74b7a2;
   --hk-on-accent: #141413;
-  --hk-control-border: #707882;
-  --hk-accent2:   #56b49a;
-  --hk-accent3:   #56b49a;
-  --hk-link:      #6cc3aa;
-  --hk-link-hover: #56b49a;
-  --hk-code:      #c9d1d9;
+  --hk-control-border: #7f8781;
+  --hk-accent2:   #74b7a2;
+  --hk-accent3:   #74b7a2;
+  --hk-link:      #86c7b2;
+  --hk-link-hover: #74b7a2;
+  --hk-code:      #c2c8c2;
   --hk-hairline:  rgba(255,255,255,0.09);
   --hk-line:      rgba(255,255,255,0.13);
   --hk-divider:   rgba(255,255,255,0.20);
@@ -156,7 +156,7 @@ html {
   font-size: 16px;          /* 规范：唯一允许用 px 的地方 */
   /* 画布 = 纸面色。导出无 <content>，html 即整页底；
      若 html 与 #write 一深一浅，就会「外面有底色、中间白柱」。 */
-  background-color: #161b22;
+  background-color: #151816;
 }
 
 html, body {
@@ -200,7 +200,7 @@ body.os-windows button { font: inherit; }
 
 /* 编辑区：两侧 gutter 铺浅底；纸感跟 #write 走，宽度随窗口伸缩 */
 content {
-  background: #0d1117;
+  background: #0c0e0d;
 }
 
 #write {
@@ -224,7 +224,7 @@ content {
   font-feature-settings: "dlig" 0;
   /* Anthropic Sans opsz：正文用 Text 光学尺寸（轴默认 16） */
   font-variation-settings: "opsz" 16;
-  background: radial-gradient(140% 95% at 50% -8%, #1f242b 0%, #161b22 48%, #10141a 100%); border-radius: var(--hk-r-lg); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(255,255,255,0.06), 0 1px 2px rgba(0,0,0,0.30), 0 4px 14px -10px rgba(0,0,0,0.40);
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.015'/%3E%3C/svg%3E"), radial-gradient(140% 95% at 50% -8%, #1a1e1a 0%, #151816 48%, #111411 100%); border-radius: var(--hk-r-lg); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 0 0 1px rgba(255,255,255,0.06), 0 1px 2px rgba(0,0,0,0.30), 0 4px 14px -10px rgba(0,0,0,0.40);
 }
 
 /* 宽窗口保留技术画布；正文阅读列在下方单独限宽。
@@ -370,7 +370,7 @@ body:not(.pin-outline) #write {
 #write a {
   color: var(--hk-link);
   text-decoration: underline;
-  text-decoration-color: rgba(108,195,170,0.42);
+  text-decoration-color: rgba(134,199,178,0.42);
   text-underline-offset: 0.22em;
   text-decoration-thickness: from-font;
   transition: text-decoration-color .15s ease, color .15s ease;
@@ -381,7 +381,7 @@ body:not(.pin-outline) #write {
 }
 
 #write mark {
-  background: rgba(86,180,154,0.24);
+  background: rgba(116,183,162,0.24);
   color: inherit;
   border-radius: var(--hk-r-sm);
   padding: 0.05em 0.2em;
@@ -393,7 +393,7 @@ body:not(.pin-outline) #write {
   font-family: var(--monospace);
   font-size: 0.9em;
   color: var(--hk-code);
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.06);
   border: none;
   border-radius: var(--hk-r-sm);
   padding: 0.12em 0.34em;
@@ -586,27 +586,27 @@ body:not(.pin-outline) #write {
 .cm-s-inner .CodeMirror-linenumber{ color: var(--hk-faint); }
 .cm-s-inner .CodeMirror-cursor    { border-left: 1.5px solid var(--hk-accent); }
 .cm-s-inner div.CodeMirror-selected,
-.cm-s-inner .CodeMirror-selectedtext { background: rgba(86,180,154,0.24); }
+.cm-s-inner .CodeMirror-selectedtext { background: rgba(116,183,162,0.24); }
 .cm-s-inner .CodeMirror-activeline-background { background: transparent; }
 
-.cm-s-inner .cm-comment  { color: #8b949e; font-style: italic; }
-.cm-s-inner .cm-keyword  { color: #b392f0; }
-.cm-s-inner .cm-atom     { color: #b392f0; }
-.cm-s-inner .cm-def      { color: #79c0ff; }
+.cm-s-inner .cm-comment  { color: #8a938c; font-style: italic; }
+.cm-s-inner .cm-keyword  { color: #b9a3d6; }
+.cm-s-inner .cm-atom     { color: #b9a3d6; }
+.cm-s-inner .cm-def      { color: #8fb8d9; }
 .cm-s-inner .cm-variable { color: var(--text-color); }
 .cm-s-inner .cm-variable-2,
-.cm-s-inner .cm-variable-3 { color: #79c0ff; }
-.cm-s-inner .cm-property { color: #79c0ff; }
+.cm-s-inner .cm-variable-3 { color: #8fb8d9; }
+.cm-s-inner .cm-property { color: #8fb8d9; }
 .cm-s-inner .cm-operator { color: var(--hk-soft); }
 .cm-s-inner .cm-string,
-.cm-s-inner .cm-string-2 { color: #7ee787; }
-.cm-s-inner .cm-number   { color: #ffa657; }
-.cm-s-inner .cm-tag      { color: #b392f0; }
-.cm-s-inner .cm-attribute{ color: #ffa657; }
-.cm-s-inner .cm-builtin  { color: #79c0ff; }
+.cm-s-inner .cm-string-2 { color: #8fc9a0; }
+.cm-s-inner .cm-number   { color: #d9b07a; }
+.cm-s-inner .cm-tag      { color: #b9a3d6; }
+.cm-s-inner .cm-attribute{ color: #d9b07a; }
+.cm-s-inner .cm-builtin  { color: #8fb8d9; }
 .cm-s-inner .cm-meta     { color: var(--hk-muted); }
 .cm-s-inner .cm-link     { color: var(--hk-link); }
-.cm-s-inner .cm-error    { color: #ff7b72; }
+.cm-s-inner .cm-error    { color: #e08f86; }
 
 /* 源码模式保持与正文接近的阅读宽度，并保留 Typora 的行号内边距。 */
 #typora-source .CodeMirror-lines {
@@ -619,8 +619,8 @@ body:not(.pin-outline) #write {
 }
 /* 源码模式（另一套 CodeMirror 主题类，cm-s-inner 管不到） */
 .cm-s-typora-default .cm-header      { color: var(--hk-ink); font-weight: 650; }
-.cm-s-typora-default .cm-comment     { color: #8b949e; }
-.cm-s-typora-default .cm-string      { color: #7ee787; }
+.cm-s-typora-default .cm-comment     { color: #8a938c; }
+.cm-s-typora-default .cm-string      { color: #8fc9a0; }
 .cm-s-typora-default .cm-link        { color: var(--hk-link); }
 .cm-s-typora-default .cm-variable-2  { color: var(--hk-soft); }
 #typora-source .CodeMirror-cursor    { border-left: 1.5px solid var(--hk-accent); }
@@ -1032,8 +1032,8 @@ body:not(.pin-outline) #write {
   border-radius: var(--hk-r);
   box-shadow: 0 12px 32px rgba(0,0,0,0.50);
 }
-.md-search-hit    { background: rgba(86,180,154,0.24); border-radius: var(--hk-r-sm); }
-.md-search-select { background: rgba(86,180,154,0.34); }
+.md-search-hit    { background: rgba(116,183,162,0.24); border-radius: var(--hk-r-sm); }
+.md-search-select { background: rgba(116,183,162,0.34); }
 
 #outline-content .outline-item { color: var(--hk-soft); font-size: 0.875rem; border-radius: var(--hk-r-sm); }
 #outline-content .outline-item:hover { background: var(--item-hover-bg-color); }
@@ -1113,7 +1113,7 @@ body:not(.pin-outline) #write {
    -------------------------------------------------------------------------- */
 #top-titlebar,
 titlebar {
-  background-color: #0d1117;
+  background-color: #0c0e0d;
   border-bottom: 1px solid var(--hk-hairline);
 }
 #top-titlebar .title-text {
@@ -1155,15 +1155,15 @@ titlebar {
    -------------------------------------------------------------------------- */
 
 html {
-  background: #161b22 !important;
-  background-color: #161b22 !important;
+  background: #151816 !important;
+  background-color: #151816 !important;
 }
 
 body.typora-export,
 body.typora-export .typora-export-content,
 body.typora-export #write {
-  background: #161b22 !important;
-  background-color: #161b22 !important;
+  background: #151816 !important;
+  background-color: #151816 !important;
   background-image: none !important;
   box-shadow: none !important;
   border-radius: 0 !important;
@@ -1192,7 +1192,7 @@ body.typora-export #write h2 {
   letter-spacing: -0.014em;
   padding-bottom: 0.55rem;
   margin-top: 2rem !important;
-  background-image: linear-gradient(90deg, #56b49a 0%, transparent 100%);
+  background-image: linear-gradient(90deg, #74b7a2 0%, transparent 100%);
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size: 100% 2px;
@@ -1232,7 +1232,7 @@ body.typora-export #write blockquote {
 
 /* 标题 fence（发布文案灰盒）→ 纸面抬升，略亮于画布、绝不用纯白 */
 body.typora-export #write pre.md-fences {
-  background: #1f242b !important;
+  background: #1a1e1a !important;
   border: 1px solid rgba(255,255,255,0.09) !important;
   border-radius: var(--hk-r-lg) !important;
   box-shadow:
@@ -1267,7 +1267,7 @@ body.typora-export #write table {
   border-radius: var(--hk-r-lg);
   overflow: hidden;
   margin: 1rem 0 1.35rem !important;
-  background: #1f242b !important;
+  background: #1a1e1a !important;
 }
 body.typora-export #write table th {
   background: rgba(255,255,255,0.05) !important;
@@ -1303,7 +1303,7 @@ body.typora-export #write hr {
 /* 行内代码：在白纸上更清晰一点 */
 body.typora-export #write code,
 body.typora-export #write tt {
-  background: rgba(255,255,255,0.07) !important;
+  background: rgba(255,255,255,0.06) !important;
   border-radius: var(--hk-r-sm);
   padding: 0.12em 0.38em;
 }
@@ -1312,11 +1312,11 @@ body.typora-export #write tt {
   .typora-export * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   @page {
     /* 纸张尺寸、页边距和页眉页脚交给 Typora 的导出设置。 */
-    background: #161b22;
+    background: #151816;
   }
   html, body, #write {
-    background: #161b22 !important;
-    background-color: #161b22 !important;
+    background: #151816 !important;
+    background-color: #151816 !important;
     background-image: none !important;
     box-shadow: none !important;
     border-radius: 0 !important;
@@ -1346,3 +1346,25 @@ body.typora-export #write tt {
 
 /* 付费工艺必须压在共享编辑区与导出规则之后，避免同权重规则被覆盖。 */
 /* free tier: no paid craft overlay */
+
+
+/* 免费深色材质收口：标题降半档、表格只留横线、代码块做凹槽、图片细边。 */
+
+:root { --hk-link-hover: #9ad2bd; }
+
+#write h1,
+#write h2 { font-weight: 650; }
+
+#write table { border-left: 0; border-right: 0; }
+#write table th,
+#write table td { border-left: 0; border-right: 0; }
+
+#write pre.md-fences {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+#write img,
+#write .md-image img,
+#write a img {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}

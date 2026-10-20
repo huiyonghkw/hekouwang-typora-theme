@@ -1480,6 +1480,7 @@ body.typora-export #write tt {
 
 /* 付费工艺必须压在共享编辑区与导出规则之后，避免同权重规则被覆盖。 */
 ${craft_extra}
+${free_dark_extra}
 """)
 
 
@@ -1651,6 +1652,30 @@ def _load_paid_craft():
 apply_paid_craft_layout, craft_extra_css = _load_paid_craft()
 
 
+FREE_DARK_EXTRA = """
+/* 免费深色材质收口：标题降半档、表格只留横线、代码块做凹槽、图片细边。 */
+
+:root { --hk-link-hover: #9ad2bd; }
+
+#write h1,
+#write h2 { font-weight: 650; }
+
+#write table { border-left: 0; border-right: 0; }
+#write table th,
+#write table td { border-left: 0; border-right: 0; }
+
+#write pre.md-fences {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+#write img,
+#write .md-image img,
+#write a img {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+"""
+
+
 def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
     """按变体生成 CSS。dark 变体用 tokens['dark'] 覆盖 color / alpha 两组。"""
     import copy
@@ -1755,6 +1780,7 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
             craft_extra_css(accent, accent2, accent3, shadow_soft, dark, flavor=fl, paper=c["bg"])
             if premium else "/* free tier: no paid craft overlay */\n"
         ),
+        "free_dark_extra": FREE_DARK_EXTRA if (dark and not premium) else "",
     })
     v.update(paper_surfaces(t, dark))
 
