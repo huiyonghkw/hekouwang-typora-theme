@@ -434,6 +434,15 @@ body:not(.pin-outline) #write {
 
 #write > p:last-child { margin-bottom: 0; }
 
+/* 宽屏补偿：1792px 起阅读列触顶 96rem（约 96 字/行）。
+   1.65 的行距撑不住这个行宽，正文与引用放宽到 1.78、段距到 1rem；
+   表格与代码保持原密度，避免整页被拉松。 */
+@media screen and (min-width: 1800px) {
+  #write { line-height: 1.78; }
+  #write > p { margin-bottom: 1rem; }
+  #write table { line-height: 1.6; }
+}
+
 /* --------------------------------------------------------------------------
    标题
    字距克制：满幅汉字标题不宜强负 tracking（会挤）；西文标题仍略收一点。
@@ -446,6 +455,8 @@ body:not(.pin-outline) #write {
   break-after: avoid;
   text-wrap: balance;
   overflow-wrap: break-word;
+  /* 大纲 / 目录跳转后给标题留出顶部呼吸，避免贴住工具栏 */
+  scroll-margin-top: 3rem;
 }
 #write p, #write li { text-wrap: pretty; }
 
@@ -674,6 +685,9 @@ body:not(.pin-outline) #write {
 #write pre.md-fences .CodeMirror-code,
 #write pre.md-fences .CodeMirror-line {
   hanging-punctuation: none;
+  /* 默认 8 列会让 YAML / Makefile 的缩进宽一倍 */
+  tab-size: 4;
+  -moz-tab-size: 4;
 }
 #write pre.md-fences .CodeMirror-lines {
   padding: 0.15rem 0;
@@ -759,14 +773,14 @@ body:not(.pin-outline) #write {
   border-collapse: collapse;
   border: 1px solid var(--hk-hairline);
 }
-/* 七列起的宽数据表：内容放得下时与阅读列对齐，放不下才向技术画布展开，
+/* 十列起的宽数据表：内容放得下时与阅读列对齐，放不下才向技术画布展开，
    再宽则在自身滚动容器中滚动。 */
 @media screen {
-  #write figure > table:has(tr > :nth-child(7)) {
+  #write figure > table:has(tr > :nth-child(10)) {
     min-width: max-content;
     max-width: none;
   }
-  #write > figure:has(> table tr > :nth-child(7)) {
+  #write > figure:has(> table tr > :nth-child(10)) {
     box-sizing: border-box;
     width: fit-content;
     min-width: min(100%, var(--hk-reading-measure));
@@ -775,13 +789,13 @@ body:not(.pin-outline) #write {
     margin-right: auto;
   }
   /* 多列表多为短数值，收窄单元格左右留白，免得只因留白就横向滚动。 */
-  #write table:has(tr > :nth-child(7)) :is(th, td) {
+  #write table:has(tr > :nth-child(10)) :is(th, td) {
     padding-left: 0.55rem;
     padding-right: 0.55rem;
   }
 }
 /* 常规六列及以下表格填满响应式阅读列。 */
-#write > figure:has(> table):not(:has(> table tr > :nth-child(7))) {
+#write > figure:has(> table):not(:has(> table tr > :nth-child(10))) {
   box-sizing: border-box;
   max-width: min(100%, var(--hk-reading-measure));
   margin-left: auto;
@@ -798,21 +812,21 @@ body:not(.pin-outline) #write {
 /* 只有窄窗才给表格 figure 加滚动；桌面上的 overflow 会裁掉 Typora
    的列拖拽 overlay，列边界就不出现 ew-resize 把手。 */
 @media screen and (max-width: 1100px) {
-  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) {
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(10))) {
     overflow-x: auto;
   }
-  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table {
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(10))) > table {
     max-width: none;
   }
-  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table th,
-  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table td {
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(10))) > table th,
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(10))) > table td {
     min-width: 7rem;
   }
-  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(7))) > table td:has(code) {
+  body:not(.typora-export) #write > figure:has(> table):not(:has(> table tr > :nth-child(10))) > table td:has(code) {
     min-width: 12rem;
   }
 }
-#write > table:not(:has(tr > :nth-child(7))) {
+#write > table:not(:has(tr > :nth-child(10))) {
   width: min(100%, var(--hk-reading-measure));
   max-width: min(100%, var(--hk-reading-measure));
   margin-left: auto;
@@ -827,6 +841,15 @@ body:not(.pin-outline) #write {
 #write table th,
 #write table td {
   overflow-wrap: anywhere;
+}
+/* 首列多是编号 / 字段名：允许折行，但别把 P01 拆成 P0 / 1 */
+#write table th:first-child,
+#write table td:first-child {
+  overflow-wrap: break-word;
+}
+/* 多列表格的首列给一个下限，避免「编号」被挤成两行 */
+#write table:has(tr > :nth-child(4)) :is(th, td):first-child {
+  min-width: 4.5rem;
 }
 #write table th {
   font-weight: 700;
@@ -843,11 +866,11 @@ body:not(.pin-outline) #write {
   vertical-align: top;
   font-variant-numeric: tabular-nums;
 }
-/* 七列起只留横向分隔，避免宽表变成 Excel 网格。 */
-#write figure:has(> table tr > :nth-child(7)) th,
-#write figure:has(> table tr > :nth-child(7)) td,
-#write > table:has(tr > :nth-child(7)) th,
-#write > table:has(tr > :nth-child(7)) td {
+/* 十列起只留横向分隔，避免宽表变成 Excel 网格。 */
+#write figure:has(> table tr > :nth-child(10)) th,
+#write figure:has(> table tr > :nth-child(10)) td,
+#write > table:has(tr > :nth-child(10)) th,
+#write > table:has(tr > :nth-child(10)) td {
   border-left: 0;
   border-right: 0;
 }
@@ -975,12 +998,26 @@ body:not(.pin-outline) #write {
   border-radius: var(--hk-pill);
   padding: 1px 5px;
   font-size: 0.72em;
+  /* 行内上标会把行盒撑高 1.3px，长文里出现忽松忽紧的行 */
+  line-height: 0;
 }
-#write .footnotes { color: var(--hk-muted); font-size: ${type_small}; }
+#write .footnotes {
+  color: var(--hk-muted);
+  font-size: ${type_small};
+  /* Typora base 默认 .footnotes{opacity:.8}，叠加后掉到 AA 以下 */
+  opacity: 1;
+}
+#write .footnote-line { font-size: ${type_small}; }
 
 /* 目录 */
 #write .md-toc { font-size: ${type_small}; }
-#write .md-toc-item { color: var(--hk-link); }
+/* 目录是导航不是正文链接：默认用弱化墨色，悬停 / 焦点才点亮 */
+#write .md-toc-item,
+#write .md-toc-item a { color: var(--hk-soft); }
+#write .md-toc-item:hover,
+#write .md-toc-item:hover a,
+#write .md-toc-item:focus-within,
+#write .md-toc-item:focus-within a { color: var(--hk-link); }
 
 /* GitHub 风格 callout：左边线定语义，底色压到几乎看不见 */
 #write .md-alert {
@@ -1006,7 +1043,7 @@ body:not(.pin-outline) #write {
    代码块不跟纸面同宽：收起侧边栏后会比正文两侧各宽出一截。 */
 #write > :is(p, h1, h2, h3, h4, h5, h6, pre.md-fences,
              ul, ol, blockquote, hr, .md-hr, .md-alert, .md-toc,
-             .md-def-footnote, .footnotes) {
+             .md-htmlblock, .md-def-footnote, .footnotes) {
   box-sizing: border-box;
   max-width: min(100%, var(--hk-reading-measure));
   margin-left: auto;
@@ -1438,7 +1475,7 @@ body.typora-export #write tt {
   #write figure.table-figure, #write figure.md-table-fig,
   #write table { overflow: visible !important; }
   #write table tr { break-inside: avoid; page-break-inside: avoid; }
-  #write p, #write li { orphans: 2; widows: 2; }
+  #write p, #write li { orphans: 3; widows: 3; }
 }
 
 /* 付费工艺必须压在共享编辑区与导出规则之后，避免同权重规则被覆盖。 */
