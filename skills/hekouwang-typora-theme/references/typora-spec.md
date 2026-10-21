@@ -57,7 +57,7 @@
 `.context-menu` `.btn` `::-webkit-scrollbar`
 
 **导出 / PDF**：整页 = 纸面 mid 色（不是窗口外圈 gutter，否则 PDF 底色和编辑区纸面对不上）；`#write` 同色不浮卡片。导出精装：H2 签名线、
-抬升 fence（纸面 highlight；highlight 与 mid 同为白时退到 shade）、圆角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
+抬升 fence（纸面 highlight；highlight 与 mid 同为白时退到 shade）、直角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
 （改 `tr`）。
 
 ## 六个静默失败的坑
@@ -67,7 +67,7 @@
 1. **备份文件变成伪主题**。Typora 把根目录下任何文件名含 `.css` 的都列进主题菜单，
    **连 `.` 开头的隐藏文件也算**。`.theme.css.bak-20260720` 会出现在菜单里，
    用户误选后看到旧版且毫无提示 —— 而且这种错误**会自我掩护**：你以为主题做得差，
-   而不是"我选错主题了"。→ 备份进子目录。
+   而不是"我选错主题了"。→ 如需备份，放进子目录；安装器现在不自动备份。
 2. **切换主题不重载被修改的 CSS**。必须 `Cmd+Q` 完全退出重开。
 3. **`format("truetype-variations")` 被老 Chromium 丢弃**，整条 `src` 作废 → 静默 fallback。
 4. **改名要全链路**：`@font-face` 族名、字体栈族名、字体源目录名、install 的 SLUG。

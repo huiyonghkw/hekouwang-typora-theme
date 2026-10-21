@@ -5,7 +5,7 @@ Usage (PowerShell):
   .\scripts\install-windows.ps1
 
 Copies only the free pair and bundled Inter fonts. Existing theme CSS is
-backed up below the themes folder, where Typora will not list it as a theme.
+overwritten in place; keep your own copy if you need one.
 #>
 [CmdletBinding()]
 param([string]$ThemeDir = (Join-Path $env:APPDATA 'Typora\themes'))
@@ -13,8 +13,6 @@ param([string]$ThemeDir = (Join-Path $env:APPDATA 'Typora\themes'))
 $ErrorActionPreference = 'Stop'
 $slug = 'hekouwang'
 $root = Split-Path -Parent $PSScriptRoot
-$stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
-$backupDir = Join-Path $ThemeDir ".${slug}-backups"
 $variants = @($slug, "${slug}-dark")
 $legacy = @("${slug}-claude", "${slug}-claude-dark")
 
@@ -29,14 +27,6 @@ if (-not (Test-Path -LiteralPath $ThemeDir -PathType Container)) {
 foreach ($variant in $variants) {
   $source = Join-Path $root "theme\$variant.css"
   if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "Missing $source. Run: python scripts\build.py --tier free" }
-}
-foreach ($variant in ($variants + $legacy)) {
-  $current = Join-Path $ThemeDir "$variant.css"
-  if (Test-Path -LiteralPath $current -PathType Leaf) {
-    New-Item -ItemType Directory -Force -Path $backupDir | Out-Null
-    Copy-Item -LiteralPath $current -Destination (Join-Path $backupDir "$variant-$stamp.css") -Force
-    Write-Ok "backed up $variant.css"
-  }
 }
 foreach ($variant in $variants) {
   Copy-Item -LiteralPath (Join-Path $root "theme\$variant.css") -Destination (Join-Path $ThemeDir "$variant.css") -Force

@@ -127,11 +127,11 @@ a{color:inherit}
 .chrome[data-mode="light"] .paper{
   color:#37413c;
   background:radial-gradient(140% 95% at 50% -8%,#ffffff 0%,#ffffff 48%,#fbfbf8 100%);
-  box-shadow:0 0 0 1px rgba(20,26,23,.06),0 1px 2px rgba(20,26,23,.04)}
+  box-shadow:0 1px 2px rgba(20,26,23,.04)}
 .chrome[data-mode="dark"] .paper{
   color:#c2c8c2;
   background:radial-gradient(140% 95% at 50% -8%,#1a1e1a 0%,#151816 48%,#111411 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 0 0 1px rgba(255,255,255,.06),
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),
              0 1px 2px rgba(0,0,0,.30),0 4px 14px -10px rgba(0,0,0,.40)}
 .paper h2{font-size:2.125rem;line-height:1.2;font-weight:700;letter-spacing:-.025em;margin:0 0 1rem;color:#141a17}
 .chrome[data-mode="dark"] .paper h2{color:#eef2ee;font-weight:650}
@@ -464,12 +464,12 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">Paper</div>
         <h3>纸感画在 #write 上</h3>
-        <p>纯白纸面 + 直角 + 1px 细边；常规窗口纸面与顶栏留 <b>1rem</b> 间距，壳层是暖灰。侧栏收起时 <code>body.pin-outline</code> 消失，纸边与 gutter 一并收起，白纸全幅铺满。层级靠字重间距，<b>不靠左边竖条</b>。</p>
+        <p>纯白纸面 + 直角 + 轻阴影；常规窗口纸面与顶栏留 <b>1rem</b> 间距，壳层是暖灰。侧栏收起时 <code>body.pin-outline</code> 消失，纸边与 gutter 一并收起，白纸全幅铺满。层级靠字重间距，<b>不靠左边竖条</b>。</p>
       </div>
       <div class="hl-card">
         <div class="tag">PDF</div>
         <h3>导出整页一色 + 精装</h3>
-        <p>画布跟 gutter 同色，禁内容区纯白柱。纸张和页边距遵循 Typora 导出设置；H2 签名线 · 抬升 fence · 圆角表——<b>14 套共用导出排版规则</b>。</p>
+        <p>画布跟 gutter 同色，禁内容区纯白柱。纸张和页边距遵循 Typora 导出设置；H2 签名线 · 抬升 fence · 直角表——<b>14 套共用导出排版规则</b>。</p>
       </div>
     </div>
   </section>
@@ -487,7 +487,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       <div class="hl-card">
         <div class="tag">2 · Craft</div>
         <h3>块级精装</h3>
-        <p>H2 底部品牌色签名线（⛔ 无左边竖条）；标题 fence 抬升为略亮于画布的纸面卡；表格细边（付费档圆角）+ 浅表头 + 斑马纹；分隔线 1px 细线，上下留足呼吸。</p>
+        <p>H2 底部品牌色签名线（⛔ 无左边竖条）；标题 fence 抬升为略亮于画布的纸面卡；表格细边（全档直角）+ 浅表头 + 斑马纹；分隔线 1px 细线，上下留足呼吸。</p>
       </div>
       <div class="hl-card">
         <div class="tag">3 · Reload</div>
@@ -627,7 +627,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         <div class="ch">
           <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
           <span class="lab">02 · install</span>
-          <span class="why">装进 Typora；备份进子目录</span>
+          <span class="why">装进 Typora；直接覆盖</span>
         </div>
         <pre><span class="p">$</span> <span class="o">./scripts/install.sh</span>
 <span class="cm"># 可选：--use-local-anthropic（默认关，仅个人本机）</span></pre>
@@ -657,7 +657,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
       </div>
       <div class="rule">
         <h3>备份绝不能留在 themes 根目录</h3>
-        <p>Typora 把根目录下任何文件名含 <b>.css</b> 的都列进菜单，<strong>包括隐藏文件</strong>。备份必须进子目录（install.sh 已处理）。</p>
+        <p>Typora 把根目录下任何文件名含 <b>.css</b> 的都列进菜单，<strong>包括隐藏文件</strong>。安装器不再自动备份；如需自己留副本，必须进子目录。</p>
       </div>
       <div class="rule">
         <h3>正文零 !important（导出段除外）</h3>
@@ -807,7 +807,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         </div>
       </article>
       <article class="premium-card">
-        <h3>V2 Pro · 典藏编辑</h3><p>胡桃墨、古铜与暖纸色，双线装饰与清晰的无衬线标题层级；与免费 V2 分开安装。</p>
+        <h3>V2 Pro · 典藏编辑</h3><p>胡桃墨、古铜与暖纸色，双线装饰、无衬线标题与首字下沉；与免费 V2 分开安装。</p>
         <div class="premium-pair">
           <figure><a href="previews/v2-pro-light.webp"><img src="previews/v2-pro-light.webp" alt="V2 Pro 典藏编辑浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
           <figure><a href="previews/v2-pro-dark.webp"><img src="previews/v2-pro-dark.webp" alt="V2 Pro 典藏编辑深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>
@@ -821,7 +821,7 @@ footer{margin-top:56px;border-top:1px solid var(--border);padding-top:24px;
         </div>
       </article>
       <article class="premium-card">
-        <h3>V4 · 冰蓝玻璃</h3><p>冰蓝、雾面叠片与圆角，适合轻量产品文档。</p>
+        <h3>V4 · 冰蓝玻璃</h3><p>冰蓝、雾面叠片与直角，适合轻量产品文档。</p>
         <div class="premium-pair">
           <figure><a href="previews/v4-light.webp"><img src="previews/v4-light.webp" alt="V4 冰蓝玻璃浅色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>浅色 · 点图放大</figcaption></figure>
           <figure><a href="previews/v4-dark.webp"><img src="previews/v4-dark.webp" alt="V4 冰蓝玻璃深色主题在 macOS Typora 中的实机截图" width="1921" height="1028" loading="lazy" decoding="async"></a><figcaption>深色 · 点图放大</figcaption></figure>

@@ -27,7 +27,7 @@
 python3 scripts/build.py                    # 生成浅色+深色 CSS
 python3 scripts/verify_layout.py --all      # 7 档窗口、窄屏和表格预检
 python3 scripts/verify_export_pdf.py        # A4/A5 长代码、长表和页边距预检
-./scripts/install.sh                        # 装进 Typora（自动备份）
+./scripts/install.sh                        # 装进 Typora（直接覆盖，不自动备份）
 python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sans,Hekouwang Sans Fb" --vars bg-color,text-color
 ```
 
@@ -49,7 +49,9 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 ## 付费包 · 六套新视觉（1.3.1）
 
-**阅读指标与免费档相同**：正文 `1rem`、行高 `1.65`、居中的 `48–96rem` 响应式阅读列，以及随窗口伸缩、两侧各留约 `3rem` 的纸面。六套付费主题分别设计底色、强调色、标题、引用、代码块和表格。V2 Pro 是独立于免费 V2 的典藏编辑版，标题使用统一的中英文无衬线字体。
+**阅读指标与免费档相同**：正文 `1rem`、行高 `1.65`、居中的 `48–96rem` 响应式阅读列，以及随窗口伸缩、两侧各留约 `3rem` 的纸面。六套付费主题分别设计底色、强调色、标题、引用、代码块和表格。V2 Pro 是独立于免费 V2 的典藏编辑版，标题继续使用与正文一致的无衬线栈，靠古铜双线与首字下沉建立编辑感。
+
+六套已在源码层同步 **2.0.1 视觉升级**：色相保留，题头、引用、代码和表格按各套重做；当前 zip 与下面截图仍为 1.3.1，下一版包会带上。
 
 以下全部是 **1.3.1 最新 CSS 在 macOS Typora 中的真机截图**；点击图片可查看原图。[体验站可并排对比](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
 
@@ -58,7 +60,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 | **V1 石墨青绿**<br>冷蓝灰 / 薄荷青 / 紫色链接 | ![V1 石墨青绿浅色预览](docs/previews/v1-light.webp) | ![V1 石墨青绿深色预览](docs/previews/v1-dark.webp) |
 | **V2 Pro 典藏编辑**<br>胡桃墨 / 古铜 / 暖纸色 | ![V2 Pro 典藏编辑浅色预览](docs/previews/v2-pro-light.webp) | ![V2 Pro 典藏编辑深色预览](docs/previews/v2-pro-dark.webp) |
 | **V3 财经**<br>海军蓝 / 黄铜 / 表格秩序 | ![V3 财经浅色预览](docs/previews/v3-light.webp) | ![V3 财经深色预览](docs/previews/v3-dark.webp) |
-| **V4 玻璃**<br>冰蓝 / 雾面叠片 / 圆角 | ![V4 玻璃浅色预览](docs/previews/v4-light.webp) | ![V4 玻璃深色预览](docs/previews/v4-dark.webp) |
+| **V4 玻璃**<br>冰蓝 / 雾面叠片 / 直角 | ![V4 玻璃浅色预览](docs/previews/v4-light.webp) | ![V4 玻璃深色预览](docs/previews/v4-dark.webp) |
 | **V5 HUD**<br>紫晶 / 冷靛紫 / 青色信号 | ![V5 HUD 浅色预览](docs/previews/v5-light.webp) | ![V5 HUD 深色预览](docs/previews/v5-dark.webp) |
 | **V6 焰彩**<br>李紫 / 珊瑚橙 / 粉色 | ![V6 焰彩浅色预览](docs/previews/v6-light.webp) | ![V6 焰彩深色预览](docs/previews/v6-dark.webp) |
 
@@ -71,7 +73,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 - **层级靠字号、字重、间距，不靠彩色竖条。**
 - **边框用墨色叠透明度**，不用平铺灰。
 - **小表与宽表分开处理。** 1–3 列的小表最多 `48rem`，4–9 列填满阅读列，10+ 列使用技术画布并只留横向分隔线。
-- **纸感画在 `#write` 上**（浅 / 深都有）：径向、细边、外阴影；免费 V2 直角，付费档保留圆角；侧栏 / gutter / 顶栏是更深一档的暖灰壳层。
+- **纸感画在 `#write` 上**（浅 / 深都有）：径向、外阴影，内容区不再加 1px 边框；免费 V2 与付费 V1–V6 统一为直角；侧栏 / gutter / 顶栏是更深一档的暖灰壳层。
 - **排版照顾编辑细节。** 常规窗口纸面顶部留 `1rem`；表格与小字 `14px`、代码块 `15px`。句中图片随文字排版；源码模式单独限宽，专注模式处理图片、任务框和代码，并尊重减少动效设置。
 - **配色逐套核查。** 构建时审计纸面、链接、代码、侧栏、按钮和任务框的对比度；公开仓检查免费浅 / 深两套，本机有付费色板时检查 12 套付费 CSS，共 14 套。
 - **导出 PDF 整页一色 + 分套细节。** 整页跟纸面同色（免费浅色 `#ffffff` / 深色 `#151816`，付费各套跟各自纸面），PDF 与编辑区看到的底色一致，也不会出现外圈底色配中间白柱。免费与付费主题共用分页和页面底色处理；标题、代码、表格和分隔线则按各套视觉呈现。
@@ -163,7 +165,7 @@ cd hekouwang-typora-theme
 
 若执行策略阻止本地脚本，可仅对这次安装运行 `powershell -ExecutionPolicy Bypass -File .\scripts\install-windows.ps1`，不会修改系统执行策略。
 
-安装器默认写入 `%APPDATA%\Typora\themes`，会把同名旧 CSS 备份到 `.hekouwang-backups` 子目录（不会污染 Typora 主题菜单）。若你的 Typora 主题目录不在默认位置：
+安装器默认写入 `%APPDATA%\Typora\themes`，会直接覆盖同名旧 CSS（不再自动备份）。若你的 Typora 主题目录不在默认位置：
 
 ```powershell
 .\scripts\install-windows.ps1 -ThemeDir 'D:\your\Typora\themes'

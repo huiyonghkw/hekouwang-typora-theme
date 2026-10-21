@@ -9,6 +9,8 @@
 - **代码留余量。** 浅色语法色全部重算，最低从 4.55:1 提到 5.27:1；深色注释从 5.33:1 提到 6.50:1（APCA 约 -52）。语法色不再贴着 WCAG 下限。
 - **链接状态。** hover 改用 `accent_deep`（浅色更深、深色更亮），下划线不透明度从 0.42 提到 0.50，键盘与鼠标状态都更明确。
 - **审计对齐。** `contrast_check.py` 的 CLI 变体补上每套主题的 syntax 覆盖，审计的 CSS 与 build 实际写出的 CSS 一致；新增回归测试防止再次分叉。
+- **内容区去边框。** 全部主题移除 `#write` 的 1px 边框 / ring，只保留纸面径向与外阴影；侧栏收起时不再出现一圈细线。
+- **付费 V1–V6 视觉重做。** 六套保留各自色相，但题头、引用、代码和表格不再共用一套皮肤：V1 方块信号与冷线、V2 Pro 无衬线题头 + 首字下沉、V3 黄铜账册线、V4 冰玻璃层、V5 HUD 角标、V6 三色焰线 + 首字下沉。表格统一改横向账页，代码块加顶部强调线，引用去掉厚盒子；浅色语法最低 5.20:1，深色最低 6.01:1；四阶按约 7.2 / 6.0 / 5.0 重排。**圆角统一改为直角**，仅保留滚动条与脚注上标的 pill。`VERSION` 已到 2.0.1，付费 zip 需重打后生效。
 
 ## 2.0.0 · 免费 V2 视觉重做
 
@@ -39,7 +41,7 @@
 
 ## 从旧版升级
 
-升级前在 Typora 中打开「偏好设置 → 外观 → 打开主题文件夹」，确认主题目录。下面的安装脚本会将同名旧 CSS 备份到主题目录内的 `.hekouwang-backups/`。
+升级前在 Typora 中打开「偏好设置 → 外观 → 打开主题文件夹」，确认主题目录。安装脚本会直接覆盖同名旧 CSS，不再自动备份；需要回退请自行保留副本。
 
 ### 免费 V2 · macOS
 
@@ -72,11 +74,11 @@ git pull
 ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.1-YYYYMMDD.zip
 ```
 
-也可以解压付费包，在包内执行 `./unlock.sh`。安装器会检查 zip 完整性和 12 份付费 CSS，并备份同名旧文件。菜单名与 1.2.0 相同。购买、交付与图文安装说明见 [体验站](https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock)。
+也可以解压付费包，在包内执行 `./unlock.sh`。安装器会检查 zip 完整性和 12 份付费 CSS，并直接覆盖同名旧文件。菜单名与 1.2.0 相同。购买、交付与图文安装说明见 [体验站](https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock)。
 
 ### 付费包 · Windows
 
-先运行免费版 Windows 安装器，随后解压 1.3.1 付费包，将包内 `theme/` 的 12 个 `hekouwang-v*.css` 复制到 Typora 的主题目录。替换旧文件前先备份；`unlock.sh` 是 macOS 安装脚本，不用于 PowerShell。
+先运行免费版 Windows 安装器，随后解压 1.3.1 付费包，将包内 `theme/` 的 12 个 `hekouwang-v*.css` 复制到 Typora 的主题目录。安装器不再自动备份；`unlock.sh` 是 macOS 安装脚本，不用于 PowerShell。
 
 **安装后要完全退出 Typora，再重新打开。** 只在菜单里切换主题不会重新加载已修改的 CSS。macOS 使用 `Cmd+Q`；Windows 从菜单退出应用。
 

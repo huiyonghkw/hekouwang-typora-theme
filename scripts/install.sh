@@ -26,10 +26,9 @@
 # ---------------------------------------------------------------------------
 #
 # Design notes (learned the hard way):
-#   - Back up into a SUBDIRECTORY, never the themes root: Typora lists any file
-#     containing ".css" in the themes root as a theme — including dotfiles.
-#     A backup left there shows up in the Themes menu and users can select it
-#     by accident, silently getting an old version.
+#   - No automatic backups: this installer overwrites in place. Keep your own
+#     copy if you need one; never leave backup CSS in the themes root, because
+#     Typora lists it as a selectable theme — including dotfiles.
 #   - After the first destructive action, warn instead of aborting. Never leave
 #     someone in a half-installed state.
 #   - Idempotent: running it twice produces the same result.
@@ -41,8 +40,6 @@ SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # shellcheck disable=SC1091
 . "$SRC_DIR/scripts/links.sh"
 THEME_DIR="$HOME/Library/Application Support/abnerworks.Typora/themes"
-BACKUP_DIR="$THEME_DIR/.$SLUG-backups"
-STAMP="$(date +%Y%m%d-%H%M%S)"
 USE_LOCAL_ANTHROPIC=0
 
 for arg in "$@"; do
@@ -79,14 +76,6 @@ LEGACY_REMOVE=(
   "$SLUG-claude"
   "$SLUG-claude-dark"
 )
-for variant in "${VARIANTS[@]}" "${LEGACY_REMOVE[@]}"; do
-  [ -f "$THEME_DIR/$variant.css" ] || continue
-  mkdir -p "$BACKUP_DIR" 2>/dev/null
-  cp "$THEME_DIR/$variant.css" "$BACKUP_DIR/$variant-$STAMP.css" 2>/dev/null \
-    && ok "backed up → .$SLUG-backups/$variant-$STAMP.css" \
-    || warn "backup of $variant failed, continuing anyway"
-done
-
 # ---- theme css（免费 V2） ----
 for variant in "${VARIANTS[@]}"; do
   src="$SRC_DIR/theme/$variant.css"

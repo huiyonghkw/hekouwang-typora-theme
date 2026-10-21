@@ -53,7 +53,7 @@ For a compact reading column, put `:root { --hk-reading-measure: 40rem; }` in `h
 | Free · MIT | Hekouwang / Hekouwang Dark | Complete V2 editorial reading experience. |
 | Paid · ¥9.9 | Hekouwang V1 / V2 Pro / V3–V6 (+ Dark) | Six separate visual systems, twelve paid CSS files, built on the same reading metrics. |
 
-Paid V2 Pro is a walnut and bronze editorial design with warm paper, double-line accents, and a clear sans-serif heading hierarchy; it is separate from the free V2 files and menu entries. The other paid directions are graphite and mint (V1), navy and brass (V3), frosted ice blue (V4), an amethyst shell with cyan signals in light mode and cool indigo with electric cyan accents in dark mode (V5), and plum, coral, and pink (V6).
+Paid V2 Pro is a walnut and bronze editorial design with warm paper, double-line accents, a sans-serif heading hierarchy, and a serif drop cap; it is separate from the free V2 files and menu entries. The other paid directions are graphite and mint (V1), navy and brass (V3), frosted ice blue (V4), an amethyst shell with cyan signals in light mode and cool indigo with electric cyan accents in dark mode (V5), and plum, coral, and pink (V6).
 
 ### All six paid themes
 

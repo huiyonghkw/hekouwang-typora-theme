@@ -224,7 +224,7 @@ content {
   font-feature-settings: "dlig" 0;
   /* Anthropic Sans opsz：正文用 Text 光学尺寸（轴默认 16） */
   font-variation-settings: "opsz" 16;
-  background: radial-gradient(140% 95% at 50% -8%, #ffffff 0%, #ffffff 48%, #fbfbf8 100%); border-radius: var(--hk-r-lg); box-shadow: 0 0 0 1px rgba(20,26,23,0.06), 0 1px 2px rgba(20,26,23,0.04);
+  background: radial-gradient(140% 95% at 50% -8%, #ffffff 0%, #ffffff 48%, #fbfbf8 100%); border-radius: var(--hk-r-lg); box-shadow: 0 1px 2px rgba(20,26,23,0.04);
 }
 
 /* 宽窗口保留技术画布；正文阅读列在下方单独限宽。
@@ -440,13 +440,18 @@ body:not(.pin-outline) #write {
   padding: 0;
   color: var(--hk-soft);
 }
-/* 纯图片引用：去掉左边线与内边距，截图贴正文栏宽 */
-#write blockquote:has(.md-image, img):not(:has(> p:not(:has(.md-image, img)))) {
+/* 纯图片引用：去掉左边线与内边距，截图贴正文栏宽。
+   ⛔ :has() 不能嵌套在另一个 :has() 里；旧写法会让整条规则被浏览器丢弃。 */
+#write blockquote:has(> p:only-child > .md-image:only-child),
+#write blockquote:has(> p:only-child > img:only-child),
+#write blockquote:has(> figure) {
   border-left: none;
   padding: 0;
   color: inherit;
 }
-#write blockquote:has(.md-image, img):not(:has(> p:not(:has(.md-image, img)))) > p {
+#write blockquote:has(> p:only-child > .md-image:only-child) > p,
+#write blockquote:has(> p:only-child > img:only-child) > p,
+#write blockquote:has(> figure) > p {
   margin: 0;
   text-indent: 0;
 }

@@ -33,8 +33,6 @@ else
 fi
 
 THEME_DIR="$HOME/Library/Application Support/abnerworks.Typora/themes"
-BACKUP_DIR="$THEME_DIR/.hekouwang-backups"
-STAMP="$(date +%Y%m%d-%H%M%S)"
 MARKER="theme/hekouwang-v1.css"
 PAID_VARIANTS=(
   hekouwang-v1 hekouwang-v1-dark
@@ -153,14 +151,8 @@ if [ "$DRY" -eq 1 ]; then
   exit 0
 fi
 
-mkdir -p "$BACKUP_DIR" 2>/dev/null || true
 install_failed=0
 for v in "${PAID_VARIANTS[@]}"; do
-  if [ -f "$THEME_DIR/$v.css" ]; then
-    cp "$THEME_DIR/$v.css" "$BACKUP_DIR/$v-$STAMP.css" 2>/dev/null \
-      && ok "backed up $v.css" \
-      || warn "backup $v failed, continuing"
-  fi
   if cp "$PACK_ROOT/theme/$v.css" "$THEME_DIR/$v.css" 2>/dev/null \
       && cmp -s "$PACK_ROOT/theme/$v.css" "$THEME_DIR/$v.css"; then
     ok "installed $v.css"

@@ -574,13 +574,18 @@ body:not(.pin-outline) #write {
   padding: 0;
   color: var(--hk-soft);
 }
-/* 纯图片引用：去掉左边线与内边距，截图贴正文栏宽 */
-#write blockquote:has(.md-image, img):not(:has(> p:not(:has(.md-image, img)))) {
+/* 纯图片引用：去掉左边线与内边距，截图贴正文栏宽。
+   ⛔ :has() 不能嵌套在另一个 :has() 里；旧写法会让整条规则被浏览器丢弃。 */
+#write blockquote:has(> p:only-child > .md-image:only-child),
+#write blockquote:has(> p:only-child > img:only-child),
+#write blockquote:has(> figure) {
   border-left: none;
   padding: 0;
   color: inherit;
 }
-#write blockquote:has(.md-image, img):not(:has(> p:not(:has(.md-image, img)))) > p {
+#write blockquote:has(> p:only-child > .md-image:only-child) > p,
+#write blockquote:has(> p:only-child > img:only-child) > p,
+#write blockquote:has(> figure) > p {
   margin: 0;
   text-indent: 0;
 }
@@ -1593,19 +1598,15 @@ def paper_surfaces(t, dark):
         f"radial-gradient(140% 95% at 50% -8%, {highlight} 0%, "
         f"{mid} 48%, {shade} 100%)"
     )
-    # 细边 + 轻阴影（Tailwind ring-1 / shadow-sm 的做法），不再用内阴影压暗纸边。
+    # 只留轻阴影（shadow-sm）；不再用 ring-1 的 1px 边框圈住内容区。
     if dark:
         shadow_css = (
             f"inset 0 1px 0 {hexa(ink, '0.04')}, "
-            f"0 0 0 1px {hexa(ink, '0.06')}, "
             f"0 1px 2px {hexa(shadow, '0.30')}, "
             f"0 {'10px 30px -8px' if craft else '4px 14px -10px'} {hexa(shadow, '0.50' if craft else '0.40')}"
         )
     else:
-        shadow_css = (
-            f"0 0 0 1px {hexa(ink, '0.06')}, "
-            f"0 1px 2px {hexa(shadow, '0.04')}"
-        )
+        shadow_css = f"0 1px 2px {hexa(shadow, '0.04')}"
         if craft:
             shadow_css += f", 0 10px 30px -8px {hexa(shadow, '0.08')}"
 

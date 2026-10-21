@@ -53,7 +53,8 @@ dark            深色覆盖（只覆盖 color 和 alpha）
 
 ## 纸感
 
-浅色 / 深色都开：纸面画在 `#write` 上（大圆角 + 1px 细边 + 轻阴影，即 Tailwind `ring-1` + `shadow-sm` 做法），`content` / 侧栏 / 顶栏做壳层。  
+浅色 / 深色都开：纸面画在 `#write` 上（直角 + 轻阴影，即 Tailwind `shadow-sm` 做法；不用 `ring-1` 的 1px 边框），`content` / 侧栏 / 顶栏做壳层。
+
 背景层取 Tailwind v3 色阶：纸面 white / 50，纸边渐变只深一档，外框与侧栏 100–200（主题色只染外框）；深色纸面 900、外框与侧栏 950（比纸面更暗）。  
 `paper.grain_opacity` 默认 `0`。
 

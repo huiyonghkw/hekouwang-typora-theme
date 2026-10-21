@@ -45,7 +45,7 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 python3 scripts/build.py                    # → 浅色 + 深色 CSS（含自检）
 python3 scripts/verify_layout.py --all      # → 免费 2 + 付费 12 套 × 7 档窗口、窄屏与表格预检
 python3 scripts/verify_export_pdf.py        # → A4/A5、长代码与长表 PDF 预检
-./scripts/install.sh                        # 装进 Typora（自动备份到子目录）
+./scripts/install.sh                        # 装进 Typora（直接覆盖，不自动备份）
 python3 scripts/verify_render.py --css theme/hekouwang.css \
   --fonts "Hekouwang Sans,Hekouwang Sans Fb" --vars bg-color,text-color
 ```
@@ -55,7 +55,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css \
 1. **改完 CSS 必须 `Cmd+Q` 完全退出 Typora 再重开。** 切换主题**不会**重新加载被修改的
    CSS 文件。不这么做，你会在一个用户根本没看到的版本上反复调参数。
 2. **备份绝不能留在 themes 根目录。** Typora 把根目录下任何文件名含 `.css` 的文件都列进
-   主题菜单，**包括 `.` 开头的隐藏文件**。备份必须进子目录（`install.sh` 已处理）。
+   主题菜单，**包括 `.` 开头的隐藏文件**。安装脚本现在不自动备份；如需自己留副本，必须进子目录。
 3. **编辑区零 `!important`**。常规规则靠 `#write` 特异性；仅导出段为覆盖 Typora 的打印基础样式而使用。构建时断言。
 4. **除根字号外零 `px` 字号**，否则 Typora 偏好里的字号调节失效。构建时断言。
 5. **配色基色不许猜，要采样。** 构建会对承担文字和控件信息的颜色做最小对比度校正，并审计所有生成变体。
