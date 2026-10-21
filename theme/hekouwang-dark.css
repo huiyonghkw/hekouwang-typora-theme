@@ -108,13 +108,13 @@
   --primary-btn-border-color: #74b7a2;
   --primary-btn-text-color:   #141413;
   --window-border:            rgba(255,255,255,0.13);
-  --md-char-color:            #88908a;
-  --meta-content-color:       #98a09a;
-  --control-text-color:       #98a09a;
+  --md-char-color:            #889089;
+  --meta-content-color:       #9aa39c;
+  --control-text-color:       #a9b1ab;
   --control-text-hover-color: #c2c8c2;
   --select-text-bg-color:     rgba(116,183,162,0.24);
   --search-select-bg-color:   rgba(116,183,162,0.34);
-  --blur-text-color:          #98a09a;
+  --blur-text-color:          #9aa39c;
   --monospace:                "Hekouwang Mono", "Anthropic Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
   --rawblock-edit-panel-bd:   rgba(255,255,255,0.13);
   --mermaid-theme:            night;
@@ -123,9 +123,9 @@
   --hk-raised:    #1b1f1c;
   --hk-sunken:    #101311;
   --hk-ink:       #eef2ee;
-  --hk-soft:      #98a09a;
-  --hk-muted:     #98a09a;
-  --hk-faint:     #88908a;
+  --hk-soft:      #a9b1ab;
+  --hk-muted:     #9aa39c;
+  --hk-faint:     #889089;
   --hk-accent:    #74b7a2;
   --hk-accent-decor: #74b7a2;
   --hk-accent-text: #74b7a2;
@@ -134,7 +134,7 @@
   --hk-accent2:   #74b7a2;
   --hk-accent3:   #74b7a2;
   --hk-link:      #86c7b2;
-  --hk-link-hover: #74b7a2;
+  --hk-link-hover: #9ad2bd;
   --hk-code:      #c2c8c2;
   --hk-hairline:  rgba(255,255,255,0.09);
   --hk-line:      rgba(255,255,255,0.13);
@@ -370,7 +370,7 @@ body:not(.pin-outline) #write {
 #write a {
   color: var(--hk-link);
   text-decoration: underline;
-  text-decoration-color: rgba(134,199,178,0.42);
+  text-decoration-color: rgba(134,199,178,0.50);
   text-underline-offset: 0.22em;
   text-decoration-thickness: from-font;
   transition: text-decoration-color .15s ease, color .15s ease;
@@ -589,7 +589,7 @@ body:not(.pin-outline) #write {
 .cm-s-inner .CodeMirror-selectedtext { background: rgba(116,183,162,0.24); }
 .cm-s-inner .CodeMirror-activeline-background { background: transparent; }
 
-.cm-s-inner .cm-comment  { color: #8a938c; font-style: italic; }
+.cm-s-inner .cm-comment  { color: #9aa39c; font-style: italic; }
 .cm-s-inner .cm-keyword  { color: #b9a3d6; }
 .cm-s-inner .cm-atom     { color: #b9a3d6; }
 .cm-s-inner .cm-def      { color: #8fb8d9; }
@@ -619,7 +619,7 @@ body:not(.pin-outline) #write {
 }
 /* 源码模式（另一套 CodeMirror 主题类，cm-s-inner 管不到） */
 .cm-s-typora-default .cm-header      { color: var(--hk-ink); font-weight: 650; }
-.cm-s-typora-default .cm-comment     { color: #8a938c; }
+.cm-s-typora-default .cm-comment     { color: #9aa39c; }
 .cm-s-typora-default .cm-string      { color: #8fc9a0; }
 .cm-s-typora-default .cm-link        { color: var(--hk-link); }
 .cm-s-typora-default .cm-variable-2  { color: var(--hk-soft); }

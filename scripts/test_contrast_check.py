@@ -63,6 +63,16 @@ class GeneratedCssTest(unittest.TestCase):
         failures = audit_css(bad, "probe")
         self.assertTrue(any("link / paper" in failure for failure in failures))
 
+    def test_cli_variants_include_theme_syntax_colours(self):
+        # The audit must build the same CSS as build.main: palette syntax
+        # overrides are part of the shipped theme, not just the defaults.
+        from scripts.contrast_check import _variants
+
+        theme = build.load_themes("free")[0]
+        keyword = theme["syntax"]["light"]["syn_keyword"]
+        variants = dict(_variants("free"))
+        self.assertIn(f"color: {keyword};", variants["v2/work/light"])
+
     def test_gradient_interpolation_catches_interior_minimum(self):
         # A #777 link is near a #777 interior point of a black-to-white paper
         # gradient; checking endpoints alone would miss its ~1:1 contrast.

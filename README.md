@@ -4,9 +4,9 @@
 
 这是为中文长文设计的 Typora 主题：一篇文章从开头读到结尾，标题、段落、代码、表格和图片应该保持同一种安静而清晰的节奏，而不是每个组件都在抢注意力。
 
-**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)　·　[2.0.0 升级说明](UPGRADE.md)　·　[English](README.en.md)　·　[详细中文技术说明](README.zh.md)
+**体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)　·　[2.0.1 升级说明](UPGRADE.md)　·　[English](README.en.md)　·　[详细中文技术说明](README.zh.md)
 
-2.0.0 的 CSS 已更新；下面两张仍是 1.3.1 真机截图，2.0.0 截图待重拍。
+2.0.1 的 CSS 已更新；下面两张仍是 1.3.1 真机截图，2.0.1 截图待重拍。
 
 ![Hekouwang 免费 V2 · 1.3.1 浅色](docs/previews/v2-light.webp)
 
@@ -32,7 +32,7 @@
 
 | 主题 | 视觉方向 | 适用场景 |
 |---|---|---|
-| **V2 · 编辑**（免费 · MIT） | 纯白纸面、冷灰外框、近黑标题、墨绿点缀、直角纸卡；深色为墨玉黑 | 日常写作、通用长文 |
+| **V2 · 编辑**（免费 · MIT） | 纯白纸面、暖灰外框、墨色标题、墨绿点缀、直角纸卡；深色为墨玉黑 | 日常写作、通用长文 |
 | **V1 · 石墨青绿** | 冷蓝灰、薄荷青、紫色链接，锐利的技术感 | 技术笔记、产品文档 |
 | **V2 Pro · 典藏编辑** | 胡桃墨、古铜、暖纸色与双线装饰；中英文无衬线标题 | 随笔、长篇评论、知识库 |
 | **V3 · 财经** | 海军蓝与黄铜，强调表格秩序 | 研究、复盘、数据阅读 |

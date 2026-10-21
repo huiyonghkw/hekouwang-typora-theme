@@ -65,21 +65,24 @@ dark            深色覆盖（只覆盖 color 和 alpha）
 
 | 基色 token | 浅色 | 深色 | 派生出 |
 |---|---|---|---|
-| `border_base` | `#111827` 墨 | `#ffffff` 白 | 边框、分隔线、滚动条、代码块底 |
-| `shadow_base` | `#111827` | `#000000` | 阴影 |
-| `code_bg_base` + `code_bg_alpha` | 墨 4% | 白 7% | 行内代码底 |
+| `border_base` | `#141a17` 墨 | `#ffffff` 白 | 边框、分隔线、滚动条、代码块底 |
+| `shadow_base` | `#141a17` | `#000000` | 阴影 |
+| `code_bg_base` + `code_bg_alpha` | 墨 4% | 白 6% | 行内代码底 |
+| `control_border` | `#858d87` | `#7f8781` | 复选框/输入框描边；可选，缺省回落 `text_faint`，按 3:1 校正 |
 | `accent` | `#2e6f5e` | `#74b7a2` | 装饰强调、光标与选中背景；链接文字色、按钮前景色由构建器按背景对比度派生 |
 
 **边框一律用基色叠透明度，不要用平铺灰。**
 
-浅色壳层：侧栏 `#fafafa`、gutter `#f8f8f9`、纸面 `#ffffff`——三层故意分开。深色侧栏 / gutter `#0c0e0d`、纸面 `#151816`，`sunken` `#101311`，fence 比纸面再沉一档。
+免费 V2 的语法色不贴 WCAG 下限：浅色最低 5.27:1、深色注释 6.50:1（构建只保证 4.55）。改完配色跑 `python3 scripts/contrast_check.py --tier free --all`，它现在会读每套主题的 `syntax` 覆盖，与 build 写出的 CSS 一致。
+
+浅色壳层：侧栏 `#fafaf7`、gutter `#f8f8f5`、纸面 `#ffffff`——三层故意分开，纸边 `#fbfbf8`。深色侧栏 / gutter `#0c0e0d`、纸面 `#151816`，`sunken` `#101311`，fence 比纸面再沉一档。
 
 ## 深色不是把浅色取反
 
 1. **深色明暗关系要单独定**：外框 / 侧栏 `#0c0e0d` 比纸面 `#151816` 更暗，让纸面浮起来。
 2. **行内代码底在深色下是中性白叠加，不是品牌绿**。
 
-深色字色阶收成四级：`ink` `#eef2ee`、`text` `#c2c8c2`、`muted` / `soft` `#98a09a`、`faint` `#7f8781`；正文不用纯白。
+深色字色阶收成四级：`ink` `#eef2ee`、`text` `#c2c8c2`、`soft` `#a9b1ab`、`muted` `#9aa39c`、`faint` `#878f88`；正文不用纯白。**soft 与 muted 不能同值**，否则斜体、图注、元数据会塌成一层。链接 hover 走 `accent_deep`，下划线 0.50。
 
 ## 题头署名 vs 正文引用
 

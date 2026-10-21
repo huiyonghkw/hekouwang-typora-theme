@@ -1717,11 +1717,12 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
     accent_ui = readable_color(accent, surfaces, 4.55, dark)
     semantic = {
         "color_link_readable": readable_color(c.get("link", accent), surfaces, 4.55, dark),
-        "color_link_hover": accent_ui,
+        "color_link_hover": readable_color(c.get("accent_deep", accent), surfaces, 4.55, dark),
         "color_accent_text": accent_ui,
         "color_muted_readable": readable_color(c["text_muted"], surfaces, 5.5, dark),
         "color_faint_readable": readable_color(c["text_faint"], surfaces, 4.55, dark),
-        "color_control_border": readable_color(c["text_faint"], surfaces, 3.05, dark),
+        "color_control_border": readable_color(c.get("control_border", c["text_faint"]),
+                                                surfaces, 3.05, dark),
         "color_code_text_readable": readable_color(c["code_text"], inline_surfaces, 4.55, dark),
         "color_on_accent": on_accent_color(accent_ui),
     }
@@ -1774,7 +1775,7 @@ def build(tokens, dark=False, banner_name=None, premium=False, flavor=""):
         "accent_wash":    hexa(accent, "0.16" if not dark else "0.24"),
         "accent_soft":    hexa(accent, "0.26" if not dark else "0.34"),
         "accent_border":  hexa(accent, "0.45"),
-        "link_underline": hexa(semantic["color_link_readable"], "0.42"),
+        "link_underline": hexa(semantic["color_link_readable"], "0.50"),
         "inline_code_bg": hexa(c["code_bg_base"], c["code_bg_alpha"]),
         "craft_extra": (
             craft_extra_css(accent, accent2, accent3, shadow_soft, dark, flavor=fl, paper=c["bg"])
@@ -1996,14 +1997,16 @@ def main():
         if "Paid craft" in work_css:
             print("⚠️  分辨力失败：免费默认不该含 Paid craft")
             any_fail = True
-        # html 画布（即 PDF 整页底）= 纸面 mid #fdfdfc，不能退回 gutter #ebe8df
+        # html 画布（即 PDF 整页底）= 纸面 mid #ffffff，不能退回 gutter #f8f8f5
         html_rule = re.search(r"^html\s*\{([^}]*)\}", work_css, re.M)
         if not html_rule or "background-color: #ffffff" not in html_rule.group(1):
             print("⚠️  分辨力失败：浅色 html 画布须为纸面色 #ffffff（PDF 与纸面同色）")
             any_fail = True
-        # gutter 仍应在 content 上（编辑器两侧）
-        if not content_block or "#f8f8f9" not in content_block.group(1):
-            print("⚠️  分辨力失败：content 仍应铺 gutter（编辑器两侧冷灰）")
+        # gutter 仍应在 content 上（编辑器两侧）；取 tokens 的纸面 gutter，
+        # 不再写死某个灰值，避免换配色时断言与主题脱节。
+        gutter_color = ((tokens.get("paper") or {}).get("gutter") or "#f8f8f9")
+        if not content_block or gutter_color not in content_block.group(1):
+            print("⚠️  分辨力失败：content 仍应铺 gutter（编辑器两侧）")
             any_fail = True
         # 导出：#write 也压成同色，禁止导出段再写 #ffffff
         export_at = work_css.find("导出 / 打印")

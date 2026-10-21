@@ -1,6 +1,14 @@
-# 升级说明 · 2.0.0
+# 升级说明 · 2.0.1
 
-发布日期：2026-10-20 · [返回主题首页](README.md) · [查看全部浅色与深色预览](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)
+发布日期：2026-10-21 · [返回主题首页](README.md) · [查看全部浅色与深色预览](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)
+
+## 2.0.1 · 免费 V2 配色精修
+
+- **墨色同族。** 浅色中性色从 Tailwind 冷灰改为带一点墨绿的低彩度灰（标题 `#141a17`、正文 `#37413c`、弱化 `#59635d`），与强调绿同族，正文与标题不再有蓝调。纸边改 `#fbfbf8`、壳层 `#f8f8f5`。
+- **层级拉开。** 深色 `soft` 从 `#98a09a` 提到 `#a9b1ab`，不再与 `muted` 重合；四阶变为 ink / text / soft / muted / faint，斜体、图注、元数据各有可辨位置。
+- **代码留余量。** 浅色语法色全部重算，最低从 4.55:1 提到 5.27:1；深色注释从 5.33:1 提到 6.50:1（APCA 约 -52）。语法色不再贴着 WCAG 下限。
+- **链接状态。** hover 改用 `accent_deep`（浅色更深、深色更亮），下划线不透明度从 0.42 提到 0.50，键盘与鼠标状态都更明确。
+- **审计对齐。** `contrast_check.py` 的 CLI 变体补上每套主题的 syntax 覆盖，审计的 CSS 与 build 实际写出的 CSS 一致；新增回归测试防止再次分叉。
 
 ## 2.0.0 · 免费 V2 视觉重做
 

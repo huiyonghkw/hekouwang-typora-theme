@@ -317,6 +317,8 @@ def _variants(tier: str):
                 elif key != "_note":
                     paper[key] = value
             base["paper"] = paper
+        if theme.get("syntax"):
+            base["syntax"] = theme["syntax"]
         if theme.get("dark"):
             dark = dict(base.get("dark") or {})
             for group in ("color", "alpha"):
