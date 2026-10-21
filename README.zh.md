@@ -2,7 +2,7 @@
 
 **体验站：** [huiyonghkw.github.io/hekouwang-typora-theme](https://huiyonghkw.github.io/hekouwang-typora-theme/)
 
-[2.0.1 升级说明](UPGRADE.md) · [English](README.en.md)
+[2.0.2 升级说明](UPGRADE.md) · [English](README.en.md)
 
 给「一天要盯着 Markdown 好几个小时」的人用的 Typora 主题——按**中文长文**来排，不是按聊天气泡来排。
 
@@ -39,7 +39,7 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 公开仓 / Gallery 就是这一档：**Hekouwang** / **Hekouwang Dark**。同一套阅读指标，纯白纸面配暖灰外框，墨色标题与正文，墨绿只用于链接和按钮，直角纸卡；深色版为墨玉黑。
 
-2.0.1 的 CSS 已更新；下面两张仍是 1.3.1 真机截图，2.0.1 浅色 / 深色截图待重拍。
+以下为 **2.0.1 真机截图**（macOS Typora，2026-10-21 重拍）。2.0.2 只修了折叠侧栏后的底色，侧栏展开时的纸面与配色与截图完全一致，因此截图仍标注 2.0.1。
 
 | 浅色 | 深色 |
 |---|---|
@@ -47,13 +47,13 @@ python3 scripts/verify_render.py --css theme/hekouwang.css --fonts "Hekouwang Sa
 
 ---
 
-## 付费包 · 六套新视觉（1.3.1）
+## 付费包 · 六套新视觉
 
 **阅读指标与免费档相同**：正文 `1rem`、行高 `1.65`、居中的 `48–96rem` 响应式阅读列，以及随窗口伸缩、两侧各留约 `3rem` 的纸面。六套付费主题分别设计底色、强调色、标题、引用、代码块和表格。V2 Pro 是独立于免费 V2 的典藏编辑版，标题继续使用与正文一致的无衬线栈，靠古铜双线与首字下沉建立编辑感。
 
-六套已在源码层同步 **2.0.1 视觉升级**：色相保留，题头、引用、代码和表格按各套重做；当前 zip 与下面截图仍为 1.3.1，下一版包会带上。
+六套已同步 **2.0.1 视觉升级**：色相保留，题头、引用、代码和表格按各套重做；下面截图即 2.0.1 真机效果。
 
-以下全部是 **1.3.1 最新 CSS 在 macOS Typora 中的真机截图**；点击图片可查看原图。[体验站可并排对比](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
+以下全部是 **2.0.1 最新 CSS 在 macOS Typora 中的真机截图**；点击图片可查看原图。[体验站可并排对比](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)。
 
 | 付费主题 | 浅色 | 深色 |
 |---|---|---|
@@ -180,7 +180,7 @@ cd hekouwang-typora-theme
 收到 zip 后：
 
 ```bash
-./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.1-YYYYMMDD.zip
+./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v2.0.2-YYYYMMDD.zip
 # 或解压后在包内：./unlock.sh
 ```
 

@@ -246,16 +246,23 @@ content {
 }
 /* 侧栏收起时：纸面直接铺满内容区，不再出现纸边 / gutter / 投影；
    正文仍由 --hk-reading-measure 限宽居中。检测 Typora 的 body.pin-outline：
-   侧栏打开时 Typora 会加这个类，收起时移除。 */
+   侧栏打开时 Typora 会加这个类，收起时移除。
+
+   ⚠️ 这里必须写实色，不能用 var(--bg-color)。
+   Typora 启动时会把上一个主题的窗口底色缓存进偏好 backgroundColor，
+   再写进 body 的 --bg-color（body 上的是 inline style，压过主题 :root）。
+   于是深色主题 + 侧栏收起 = 浅色纸面 + 浅色正文 = 整页几乎看不见。
+   这条规则只在侧栏收起时生效，所以症状只在折叠后出现。
+   参见 references/typora-spec.md 第 6 个静默坑：纸面一律写实色。 */
 body:not(.pin-outline) content {
-  background: var(--bg-color);
+  background: #f8f8f5;
 }
 body:not(.pin-outline) #write {
   max-width: none;
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-  background: var(--bg-color);
+  background: #ffffff;
   box-shadow: none;
 }
 

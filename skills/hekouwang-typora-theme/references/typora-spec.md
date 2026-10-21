@@ -60,7 +60,7 @@
 抬升 fence（纸面 highlight；highlight 与 mid 同为白时退到 shade）、直角表、渐变 HR；`!important` 仅导出段。整表勿整块 `break-inside`
 （改 `tr`）。
 
-## 六个静默失败的坑
+## 七个静默失败的坑
 
 全部踩过，共同点是**不报错、页面照常渲染**：
 
@@ -74,8 +74,23 @@
    任一处没跟上就静默失败，而 ttf 兜底还会掩盖问题（只装上 3/8 个文件也照常显示）。
 5. **px 字号**让偏好面板的字号调节失效，但页面看起来完全正常。
 6. **`var(--bg-color)` 会沿用上一个主题的底色**。Typora 把上一个主题的窗口底色缓存在偏好
-   `backgroundColor`，启动时写进 `--bg-color`；纸面若用 `var(--bg-color)`，headless Chrome
-   全对，Typora 里却是上个主题的颜色（深色主题出现浅纸配浅字）。→ 纸面一律写实色。
+   `backgroundColor`，启动时写进 **body 的 inline style**（`document.body.style.setProperty("--bg-color", ...)`）——
+   body 上的 inline style 压过主题 `:root` 的同名变量。纸面若用 `var(--bg-color)`，headless Chrome
+   全对，Typora 里却是上个主题的颜色（深色主题出现浅纸配浅字）。→ **纸面一律写实色**。
+
+   ⚠️ 这个坑最阴的地方：**症状只在特定条件下出现**。2026-10-21 实际遇到的是
+   「深色主题 + 折叠左侧导航栏 → 整页几乎看不见」——因为只有
+   `body:not(.pin-outline)` 那两条规则用了 `var(--bg-color)`，它们仅在侧栏收起时生效；
+   侧栏展开时走别的背景，正常的。查的时候如果只盯着「深色主题」，会以为是深色配色本身有问题。
+
+   复现：`defaults read abnerworks.Typora` 看 `backgroundColor`（上个主题的缓存底色）
+   与 `theme` / `darkTheme` 是否对得上。修复就是把那两条规则改成实色变量
+   （`paper_canvas_bg` / `paper_gutter_bg`）。构建期已有断言拦这个：
+   「底色用了 var(--bg-color)」。
+7. **`:has()` 不能嵌套**。`a:has(.x):not(:has(> p:not(:has(.x))))` 会被浏览器
+   **整条规则丢弃** —— 页面照常渲染，只是那条规则凭空消失。实测：嵌套写法
+   `parsed=false`，平坦写法 `parsed=true`。→ 用平坦的 `:has(> p:only-child > img:only-child)`
+   这类写法；改完在浏览器里查一眼规则是否真的被解析。
 
 ## 提交到 theme.typora.io
 

@@ -26,9 +26,9 @@ Risk: Local installation or publishing commands may run external repository scri
 
 Mitigation: Review install.sh and any GitHub CLI commands before execution, and run them only in a trusted local workspace.
 
-Risk: Theme edits can silently appear ineffective in Typora because modified CSS and fonts may not reload or may fall back without errors.
+Risk: Theme edits can silently appear ineffective in Typora because modified CSS and fonts may not reload or may fall back without errors. Editing the wrong source file (colours in tokens.json, which the palette overrides) is also silently ineffective.
 
-Mitigation: Follow the documented build, install, full Typora restart, color verification, and font fallback probe steps before treating changes as complete.
+Mitigation: Follow the documented build, install, full Typora restart, color verification, and font fallback probe steps before treating changes as complete. Edit colours in scripts/palettes.json and reading metrics in tokens.json (_presets.work); the build refuses a tokens.json that reintroduces overridable sections, and references/tokens.md carries a which-file-to-edit table.
 
 ## Reference(s):
 
@@ -52,7 +52,7 @@ Mitigation: Follow the documented build, install, full Typora restart, color ver
 
 ## Skill Version(s):
 
-1.5.2 (source: frontmatter)
+1.6.1 (source: frontmatter)
 
 ## Ethical Considerations:
 

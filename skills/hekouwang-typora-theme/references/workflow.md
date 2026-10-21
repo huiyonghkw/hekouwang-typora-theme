@@ -44,25 +44,36 @@ git diff --quiet theme/hekouwang.css && echo "零差异，重构安全"
    三通道 alpha 一致的那个才是真的。
 5. **别按浅色推演深色**。实测反例：深色下侧边栏比正文区更亮，与浅色关系相反；
    行内代码底浅色是品牌橙、深色是中性白。两条推演都会推反。
-6. 把采样值写进 `tokens.json`（新变体加进 `dark` 那样的覆盖段），构建、验证。
+6. 把采样值写进 `scripts/palettes.json`（免费档）或 `scripts/palettes.paid.json`（付费档），
+   构建、验证。**不要写进 `tokens.json`** —— 那里只有阅读指标、字体栈与透明度阶，
+   配色放在那儿会被 palette 整体覆盖，改了不生效（构建会直接报错拦下）。
 
 **字体**：先查参照 App 用的字体能不能分发（见 references/fonts.md 的 name 表检查），
 不能就找 OFL 替身，并做三级降级栈。
 
 ## C. 加一个新变体
 
-公开主题的新实验变体可在 `tokens.json` 里加一个与 `dark` 平级的段，只写要覆盖的 `color` / `alpha`：
+公开主题的新实验变体在 `scripts/palettes.json` 的 `themes[]` 里加一项，
+只写要覆盖的 `color` / `dark` / `paper` / `shape` / `syntax`：
 
 ```json
-"sepia": {
-  "_note": "覆盖来源与理由写在这里",
+{
+  "id": "sepia",
+  "slug_suffix": "-sepia",
+  "menu": "Hekouwang Sepia",
+  "label": "V2 实验 · 纸色暖调",
+  "tier": "free",
   "color": { "bg": "...", "border_base": "...", "shadow_base": "...", ... },
-  "alpha": { "hairline": "...", ... }
+  "dark": { "color": { ... }, "alpha": { ... } },
+  "paper": { "highlight": "...", "mid": "...", "shade": "...", "gutter": "..." },
+  "shape": { "radius": "0", ... },
+  "syntax": { "light": { ... }, "dark": { ... } }
 }
 ```
 
-然后在 `build.py` 的 `main()` 里加一行输出。派生值会自动按新的 `border_base` /
-`shadow_base` 重算，不需要改模板。
+构建器会自动为新变体输出浅色与深色两份 CSS（`hekouwang-sepia.css` /
+`hekouwang-sepia-dark.css`），派生值按新的 `border_base` / `shadow_base` 自动重算，
+不需要改模板。**阅读指标不用复制** —— 那在 `tokens.json` 的 `_presets.work`，所有变体共用。
 
 付费主题走独立的 `scripts/palettes.paid.json`，不要把色板写回公开的 `tokens.json` 或 `palettes.json`。现有付费清单为 V1 / V2 Pro / V3–V6，`python3 scripts/build.py --tier paid` 会生成各自浅色与深色共 12 个 CSS；免费 V2 的 `hekouwang.css` / `hekouwang-dark.css` 独立保留。增删付费主题时同步 `pack.sh`、`unlock.sh`、`.gitignore` 与包内授权清单，并验收每个文件的 Typora 菜单名。
 

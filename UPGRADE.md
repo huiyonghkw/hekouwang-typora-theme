@@ -1,6 +1,24 @@
-# 升级说明 · 2.0.1
+# 升级说明 · 2.0.2
 
 发布日期：2026-10-21 · [返回主题首页](README.md) · [查看全部浅色与深色预览](https://huiyonghkw.github.io/hekouwang-typora-theme/#compare-shots)
+
+## 2.0.2 · 修「折叠侧栏后整页发白」
+
+- **症状。** 深色主题（V2 Dark / V1 Dark / V6 Dark 等）折叠左侧导航栏后，整页几乎
+  看不见 —— 浅色纸面配浅色正文，对比度掉到约 1.05:1。侧栏展开时一切正常，
+  所以**只在折叠后出现**。
+- **原因。** 侧栏收起时走 `body:not(.pin-outline)` 的两条背景规则，它们用了
+  `var(--bg-color)`。而 Typora 启动时会把**上一个主题**的窗口底色缓存进偏好
+  `backgroundColor`，再写进 body 的 inline style（压过主题 `:root` 的同名变量）。
+  深色主题因此拿到浅色纸面 —— 浅字落在浅纸上。
+- **修复。** 两条规则改用主题自己的实色（纸面色 / gutter 色），「纸感关闭」分支
+  里的 `var(--bg-color)` 一并改掉。全部 14 套产物现在 0 处实际声明用到
+  `var(--bg-color)`；构建期也加了断言，出现即报错。
+- **受影响范围。** 免费 V2 与付费六套的浅色 / 深色共 14 套 CSS 全部重建。
+  视觉上除了「侧栏收起时的底色」外没有其他变化 —— 展开时的纸面、配色、
+  排版与 2.0.1 完全一致。
+- **升级方式。** 替换 CSS 即可，**必须 `Cmd+Q` 完全退出 Typora 再重开**
+  （切主题不重载被改的 CSS）。付费包需重打后生效。
 
 ## 2.0.1 · 免费 V2 配色精修
 
@@ -71,7 +89,7 @@ git pull
 
 ```bash
 ./scripts/install.sh
-./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.1-YYYYMMDD.zip
+./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v2.0.2-YYYYMMDD.zip
 ```
 
 也可以解压付费包，在包内执行 `./unlock.sh`。安装器会检查 zip 完整性和 12 份付费 CSS，并直接覆盖同名旧文件。菜单名与 1.2.0 相同。购买、交付与图文安装说明见 [体验站](https://huiyonghkw.github.io/hekouwang-typora-theme/#unlock)。

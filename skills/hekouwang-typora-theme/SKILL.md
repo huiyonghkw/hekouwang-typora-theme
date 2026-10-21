@@ -5,7 +5,7 @@ displayName: Typora 主题工程（hekouwang）
 summary: Typora theme engineering / CJK long-form markdown — tokens.json CSS build, color sampling, contrast/layout audits, font probe. Free V2 light+dark; paid V1/V2 Pro/V3–V6.
 license: MIT
 homepage: https://github.com/huiyonghkw/hekouwang-typora-theme
-version: 1.5.2
+version: 1.6.1
 description: >
   会勇禾口王 · Typora 主题工程 Skill。维护「hekouwang」主题（中文长文浅色 + 深色），
   并提供一套可复用的主题工程方法：CSS 由 tokens.json
@@ -35,20 +35,27 @@ allowed-tools: Bash, Read, Write, Edit, Glob, Grep
 
 - **主题产物（公开仓 · 免费）**：`theme/hekouwang.css` + `hekouwang-dark.css`（= skill V2 编辑）
 - **付费六套**（V1/V2 Pro/V3–V6，各含浅/深，共 12 个 CSS）不在公开树：色板 `palettes.paid.json` + 工艺 `craft_paid.py` 只随 ¥9.9 zip / 本机开发机。付费 V2 Pro 与免费 V2 是不同的主题文件。
-- **别手改 CSS**，它是生成物。改 `scripts/tokens.json` → 跑 `scripts/build.py`（公开 clone 默认只出免费档）。
-- **`dark` 段只覆盖 `color` / `alpha`**。构建断言行高 / 行宽 / 纸感在位。
+- **别手改 CSS**，它是生成物。
+- **改哪个文件**（⚠️ 改错 = 静默失败，全绿但不生效）：
+  - 改**排版**（行高 / 字号 / 段距 / 栏宽 / 断点）→ `scripts/tokens.json` 的 `_presets.work`
+  - 改**配色 / 纸感 / 圆角 / 语法色** → `scripts/palettes.json`
+  - 付费六套的配色 → `scripts/palettes.paid.json`
 - **开源仓库**：https://github.com/huiyonghkw/hekouwang-typora-theme （免费 V2 · MIT；付费见落地页 `#buy`）
 
 ## 常用命令
 
 ```bash
-python3 scripts/build.py                    # → 浅色 + 深色 CSS（含自检）
+python3 scripts/build.py                    # → 浅色 + 深色 CSS（含自检与真源边界检查）
+python3 scripts/test_contrast_check.py     # → 7 个单测（对比度数学 + 出货 CSS）
 python3 scripts/verify_layout.py --all      # → 免费 2 + 付费 12 套 × 7 档窗口、窄屏与表格预检
 python3 scripts/verify_export_pdf.py        # → A4/A5、长代码与长表 PDF 预检
 ./scripts/install.sh                        # 装进 Typora（直接覆盖，不自动备份）
 python3 scripts/verify_render.py --css theme/hekouwang.css \
   --fonts "Hekouwang Sans,Hekouwang Sans Fb" --vars bg-color,text-color
 ```
+
+**依赖**：`python3`（必需）、`google-chrome`（两个 verify 脚本要）、
+`pillow`（只有 `sample_colors.py` 读图要；`--solve-alpha` 不需要）。
 
 ## 铁律（这几条踩过，全是静默失败）
 
@@ -61,6 +68,19 @@ python3 scripts/verify_render.py --css theme/hekouwang.css \
 5. **配色基色不许猜，要采样。** 构建会对承担文字和控件信息的颜色做最小对比度校正，并审计所有生成变体。
 6. **headless 全绿 ≠ Typora 里对。** 系统 Chrome 比 Typora 内嵌的 Chromium 新得多，
    最终验收必须在 Typora 里肉眼看。
+7. **改完确认"你改的字段真被用上了"。** 构建全绿不代表改动生效——历史上
+   `tokens.json` 顶层的 color / paper / type / layout 会被 palette 整体覆盖，
+   改了不生效而构建全绿、断言全过。现在顶层放错段会被构建直接拦下，
+   但"改了个存在却没被用的字段"仍要自查：
+
+   ```bash
+   python3 scripts/build.py >/dev/null && grep -o '你的新值' theme/hekouwang.css | head -1
+   ```
+
+   grep 不到 = 改错地方了。
+8. **`:has()` 不能嵌套。** `a:has(.x):not(:has(> p:not(:has(.x))))` 这类写法
+   会被浏览器**整条丢弃**（实测：嵌套写法 parsed=false，平坦写法 parsed=true），
+   页面照常渲染、只是那条规则凭空消失。2.0.1 修过一处这种写法。写 `:has()` 用平坦写法。
 
 ## 采样，不要猜配色
 
@@ -97,8 +117,8 @@ python3 scripts/verify_render.py --css theme/hekouwang.css \
 
 | 要做什么 | 读哪份 |
 |---|---|
-| 改配色、字号、行高、紧凑度 | [references/tokens.md](references/tokens.md) |
-| Typora 选择器地图、官方规范、六个静默坑 | [references/typora-spec.md](references/typora-spec.md) |
+| 改配色 / 字号 / 行高 / 紧凑度（先看"改哪个文件"表） | [references/tokens.md](references/tokens.md) |
+| Typora 选择器地图、官方规范、七个静默坑 | [references/typora-spec.md](references/typora-spec.md) |
 | 字体策略、授权红线、三级降级 | [references/fonts.md](references/fonts.md) |
 | 做一套全新主题 / 加变体 / 发布到主题库 | [references/workflow.md](references/workflow.md) |
 
@@ -107,16 +127,21 @@ python3 scripts/verify_render.py --css theme/hekouwang.css \
 ```
 skills/hekouwang-typora-theme/   本 skill 真源（SKILL.md + references/）
 .claude/skills/… · .cursor/skills/…   → 软链到上面，供工具发现
-scripts/tokens.json      单一真相源（改这里）
+scripts/tokens.json      阅读指标真源（_presets.work）+ 字体栈 + 透明度阶
+scripts/palettes.json    免费 V2 配色真源（color / dark / paper / shape / syntax）
+scripts/palettes.paid.json  付费六套配色真源（不进公开仓）
 scripts/build.py         公开仓默认生成免费 V2 两份 CSS；有付费色板时另出 V1/V2 Pro/V3–V6 共 12 份
 scripts/unlock.sh        买家装付费 zip
 scripts/pack.sh          你打付费包（需本机 palettes.paid.json + craft_paid.py）
 scripts/install.sh       装进 Typora（--use-local-anthropic 可选，默认关）
-scripts/sample_colors.py 从截图采样真实色值
+scripts/sample_colors.py 从截图采样真实色值（读图要 Pillow；--solve-alpha 不需要）
 scripts/contrast_check.py 生成 CSS 的文字/控件对比度审计（构建时调用）
+scripts/test_contrast_check.py  对比度单测（7 个；可直接 python3 运行）
 scripts/verify_layout.py 宽度、行内图片、表格、源码模式的浏览器几何预检
 scripts/verify_export_pdf.py A4/A5、长代码与长表的 PDF 导出预检
 scripts/verify_render.py 渲染/字体验证探针
+scripts/shoot_previews.sh 在 Typora 里实拍 docs/previews/ 的预览图（需 GUI）
 theme/                   成品 CSS 与随包字体（Inter, OFL）
 demo/                    验收样张、字体诊断样张
+.github/workflows/ci.yml 构建 + 单测 + 对比度 + 产物字节回归
 ```

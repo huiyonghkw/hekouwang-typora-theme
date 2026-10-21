@@ -4,7 +4,7 @@
 #
 # 两种用法：
 #   1) 公开仓里（推荐）：
-#        ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.1-YYYYMMDD.zip
+#        ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v2.0.2-YYYYMMDD.zip
 #   2) 付费 zip 解压后自带同款脚本：
 #        ./unlock.sh
 #
@@ -116,7 +116,7 @@ elif [ -n "$PACK_ROOT" ] && [ -f "$PACK_ROOT/${MARKER}" ]; then
   ok "使用已解压目录：$PACK_ROOT"
 else
   echo "用法："
-  echo "  ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v1.3.1-YYYYMMDD.zip"
+  echo "  ./scripts/unlock.sh ~/Downloads/hekouwang-typora-theme-pack-v2.0.2-YYYYMMDD.zip"
   echo "  # 或在付费包解压目录里：./unlock.sh"
   echo
   dim "购买：${HKW_URL_BUY}"

@@ -1,5 +1,71 @@
 # Changelog
 
+## 1.6.1 — 2026-10-21
+
+主题 2.0.2：修「折叠侧栏后整页发白」。这是主题自己的第 6 个静默坑被自己违反。
+
+- **症状。** 深色主题 + 折叠左侧导航栏 → 整页几乎看不见（浅色纸面配浅色正文，
+  对比度约 1.05:1）。侧栏展开时正常，所以只在折叠后出现。
+- **根因。** `build.py` 里 `body:not(.pin-outline)` 的两条背景规则用了
+  `var(--bg-color)` —— 而 Typora 会把上一个主题的窗口底色缓存进偏好
+  `backgroundColor`，再写进 **body 的 inline style**（压过主题 `:root`）。
+  于是深色主题拿到浅色纸面。**这正是 `references/typora-spec.md` 第 6 个坑
+  写明要避免的写法，主题自己却犯了。**
+- **修复。** 两条规则改用实色（`paper_canvas_bg` / `paper_gutter_bg`）；
+  「纸感关闭」分支里的 `var(--bg-color)` 一并改掉。14 套产物现在
+  **0 处**实际声明用到 `var(--bg-color)`。
+- **防复发。** 构建期新增断言：实际声明里出现 `var(--bg-color)` 直接报错并指明
+  选择器与后果。
+- **文档。** `typora-spec.md` 第 6 个坑补上定位信息 —— 这个坑**症状只在特定
+  条件下出现**，只盯着「深色主题」会误以为是深色配色本身有问题。
+
+## 1.6.0 — 2026-10-21
+
+skill 体检修复：真源边界、文档追平、构建门禁。
+
+**P0 · 真源边界（最要紧的一条）**
+
+- `tokens.json` 顶层曾同时存着 `color` / `paper` / `dark` / `type` / `layout`，
+  而 palette 会整体覆盖它们 —— 这些段是**改了不生效的死代码**，而构建全绿、
+  断言全过，没人发现。现已删除，职责拆成两处：
+  - `scripts/tokens.json` → `_presets.work`（阅读指标）+ `font` + `alpha`
+  - `scripts/palettes.json` → `color` / `dark` / `paper` / `shape` / `syntax`
+- 新增 `build.py:resolve_theme()` —— **全仓库唯一的合并实现**。此前
+  `build.main` / `contrast_check._variants` / 单测各写了一份，三份副本各自漂移。
+- 新增 `build.py:check_source_layout()`：顶层放回会被覆盖的段 → 构建直接报错，
+  把静默失败变成响亮失败。
+- 修 `build.py` 的 gutter 断言：此前读 `tokens["paper"]["gutter"]`（死值），
+  于是**改对 `palettes.json` 反而构建失败**。现在读实际生效的那一套 theme。
+- 文档全面改口径：`tokens.md` 新增「改哪个文件」对照表，
+  `SKILL.md` / `workflow.md` 同步修正。
+
+**P1 · 可用性**
+
+- `test_contrast_check.py` 修可独立运行（此前直接跑必崩
+  `ModuleNotFoundError: No module named 'scripts'`，等于从没跑过）；
+  同时让它构建**真正出货的那份 CSS** —— 以前用裸 tokens 重建，
+  测的是一份不存在的 CSS（圆角 6px vs 出货 0，语法色也全不同）。
+- `sample_colors.py` 改惰性导入 Pillow：`--solve-alpha` 是纯数学，
+  不该被 Pillow 卡住（此前没装 Pillow 就直接退出）。
+
+**P2 · 工程与文档**
+
+- 新增 CI（`.github/workflows/ci.yml`）：构建 + 单测 + 对比度 +
+  **产物字节级回归**（把 `workflow.md` 里写了但没人执行的规则变成门禁）。
+- `verify_layout.py` 提速 12 倍：`--all` 从 6 分钟降到 31 秒
+  （一次 Chrome 启动用多 iframe 测完全部档位）；临时文件从 `theme/` 移到
+  系统临时目录，不再往产物目录里留垃圾。
+- 文档追平主题 2.0.x：borderless paper（去掉 1px 边框）、墨玉深色、
+  宽屏 1.78 行高补偿、10 列表格阈值。
+- 新增第 7 个静默坑：**`:has()` 不能嵌套** —— 嵌套写法会被浏览器整条丢弃
+  （实测 parsed=false），2.0.1 修过一处这种写法。
+- `SKILL.md` 补依赖声明：python3 / google-chrome / pillow（仅读图需要）。
+- 新增 `scripts/shoot_previews.sh`：在 Typora 里实拍 `docs/previews/` 的 14 张预览图
+  （免费 V2 + 付费六套，各浅/深）。**不是** headless 渲染 —— 预览图是 Typora
+  应用窗口截图，含侧边栏与工具栏。脚本用临时副本打开样张，
+  避免 Typora 改坏仓库里的 frontmatter（它会把 `theme:` 改名成 `ctheme:`）。
+- 预览图全部重拍为 2.0.1 真机效果，README 的版本标注同步。
+
 ## 1.5.2 — 2026-10-15
 
 发布维护，内容同 1.5.1。
