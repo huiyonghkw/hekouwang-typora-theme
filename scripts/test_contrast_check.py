@@ -1,12 +1,27 @@
-"""Small tests for the generated-CSS contrast audit."""
+"""Small tests for the generated-CSS contrast audit.
+
+跑法（两种都行）：
+
+    python3 scripts/test_contrast_check.py
+    python3 -m unittest scripts.test_contrast_check
+
+之前这文件只能 python3 -m scripts.test_contrast_check 跑 —— 直接跑会报
+ModuleNotFoundError: No module named 'scripts'。那意味着它实际上从来没人跑过。
+"""
 
 import json
 from pathlib import Path
 import re
+import sys
 import unittest
 
-from scripts import build
-from scripts.contrast_check import (
+# 允许从仓库根或 scripts/ 目录直接运行本文件
+HERE = Path(__file__).resolve().parent
+if str(HERE) not in sys.path:
+    sys.path.insert(0, str(HERE))
+
+import build  # noqa: E402
+from contrast_check import (  # noqa: E402
     Color,
     assess,
     audit_css,
@@ -16,9 +31,6 @@ from scripts.contrast_check import (
     parse_color,
     parse_rules,
 )
-
-
-HERE = Path(__file__).resolve().parent
 
 
 class ContrastMathTest(unittest.TestCase):
@@ -48,7 +60,12 @@ class GeneratedCssTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         tokens = json.loads((HERE / "tokens.json").read_text(encoding="utf-8"))
-        cls.css = build.build(tokens, dark=False)
+        # 必须走与 build.main 相同的合并路径（resolve_theme）。
+        # 以前这里用裸 tokens 直接 build()，构建出来的是一份不存在的 CSS ——
+        # 圆角是 6px 而出货是 0，语法色也全是另一套。测试绿灯，出货却是错的。
+        theme = build.load_themes("free")[0]
+        resolved, _ = build.resolve_theme(tokens, theme, "work")
+        cls.css = build.build(resolved, dark=False)
 
     def test_css_parser_keeps_editor_rules(self):
         editor = self.css.split("导出 / 打印", 1)[0]
@@ -66,7 +83,7 @@ class GeneratedCssTest(unittest.TestCase):
     def test_cli_variants_include_theme_syntax_colours(self):
         # The audit must build the same CSS as build.main: palette syntax
         # overrides are part of the shipped theme, not just the defaults.
-        from scripts.contrast_check import _variants
+        from contrast_check import _variants
 
         theme = build.load_themes("free")[0]
         keyword = theme["syntax"]["light"]["syn_keyword"]

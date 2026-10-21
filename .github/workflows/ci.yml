@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: 构建与校验
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 构建全部主题（含真源边界检查与对比度审计）
+        run: python3 scripts/build.py --tier free
+
+      - name: 对比度单测
+        run: python3 scripts/test_contrast_check.py
+
+      - name: 产物字节级回归
+        # 重构生成逻辑后，已定稿变体的输出必须字节级不变。
+        # 这是仓库自己写下的规则（references/workflow.md），这里把它变成门禁。
+        run: |
+          if ! git diff --quiet -- theme/; then
+            echo "❌ theme/ 产物与仓库不一致 —— 生成逻辑被改动了但没提交产物"
+            git --no-pager diff --stat -- theme/
+            git --no-pager diff -- theme/ | head -100
+            exit 1
+          fi
+          echo "✅ 产物与仓库一致（字节级不变）"
+
+      - name: JSON 报告留档
+        if: always()
+        run: python3 scripts/contrast_check.py --tier free --all --json > contrast-report.json || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contrast-report
+          path: contrast-report.json

@@ -380,16 +380,23 @@ content {
 }
 /* 侧栏收起时：纸面直接铺满内容区，不再出现纸边 / gutter / 投影；
    正文仍由 --hk-reading-measure 限宽居中。检测 Typora 的 body.pin-outline：
-   侧栏打开时 Typora 会加这个类，收起时移除。 */
+   侧栏打开时 Typora 会加这个类，收起时移除。
+
+   ⚠️ 这里必须写实色，不能用 var(--bg-color)。
+   Typora 启动时会把上一个主题的窗口底色缓存进偏好 backgroundColor，
+   再写进 body 的 --bg-color（body 上的是 inline style，压过主题 :root）。
+   于是深色主题 + 侧栏收起 = 浅色纸面 + 浅色正文 = 整页几乎看不见。
+   这条规则只在侧栏收起时生效，所以症状只在折叠后出现。
+   参见 references/typora-spec.md 第 6 个静默坑：纸面一律写实色。 */
 body:not(.pin-outline) content {
-  background: var(--bg-color);
+  background: ${paper_gutter_bg};
 }
 body:not(.pin-outline) #write {
   max-width: none;
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-  background: var(--bg-color);
+  background: ${paper_canvas_bg};
   box-shadow: none;
 }
 
@@ -1489,6 +1496,45 @@ ${free_dark_extra}
 """)
 
 
+def check_source_layout(tokens, themes):
+    """断言 tokens.json 的顶层段与 palette 的职责边界没有漂移。
+
+    背景：tokens.json 顶层曾经同时存着 color / paper / type / layout，
+    而 palette 整体覆盖它们 —— 于是这些段是"改了不生效"的死代码，
+    而构建全绿、断言全过，没人发现。本检查把这条边界固化成机器可查的规则。
+
+    规则：
+      · tokens.json 顶层不得再有 color / paper / dark（配色与纸感归 palette）
+      · tokens.json 顶层不得再有 type / layout（阅读指标归 _presets.work）
+      · 顶层只允许：alpha（透明度阶）、font（字体栈）、shape（圆角兜底）
+    """
+    problems = []
+    forbidden = {
+        "color": "配色真源在 scripts/palettes.json",
+        "paper": "纸感真源在 scripts/palettes.json 的 paper 段",
+        "dark": "深色覆盖真源在 scripts/palettes.json 的 dark 段",
+        "type": "阅读指标真源在 tokens.json 的 _presets.work.type",
+        "layout": "阅读指标真源在 tokens.json 的 _presets.work.layout",
+    }
+    for seg, where in forbidden.items():
+        if seg in tokens:
+            problems.append(
+                f'tokens.json 顶层不该有 "{seg}" 段 —— 它会被 palette 整体覆盖，'
+                f"改了不生效（静默失败）。{where}。请删除该段并改正确的地方。"
+            )
+    # _presets.work 必须自带完整的 type / layout
+    presets = tokens.get("_presets") or {}
+    for preset_name, preset in presets.items():
+        if preset_name.startswith("_"):
+            continue
+        for group in ("type", "layout"):
+            if group not in preset:
+                problems.append(
+                    f"_presets.{preset_name} 缺 {group} 段 —— 阅读指标没有真源了"
+                )
+    return problems
+
+
 def check(css):
     """
     自检：把踩过的坑做成断言。
@@ -1511,6 +1557,22 @@ def check(css):
     n_imp = head_css.count("!important")
     if n_imp:
         problems.append(f"出现 !important × {n_imp}（目标 0：靠 #write 特异性覆盖即可；导出段除外）")
+
+    # 纸面 / 底色一律写实色，不得用 var(--bg-color)。
+    # Typora 启动时把上一个主题的窗口底色缓存进偏好 backgroundColor，
+    # 再写进 body 的 --bg-color（inline style，压过主题 :root）。
+    # 于是深色主题 + 侧栏收起 = 浅纸配浅字 = 整页看不见。
+    # 参见 references/typora-spec.md 第 6 个静默坑。
+    # 判据：剔除注释后，实际声明里不得出现 var(--bg-color)。
+    import re as _re
+    _decl = _re.sub(r"/\*.*?\*/", "", css, flags=_re.S)
+    for _m in _re.finditer(r"([^{}]*)\{([^{}]*)\}", _decl):
+        if "var(--bg-color)" in _m.group(2):
+            _sel = _m.group(1).strip().split("\n")[-1].strip()
+            problems.append(
+                f"底色用了 var(--bg-color)：`{_sel}` —— 会被 Typora 用上一个主题的"
+                f"缓存底色污染，深色主题会变成浅纸配浅字。请写实色。"
+            )
 
     for m in re.finditer(r"([^{}]+)\{([^{}]*)\}", css):
         selector = m.group(1).strip().split("\n")[-1].strip()
@@ -1550,6 +1612,61 @@ def apply_reading_preset(tokens, preset_name):
     return t, p
 
 
+def resolve_theme(tokens, theme, preset_name):
+    """把一套 palette 合并进基座，得到该主题最终生效的 token。
+
+    ⚠️ 这是全仓库唯一的合并实现。历史上 build.main / contrast_check._variants /
+    单测各写了一份，三份副本各自漂移，导致 tokens.json 顶层的 color / paper /
+    type / layout 变成"改了不生效"的死段，而构建却全绿。现在改这一处即可。
+
+    合并顺序（从低到高）：
+      1. tokens.json 基座   —— 字体栈、透明度阶、圆角默认值
+      2. palette 覆盖       —— 配色、纸感、圆角、语法色（palettes.json / palettes.paid.json）
+      3. 阅读预设覆盖       —— type / layout（tokens.json 的 _presets.work）
+
+    第 3 步必须最后：preset 的 type / layout 是"读文件时的默认真相"，
+    而 palette 的 paper 色值要在 preset 之后再贴一次（preset 可能带自己的纸感）。
+    """
+    import copy
+    t = copy.deepcopy(tokens)
+
+    # 2. palette 覆盖基座
+    t["color"] = {**(t.get("color") or {}), **(theme.get("color") or {})}
+    if theme.get("paper"):
+        paper = dict(t.get("paper") or {})
+        for k, v in theme["paper"].items():
+            if k == "dark" and isinstance(v, dict):
+                paper["dark"] = {**(paper.get("dark") or {}), **v}
+            elif k != "_note":
+                paper[k] = v
+        t["paper"] = paper
+    if theme.get("syntax"):
+        t["syntax"] = theme["syntax"]
+    if theme.get("shape"):
+        t["shape"] = {**(t.get("shape") or {}), **theme["shape"]}
+    if theme.get("dark"):
+        dark_blk = dict(t.get("dark") or {})
+        for group in ("color", "alpha"):
+            if group in theme["dark"]:
+                dark_blk[group] = {**(dark_blk.get(group) or {}), **theme["dark"][group]}
+        t["dark"] = dark_blk
+
+    # 3. 阅读预设覆盖（type / layout 唯一真源在 _presets）
+    t, preset = apply_reading_preset(t, preset_name)
+    if theme.get("paper"):
+        # palette 的纸感色在 preset 之后再贴一次（preset 可能带自己的 paper）
+        paper = dict(t.get("paper") or {})
+        for k, v in theme["paper"].items():
+            if k == "dark" and isinstance(v, dict):
+                paper["dark"] = {**(paper.get("dark") or {}), **v}
+            elif k not in ("_note",) and k != "enabled":
+                paper[k] = v
+            elif k == "enabled":
+                paper[k] = v
+        t["paper"] = paper
+    return t, preset
+
+
 def paper_surfaces(t, dark):
     """纸感画在 #write 上（随栏宽伸缩）；content 做 gutter。浅/深均可开。"""
     paper = t.get("paper") or {}
@@ -1582,9 +1699,13 @@ def paper_surfaces(t, dark):
         outer_soft, outer_mid = "0.04", "0.06"
 
     if not enabled:
+        # 纸感关闭时也写实色：var(--bg-color) 会被 Typora 用上一个主题的
+        # 缓存底色污染（body inline style 压过 :root），深色主题会变成
+        # 浅纸配浅字。参见 references/typora-spec.md 第 6 个静默坑。
+        flat_bg = t["color"]["bg"]
         return {
-            "paper_gutter_bg": "var(--bg-color)",
-            "paper_canvas_bg": "var(--bg-color)" if not dark else t["color"]["bg"],
+            "paper_gutter_bg": flat_bg,
+            "paper_canvas_bg": flat_bg,
             "export_surface": "#f7f4ec" if not dark else t["color"].get("hover", "#2c2c2a"),
             "export_shine": (
                 "rgba(255, 255, 255, 0.55)" if not dark else "rgba(255, 255, 255, 0.06)"
@@ -1847,6 +1968,13 @@ def main():
         tokens = json.load(f)
     themes = load_themes(tier)
 
+    # 真源边界检查：先确认 tokens.json 没被塞回会失效的段，再开始构建
+    layout_problems = check_source_layout(tokens, themes)
+    if layout_problems:
+        for problem in layout_problems:
+            print(f"⚠️  真源边界未通过：{problem}")
+        raise SystemExit(1)
+
     out_dir = os.path.join(ROOT, "theme")
     os.makedirs(out_dir, exist_ok=True)
     slug = tokens["_meta"]["slug"]
@@ -1856,49 +1984,14 @@ def main():
     written = []
 
     for theme in themes:
-        # 以 tokens.json 为骨架（阅读指标 / 字体 / 布局），只换配色与纸感
-        base = json.loads(json.dumps(tokens))  # deep copy
-        base["color"].update(theme["color"])
-        if theme.get("paper"):
-            # 保留 _note，覆盖色值
-            paper = dict(base.get("paper") or {})
-            for k, v in theme["paper"].items():
-                if k == "dark" and isinstance(v, dict):
-                    paper["dark"] = {**(paper.get("dark") or {}), **v}
-                elif k != "_note":
-                    paper[k] = v
-            base["paper"] = paper
-        if theme.get("syntax"):
-            base["syntax"] = theme["syntax"]
-        # 单套主题可覆盖形状（免费 V2 直角，付费档仍用全局圆角）
-        if theme.get("shape"):
-            base["shape"] = {**(base.get("shape") or {}), **theme["shape"]}
-        if theme.get("dark"):
-            dark_blk = dict(base.get("dark") or {})
-            if "color" in theme["dark"]:
-                dark_blk["color"] = {**(dark_blk.get("color") or {}), **theme["dark"]["color"]}
-            if "alpha" in theme["dark"]:
-                dark_blk["alpha"] = {**(dark_blk.get("alpha") or {}), **theme["dark"]["alpha"]}
-            base["dark"] = dark_blk
-
         suffix = theme.get("slug_suffix", "")
         menu = theme.get("menu", f"hekouwang{suffix}")
         label = theme.get("label", theme.get("id", ""))
         theme_tier = theme.get("tier", "paid")
 
         for preset_name in built:
-            t, preset = apply_reading_preset(base, preset_name)
-            # 预设可能覆盖 paper；主题纸感色在 preset 之后再贴一次色值
-            if theme.get("paper"):
-                paper = dict(t.get("paper") or {})
-                for k, v in theme["paper"].items():
-                    if k == "dark" and isinstance(v, dict):
-                        paper["dark"] = {**(paper.get("dark") or {}), **v}
-                    elif k not in ("_note",) and k != "enabled":
-                        paper[k] = v
-                    elif k == "enabled":
-                        paper[k] = v
-                t["paper"] = paper
+            # 合并逻辑只有一处：resolve_theme（palette 覆盖基座 → preset 覆盖 type/layout）
+            t, preset = resolve_theme(tokens, theme, preset_name)
             for dark in (False, True):
                 name = f"{slug}{suffix}{'-dark' if dark else ''}.css"
                 banner = (
@@ -1950,8 +2043,9 @@ def main():
             print("⚠️  分辨力失败：默认 CSS 未含 work 行高 1.65")
             any_fail = True
         work_preset = (tokens.get("_presets") or {}).get("work") or {}
-        work_type = work_preset.get("type") or tokens["type"]
-        work_layout = work_preset.get("layout") or tokens["layout"]
+        # type / layout 的唯一真源是 _presets.work（顶层不再放副本）
+        work_type = work_preset.get("type") or {}
+        work_layout = work_preset.get("layout") or {}
         gutter = work_layout["measure_gutter"]
         paper_term = (
             f"calc(var(--hk-reading-measure) + 2 * {work_layout['write_pad_x']} + "
@@ -2005,8 +2099,15 @@ def main():
             any_fail = True
         # gutter 仍应在 content 上（编辑器两侧）；取 tokens 的纸面 gutter，
         # 不再写死某个灰值，避免换配色时断言与主题脱节。
-        gutter_color = ((tokens.get("paper") or {}).get("gutter") or "#f8f8f9")
-        if not content_block or gutter_color not in content_block.group(1):
+        # gutter 颜色必须取「实际生效的那一套 theme」的纸感色 ——
+        # 之前读 tokens["paper"]["gutter"]（被 palette 覆盖的死值），
+        # 于是改对 palettes.json 反而构建失败，断言与真源脱节。
+        free_theme = next((th for th in themes if th.get("tier") == "free"), None)
+        gutter_color = ""
+        if free_theme is not None:
+            free_resolved, _ = resolve_theme(tokens, free_theme, built[0])
+            gutter_color = ((free_resolved.get("paper") or {}).get("gutter") or "")
+        if not content_block or not gutter_color or gutter_color not in content_block.group(1):
             print("⚠️  分辨力失败：content 仍应铺 gutter（编辑器两侧）")
             any_fail = True
         # 导出：#write 也压成同色，禁止导出段再写 #ffffff

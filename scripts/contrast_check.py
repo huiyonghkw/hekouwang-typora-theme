@@ -307,36 +307,10 @@ def _variants(tier: str):
     themes = build.load_themes(tier)
     built = tokens["_meta"].get("presets_built") or [tokens["_meta"].get("preset", "work")]
     for theme in themes:
-        base = json.loads(json.dumps(tokens))
-        base["color"].update(theme["color"])
-        if theme.get("paper"):
-            paper = dict(base.get("paper") or {})
-            for key, value in theme["paper"].items():
-                if key == "dark" and isinstance(value, dict):
-                    paper["dark"] = {**(paper.get("dark") or {}), **value}
-                elif key != "_note":
-                    paper[key] = value
-            base["paper"] = paper
-        if theme.get("syntax"):
-            base["syntax"] = theme["syntax"]
-        if theme.get("dark"):
-            dark = dict(base.get("dark") or {})
-            for group in ("color", "alpha"):
-                if group in theme["dark"]:
-                    dark[group] = {**(dark.get(group) or {}), **theme["dark"][group]}
-            base["dark"] = dark
         for preset_name in built:
-            variant, _ = build.apply_reading_preset(base, preset_name)
-            if theme.get("paper"):
-                # Match build.main: palette paper colours take precedence over
-                # a reading preset's paper defaults.
-                paper = dict(variant.get("paper") or {})
-                for key, value in theme["paper"].items():
-                    if key == "dark" and isinstance(value, dict):
-                        paper["dark"] = {**(paper.get("dark") or {}), **value}
-                    elif key != "_note":
-                        paper[key] = value
-                variant["paper"] = paper
+            # 用 build.resolve_theme —— 与 build.main 同一份合并实现。
+            # 以前这里另写了一份副本，两边漂移，审计对象和出货 CSS 会对不上。
+            variant, _ = build.resolve_theme(tokens, theme, preset_name)
             for is_dark in (False, True):
                 label = f"{theme['id']}/{preset_name}/{'dark' if is_dark else 'light'}"
                 css = build.build(variant, dark=is_dark,

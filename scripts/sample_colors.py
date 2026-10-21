@@ -24,10 +24,23 @@ import argparse
 import sys
 from collections import Counter
 
-try:
-    from PIL import Image
-except ImportError:
-    sys.exit("需要 Pillow：pip3 install pillow")
+# Pillow 只在「读图取色」时需要；--solve-alpha 是纯数学，不该被它卡住。
+# 之前这个 import 在模块顶层，没装 Pillow 就直接退出 ——
+# 而 solve_alpha 压根不碰图片，却也因此跑不了。
+Image = None
+
+
+def _need_pillow():
+    global Image
+    if Image is None:
+        try:
+            from PIL import Image as _Image
+        except ImportError:
+            sys.exit(
+                "读图取色需要 Pillow：pip3 install pillow\n"
+                "（只想反解叠加色的话用 --solve-alpha，那条路不需要 Pillow）"
+            )
+        Image = _Image
 
 
 def hexs(rgb):
@@ -145,6 +158,7 @@ def main():
     if not args.image:
         ap.error("需要图片路径（除非用 --solve-alpha）")
 
+    _need_pillow()
     im = Image.open(args.image).convert("RGB")
     W, H = im.size
     print(f"{args.image}  {W}×{H}\n")

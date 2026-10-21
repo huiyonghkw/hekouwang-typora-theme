@@ -170,61 +170,106 @@ def find_chrome() -> str:
     raise SystemExit("Chrome/Chromium not found; pass --chrome /path/to/browser")
 
 
-def measure(chrome: str, css: Path, width: int, extra_css: str = "",
-            scale: int = 1) -> dict:
-    # Like verify_render.py, put the temporary page next to the stylesheet so
-    # file URLs and relative font assets are resolved in the same way.
-    with tempfile.NamedTemporaryFile(
-        "w", suffix=".html", prefix="layout-probe-", delete=False,
-        dir=css.parent, encoding="utf-8"
-    ) as page:
-        page.write(fixture(css, extra_css))
-        page_path = Path(page.name)
-    outer_path = None
+def measure_many(chrome: str, css: Path, jobs) -> dict:
+    """一次 Chrome 启动，测完全部宽度。
+
+    以前每个宽度都要冷启一次 Chrome（3 秒 x 11 档 x 14 套 = 6 分钟）。
+    现在把 N 个宽度打包进同一个页面，用 N 个 iframe 并排跑，
+    Chrome 冷启只发生一次 —— 单套从 30 秒降到 3 秒。
+
+    jobs: [(key, width, extra_css, scale), ...]
+    返回 {key: geometry dict}
+    """
+    jobs = list(jobs)
+    if not jobs:
+        return {}
+
+    # 临时页面建在系统临时目录，不落在 theme/ 里：
+    # 以前建在 theme/ 下，进程被中断就会留下 layout-probe-*.html 垃圾
+    # （theme/ 是产物目录，脏了会让 git status 出现未跟踪文件）。
+    # 字体等相对资源由 <link> 指向的 CSS 自己解析，与页面位置无关。
+    workdir = Path(tempfile.mkdtemp(prefix="typora-layout-"))
     try:
-        # Chrome headless enforces a 500px minimum top-level window. A same-
-        # origin iframe gives narrow fixtures their actual 320/480px CSS
-        # viewport; at scale 2 it emulates 200% zoom in a 640px display area.
-        target = page_path
-        if width < 500 or scale != 1:
-            with tempfile.NamedTemporaryFile(
-                "w", suffix=".html", prefix="layout-frame-", delete=False,
-                dir=css.parent, encoding="utf-8"
-            ) as outer:
-                outer.write(
-                    '<!doctype html><meta charset="utf-8">'
-                    '<pre id="__LAYOUT__">pending</pre>'
-                    '<script>function collect(){const page=document.getElementById("view")'
-                    '.contentDocument;const report=page&&page.getElementById("__LAYOUT__");'
-                    'if(report&&report.textContent!=="pending")'
-                    'document.getElementById("__LAYOUT__").textContent=report.textContent;'
-                    'else setTimeout(collect,20)}</script>'
-                    f'<iframe id="view" src="{page_path.as_uri()}" onload="collect()" '
-                    f'style="border:0;width:{width}px;height:1800px;'
-                    f'transform:scale({scale});transform-origin:top left"></iframe>'
-                )
-                outer_path = Path(outer.name)
-            target = outer_path
+        pages = []
+        for index, (_key, width, extra_css, scale) in enumerate(jobs):
+            page_path = workdir / ("probe-%d.html" % index)
+            page_path.write_text(fixture(css, extra_css), encoding="utf-8")
+            pages.append(page_path)
+
+        frames = []
+        for index, (_key, width, extra_css, scale) in enumerate(jobs):
+            # Chrome headless 强制 500px 最小顶层窗口，所以窄屏一律用
+            # 同源 iframe 拿到真实的 320/480 CSS 视口；scale=2 模拟 200% 缩放。
+            transform = ""
+            if scale != 1:
+                transform = "transform:scale(%d);transform-origin:top left;" % scale
+            frames.append(
+                '<iframe id="f%d" src="%s" style="border:0;width:%dpx;'
+                'height:1800px;%s"></iframe>'
+                % (index, pages[index].as_uri(), width, transform)
+            )
+
+        outer = workdir / "outer.html"
+        # 顺序很关键：iframe 必须先写进 DOM，收集脚本再跑；
+        # 且首次轮询要延迟，等子文档把几何数据算完。
+        outer.write_text(
+            '<!doctype html><meta charset="utf-8">'
+            '<pre id="__BATCH__">pending</pre>'
+            + "".join(frames)
+            + "<script>"
+            "const IDS=" + json.dumps(["f%d" % i for i in range(len(jobs))]) + ";"
+            "const got={};"
+            "function poll(){"
+            "  for(const id of IDS){"
+            "    if(got[id]!==undefined) continue;"
+            "    const fr=document.getElementById(id);"
+            "    const doc=fr&&fr.contentDocument;"
+            "    const rep=doc&&doc.getElementById('__LAYOUT__');"
+            "    if(rep&&rep.textContent&&rep.textContent!=='pending'){"
+            "      got[id]=rep.textContent;"
+            "    }"
+            "  }"
+            "  if(Object.keys(got).length===IDS.length){"
+            "    document.getElementById('__BATCH__').textContent=JSON.stringify(got);"
+            "    return;"
+            "  }"
+            "  setTimeout(poll,50);"
+            "}"
+            "setTimeout(poll,200);"
+            "</script>",
+            encoding="utf-8",
+        )
+
+        widest = max(max(500, width * scale) for _k, width, _e, scale in jobs)
         with tempfile.TemporaryDirectory(prefix="typora-layout-profile-") as profile:
             result = subprocess.run(
                 [chrome, "--headless", "--disable-gpu", "--incognito",
                  "--allow-file-access-from-files", f"--user-data-dir={profile}",
                  "--virtual-time-budget=10000",
-                 f"--window-size={max(500, width * scale)},1200",
-                 "--dump-dom", target.as_uri()],
-                capture_output=True, text=True, timeout=60,
+                 f"--window-size={widest},1200",
+                 "--dump-dom", outer.as_uri()],
+                capture_output=True, text=True, timeout=120,
             )
-        match = re.search(r'<pre id="__LAYOUT__"[^>]*>(.*?)</pre>', result.stdout, re.S)
+        match = re.search(r'<pre id="__BATCH__"[^>]*>(.*?)</pre>', result.stdout, re.S)
         if not match or match.group(1).strip() == "pending":
             raise RuntimeError(
-                f"Chrome did not return geometry ({css.name}, {width}px): "
+                f"Chrome did not return geometry for {css.name}: "
                 f"{result.stderr[-500:]}"
             )
-        return json.loads(html.unescape(match.group(1)))
+        raw = json.loads(html.unescape(match.group(1)))
+        return {
+            job[0]: json.loads(html.unescape(raw["f%d" % index]))
+            for index, job in enumerate(jobs)
+        }
     finally:
-        page_path.unlink(missing_ok=True)
-        if outer_path is not None:
-            outer_path.unlink(missing_ok=True)
+        shutil.rmtree(workdir, ignore_errors=True)
+
+
+def measure(chrome: str, css: Path, width: int, extra_css: str = "",
+            scale: int = 1) -> dict:
+    """单宽度测量（保留给需要单独调用的场景）。"""
+    key = "%d:%d:%s" % (width, scale, extra_css)
+    return measure_many(chrome, css, [(key, width, extra_css, scale)])[key]
 
 
 def validate(data: dict, css_name: str, requested_width: int,
@@ -376,8 +421,21 @@ def main() -> None:
     failures = []
     for css in css_paths:
         previous = None
+        # 一次 Chrome 启动测完全部档位（以前每档冷启一次，14 套要 6 分钟）
+        jobs = [(str(width), width, "", 1) for width in WIDTHS]
+        zoom_css = ("#write { line-height: 1.5; letter-spacing: 0.12em; "
+                    "word-spacing: 0.16em; } #write p { margin-bottom: 2em; }")
+        extras = [
+            ("zoom", 320, "", MAX_READING_REM, 2),
+            ("text spacing", 320, zoom_css, MAX_READING_REM, 1),
+            ("40rem override", 1800, ":root { --hk-reading-measure: 40rem; }", 40, 1),
+        ]
+        for label, width, extra_css, _max_rem, scale in extras:
+            jobs.append((label, width, extra_css, scale))
+        measured = measure_many(chrome, css, jobs)
+
         for width in WIDTHS:
-            data = measure(chrome, css, width)
+            data = measured[str(width)]
             failures.extend(validate(data, css.name, width))
             print(f"{css.name:26} {width:4}px | #write {data['write']['width']:6.0f}px "
                   f"prose {data['prose']['width']:6.0f}px "
@@ -402,16 +460,8 @@ def main() -> None:
         # A 320px CSS viewport scaled into 640px of physical display area
         # exercises the same responsive breakpoints as browser zoom at 200%.
         # Text-spacing overrides follow WCAG's user-style stress case.
-        for label, width, extra_css, max_rem, scale in (
-            ("200% zoom", 320, "", MAX_READING_REM, 2),
-            ("text spacing", 320,
-             "#write { line-height: 1.5; letter-spacing: 0.12em; "
-             "word-spacing: 0.16em; } #write p { margin-bottom: 2em; }",
-             MAX_READING_REM, 1),
-            ("40rem override", 1800,
-             ":root { --hk-reading-measure: 40rem; }", 40, 1),
-        ):
-            data = measure(chrome, css, width, extra_css, scale=scale)
+        for label, width, extra_css, max_rem, scale in extras:
+            data = measured[label]
             failures.extend(validate(data, f"{css.name} [{label}]", width,
                                      max_reading_rem=max_rem))
             if label == "text spacing" and data["letterSpacing"] == "normal":
