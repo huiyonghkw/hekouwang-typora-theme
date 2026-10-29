@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-hk-mode="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>hekouwang 在线体验 · 免费 V2 长文阅读主题</title>
+<meta name="description" content="在浏览器里直接看 hekouwang 免费 V2 Typora 主题的真实渲染：切换浅色/深色、正文字号与阅读列宽，就是仓库里那份 hekouwang.css。">
+<link id="hk-theme" rel="stylesheet" href="theme/hekouwang.css">
+<link rel="stylesheet" href="live.css">
+</head>
+<body class="pin-outline">
+
+<header class="bar">
+  <div class="bar-l">
+    <span class="brand">hekouwang</span>
+    <span class="tag">免费 V2 · 在线体验</span>
+  </div>
+  <div class="bar-r">
+    <div class="grp">
+      <span class="lbl">配色</span>
+      <div class="seg" id="mode">
+        <button type="button" data-mode="light" class="on">浅色</button>
+        <button type="button" data-mode="dark">深色</button>
+      </div>
+    </div>
+    <label class="grp">
+      <span class="lbl">正文字号</span>
+      <select id="size">
+        <option value="15">15px</option>
+        <option value="16" selected>16px</option>
+        <option value="17">17px</option>
+        <option value="18">18px</option>
+      </select>
+    </label>
+    <label class="grp">
+      <span class="lbl">阅读列宽</span>
+      <input type="range" id="measure" min="44" max="96" step="2" value="72" aria-label="阅读列宽">
+      <output id="measure-out">随窗口</output>
+    </label>
+    <button type="button" id="side">收起侧栏</button>
+    <button type="button" id="reset">重置</button>
+  </div>
+</header>
+
+<div class="stage">
+  <aside class="side">
+    <h2>文件</h2>
+    <ul>
+      <li class="current">阅读指标.md</li>
+      <li>安装说明.md</li>
+      <li>版本对比.md</li>
+      <li>付费包说明.md</li>
+    </ul>
+  </aside>
+
+  <content>
+    <div id="write">
+
+      <h1>hekouwang：给中文长文一套固定的阅读指标</h1>
+
+      <blockquote>
+        <p>先把正文 <code>1rem</code>、行高 <code>1.65</code>、阅读列宽钉死，再在这套指标上换皮肤。</p>
+      </blockquote>
+
+      <p>这一页不是截图，也不是复刻样式：它直接加载仓库里 <code>theme/hekouwang.css</code> 的构建产物，用 Typora 同款的 <code>#write</code> 结构渲染。你在上面切换的每一个开关，改的都是这份 CSS 自己的变量。</p>
+
+      <p>它想解决的问题很具体：<strong>中文长文读两小时不累</strong>。行高偏紧、行宽乱跑、行内代码把行距顶开——单看一条都不致命，连读十几页就是疲劳。</p>
+
+      <h2>一、为什么只修三项指标</h2>
+
+      <p>主题最容易做的事是加装饰，最难的事是让所有块共享同一套节奏。所以先把三件事钉死，其余都在这套节奏里做加减。</p>
+
+      <h3>正文与阅读列</h3>
+
+      <p>正文 <code>1rem</code>，行高 <code>1.65</code>，段距 <code>0.85rem</code>；阅读列从 <code>48rem</code> 随窗口扩到 <code>96rem</code>，纸面再额外留 <code>6rem</code> 给代码和宽表格。窗口超过 <code>1800px</code> 时，行高放宽到 <code>1.78</code>、段距到 <code>1rem</code>——否则一行九十字会读成扫视。</p>
+
+      <h3>中英混排</h3>
+
+      <p>西文走随包的 Inter 可变字重（约 <code>100KB</code>，只含拉丁），中文 fallback 到系统字体。不打包中文字体，既避开授权边界，也不用下载 20MB 字库。数字按比例对齐：2026 年、1,247 次、99.8%。</p>
+
+      <h2>二、行内样式一次过</h2>
+
+      <p>**加粗看字重是不是真的**、<em>斜体</em>、<del>删除线</del>、<code>行内代码</code>、<a href="https://github.com/huiyonghkw/hekouwang-typora-theme">一个链接</a>，以及 <mark>高亮</mark>。行内代码只换字色和底色，不改变行高——长段落里夹十个术语也不会把行撑开。</p>
+
+      <blockquote>
+        <p>引用块刻意不用品牌色竖条，也不铺沉底。边界来自一条浅灰竖线，字色降一档，金句自己会浮出来。</p>
+        <blockquote>
+          <p>嵌套引用继续保持缩进，但不叠加更重的视觉。</p>
+        </blockquote>
+      </blockquote>
+
+      <h2>三、列表与任务</h2>
+
+      <p>无序列表的 marker 要够淡，序号要等宽，多位数不跳位：</p>
+
+      <ul>
+        <li>第一项，看 marker 是否够淡</li>
+        <li>第二项，带 <code>行内代码</code> 看行高有没有被顶开</li>
+        <li>第三项，带<strong>加粗引导语</strong>：后面跟说明文字
+          <ul>
+            <li>嵌套一层</li>
+            <li>再来一条，含 <code>npm run build</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ol>
+        <li>序号用等宽数字</li>
+        <li>第二条看段距</li>
+        <li>第三条对齐仍稳定</li>
+      </ol>
+
+      <ul class="task-list">
+        <li class="md-task-list-item"><input type="checkbox" checked><p>已完成项：文字淡化，不加删除线</p></li>
+        <li class="md-task-list-item"><input type="checkbox"><p>未完成项：只有细边框</p></li>
+      </ul>
+
+      <h2>四、代码块</h2>
+
+      <p>代码块 <code>0.9375rem</code>，比正文小一档，改用等宽字体；圆角与正文一致，边框只留发丝线。</p>
+
+      <pre class="md-fences" lang="css"><code class="cm-s-inner"><span class="cm-comment">/* 用户级覆盖：写在主题目录的 hekouwang.user.css 里 */</span>
+<span class="cm-selector">:root</span> {
+  <span class="cm-property">--hk-reading-measure</span>: <span class="cm-number">40rem</span>;  <span class="cm-comment">/* 约 40 字宽的中文阅读列 */</span>
+}
+
+<span class="cm-selector">#write</span> <span class="cm-selector">h2</span> {
+  <span class="cm-property">font-size</span>: <span class="cm-number">1.45rem</span>;
+  <span class="cm-property">letter-spacing</span>: <span class="cm-number">-0.01em</span>;
+}
+</code></pre>
+
+      <h2>五、表格</h2>
+
+      <p>三列以内的小表最多 <code>48rem</code>，左对齐正文，不拉成一张大网；四列以上填满阅读列。</p>
+
+      <figure class="md-table-fig">
+        <table>
+          <thead>
+            <tr><th>版本</th><th>视觉方向</th><th>适用场景</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>V2 · 编辑（免费）</td><td>素白纸面、墨绿点缀、直角纸卡</td><td>日常写作、通用长文</td></tr>
+            <tr><td>V1 · 石墨青绿</td><td>冷蓝灰、薄荷青、紫色链接</td><td>技术笔记、产品文档</td></tr>
+            <tr><td>V2 Pro · 典藏编辑</td><td>胡桃墨、古铜、暖纸色</td><td>随笔、长篇评论</td></tr>
+          </tbody>
+        </table>
+      </figure>
+
+      <p>数据表则按列数分配画布，不放任横向滚动把表头甩出屏幕。</p>
+
+      <figure class="md-table-fig">
+        <table>
+          <thead>
+            <tr><th>指标</th><th>正文</th><th>代码</th><th>表格</th><th>导出 PDF</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>字号</td><td><code>1rem</code></td><td><code>0.9375rem</code></td><td><code>0.875rem</code></td><td>随导出设置</td></tr>
+            <tr><td>行高</td><td><code>1.65</code></td><td><code>1.55</code></td><td><code>1.6</code></td><td><code>1.65</code></td></tr>
+            <tr><td>宽度</td><td>阅读列</td><td>纸面 − 6rem</td><td>≤9 列填满阅读列</td><td>A4 页边距</td></tr>
+            <tr><td>强调</td><td>墨绿</td><td>低饱和语义色</td><td>只留横线</td><td>压平浮层</td></tr>
+          </tbody>
+        </table>
+      </figure>
+
+      <h2>六、图片、分隔与脚注</h2>
+
+      <p>句中图片保持行内流动，独占一行的图片居中并留出图注位置。</p>
+
+      <p><img src="../previews/v2-light.webp" alt="hekouwang 免费 V2 浅色实机截图"></p>
+
+      <p><em>（图：免费 V2 浅色，macOS Typora 实机截图。）</em></p>
+
+      <hr>
+
+      <p>构建时逐套检查文字与控件的颜色对比度<sup class="md-footnote"><a href="#fn-1" id="fnref-1">[1]</a></sup>，低于 AA 直接让构建失败——这是仓库里唯一不接受「看着还行」的地方。</p>
+
+      <div class="footnotes">
+        <hr>
+        <ol>
+          <li class="footnote-line" id="fn-1">对比度按 WCAG 2.1 计算，正文 4.5:1、大字 3:1；审计脚本为 <code>scripts/contrast_check.py</code>。 <a href="#fnref-1">↩</a></li>
+        </ol>
+      </div>
+
+    </div>
+  </content>
+</div>
+
+<footer class="foot">
+  <p><strong>这一页看的不是效果图，是 CSS 本身。</strong>页面只通过 <code>&lt;link&gt;</code> 引入 <code>theme/hekouwang.css</code> 或 <code>theme/hekouwang-dark.css</code>，正文结构照抄 Typora 的 <code>#write</code>，没有任何针对演示页的样式补丁。装进 Typora 后得到的是同一份文件。</p>
+  <p>安装：<code>git clone https://github.com/huiyonghkw/hekouwang-typora-theme.git &amp;&amp; cd hekouwang-typora-theme &amp;&amp; ./scripts/install.sh</code>，完全退出 Typora 后重开，主题菜单选 <strong>Hekouwang</strong> 或 <strong>Hekouwang Dark</strong>。免费版为 MIT 许可。</p>
+</footer>
+
+<script>
+(function () {
+  var doc = document.documentElement;
+  var themeLink = document.getElementById("hk-theme");
+  var body = document.body;
+  var measure = document.getElementById("measure");
+  var measureOut = document.getElementById("measure-out");
+  var size = document.getElementById("size");
+  var sideBtn = document.getElementById("side");
+
+  function setMode(mode) {
+    themeLink.href = mode === "dark" ? "theme/hekouwang-dark.css" : "theme/hekouwang.css";
+    doc.dataset.hkMode = mode;
+    doc.style.colorScheme = mode;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-mode]"), function (btn) {
+      btn.classList.toggle("on", btn.dataset.mode === mode);
+    });
+  }
+
+  function setMeasure(rem) {
+    if (!rem) {
+      doc.style.removeProperty("--hk-reading-measure");
+      measureOut.textContent = "随窗口";
+      return;
+    }
+    doc.style.setProperty("--hk-reading-measure", rem + "rem");
+    measureOut.textContent = rem + "rem";
+  }
+
+  function setSide(pinned) {
+    body.classList.toggle("pin-outline", pinned);
+    sideBtn.textContent = pinned ? "收起侧栏" : "展开侧栏";
+  }
+
+  document.getElementById("mode").addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-mode]");
+    if (btn) setMode(btn.dataset.mode);
+  });
+
+  size.addEventListener("change", function () {
+    doc.style.fontSize = size.value + "px";
+  });
+
+  measure.addEventListener("input", function () {
+    setMeasure(Number(measure.value));
+  });
+
+  sideBtn.addEventListener("click", function () {
+    setSide(!body.classList.contains("pin-outline"));
+  });
+
+  document.getElementById("reset").addEventListener("click", function () {
+    setMode("light");
+    doc.style.removeProperty("font-size");
+    size.value = "16";
+    measure.value = "72";
+    setMeasure(0);
+    setSide(true);
+  });
+
+  setMode(/mode=dark/.test(location.search) ? "dark" : "light");
+})();
+</script>
+
+</body>
+</html>

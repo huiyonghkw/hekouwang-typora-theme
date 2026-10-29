@@ -1,0 +1,199 @@
+/* ==========================================================================
+   hekouwang · 在线体验页外壳
+   只画「编辑器窗口」这一层：工具条、文件树、页脚说明。
+   正文样式一律来自 theme/hekouwang.css（构建产物），本文件不覆盖 #write 内任何规则。
+   颜色全部走主题变量，切换浅/深色外壳随之换肤。
+   ========================================================================== */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* —— 工具条 —— */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 1.1rem;
+  background: var(--side-bar-bg-color);
+  border-bottom: 1px solid var(--window-border);
+  font-family: var(--hk-sans);
+  font-size: 0.8125rem;
+  color: var(--control-text-color);
+  box-shadow: 0 1px 2px rgba(20, 26, 23, 0.03);
+}
+
+.bar-l,
+.bar-r,
+.grp {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.brand {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text-color);
+}
+
+.tag {
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--window-border);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: var(--hk-muted);
+}
+
+.grp > .lbl {
+  color: var(--hk-muted);
+  white-space: nowrap;
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--hk-control-border);
+  border-radius: var(--hk-r-sm);
+  overflow: hidden;
+}
+
+.bar button {
+  font: inherit;
+  color: var(--control-text-color);
+  background: transparent;
+  border: 1px solid var(--hk-control-border);
+  border-radius: var(--hk-r-sm);
+  padding: 0.28rem 0.6rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.seg button {
+  border: 0;
+  border-radius: 0;
+}
+
+.bar button:hover {
+  background: var(--item-hover-bg-color);
+  color: var(--item-hover-text-color);
+}
+
+.bar button.on {
+  background: var(--hk-accent);
+  border-color: var(--hk-accent);
+  color: var(--hk-on-accent);
+}
+
+.bar select {
+  font: inherit;
+  color: var(--control-text-color);
+  background: var(--bg-color);
+  border: 1px solid var(--hk-control-border);
+  border-radius: var(--hk-r-sm);
+  padding: 0.2rem 0.35rem;
+}
+
+.bar input[type="range"] {
+  width: 7.5rem;
+  accent-color: var(--hk-accent);
+}
+
+.grp output {
+  min-width: 4.5rem;
+  color: var(--text-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/* —— 窗口主体：文件树 + 纸面 —— */
+.stage {
+  display: flex;
+  align-items: stretch;
+  min-height: calc(100vh - 3rem);
+}
+
+.side {
+  flex: 0 0 12.5rem;
+  padding: 1rem 0.85rem 3rem;
+  background: var(--side-bar-bg-color);
+  border-right: 1px solid var(--window-border);
+  font-family: var(--hk-sans);
+  font-size: 0.8125rem;
+  color: var(--control-text-color);
+}
+
+body:not(.pin-outline) .side {
+  display: none;
+}
+
+.side h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hk-faint);
+}
+
+.side ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.side li {
+  padding: 0.3rem 0.45rem;
+  border-radius: var(--hk-r-sm);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.side li.current {
+  background: var(--active-file-bg-color);
+  color: var(--active-file-text-color);
+  box-shadow: inset 2px 0 0 var(--active-file-border-color);
+}
+
+.stage content {
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-bottom: 3rem;
+}
+
+/* —— 页脚说明 —— */
+.foot {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0 1.5rem 3rem;
+  font-family: var(--hk-sans);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: var(--hk-muted);
+}
+
+.foot code {
+  font-family: var(--monospace);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid var(--hk-hairline);
+  border-radius: var(--hk-r-sm);
+  background: var(--hk-sunken);
+  color: var(--text-color);
+}
+
+.foot strong { color: var(--text-color); }
+
+@media (max-width: 760px) {
+  .bar { padding: 0.5rem 0.75rem; }
+  .bar-r { width: 100%; flex-wrap: wrap; }
+  .side { display: none; }
+}
